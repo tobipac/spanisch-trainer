@@ -314,21 +314,21 @@ flag,demonio,,,Kraftausdruck
 flag,diablo,,,Kraftausdruck
 flag,jodido,,,Kraftausdruck
 flag,imbécil,,,Kraftausdruck
-flag,auto,,,lateinamerikanisch (Spanien: coche)
-flag,lindo,,,lateinamerikanisch (Spanien: bonito)
-flag,afuera,,,lateinamerikanisch (Spanien: fuera)
-flag,adentro,,,lateinamerikanisch (Spanien: dentro)
-flag,acá,,,lateinamerikanisch (Spanien: aquí)
-flag,manejar,,,lateinamerikanisch (Spanien: conducir)
-flag,enojado,,,lateinamerikanisch (Spanien: enfadado)
-flag,apurar,,,lateinamerikanisch (Spanien: darse prisa)
-flag,computadora,,,lateinamerikanisch (Spanien: ordenador)
-flag,celular,,,lateinamerikanisch (Spanien: móvil)
-flag,departamento,,,lateinamerikanisch (Spanien: piso)
-flag,lastimar,,,lateinamerikanisch (Spanien: hacer daño)
-flag,extrañar,,,lateinamerikanisch (Spanien: echar de menos)
-flag,vos,,,lateinamerikanisch (Spanien: vosotros/tú)
-flag,video,,,lateinamerikanisch (Spanien: vídeo)
+note,auto,lateinamerikanisch; in Spanien: coche,,Nutzerentscheidung: bleibt mit Notiz
+note,lindo,lateinamerikanisch; in Spanien: bonito,,Nutzerentscheidung: bleibt mit Notiz
+note,afuera,lateinamerikanisch; in Spanien: fuera,,Nutzerentscheidung: bleibt mit Notiz
+note,adentro,lateinamerikanisch; in Spanien: dentro,,Nutzerentscheidung: bleibt mit Notiz
+note,acá,lateinamerikanisch; in Spanien: aquí,,Nutzerentscheidung: bleibt mit Notiz
+note,manejar,lateinamerikanisch; in Spanien: conducir,,Nutzerentscheidung: bleibt mit Notiz
+note,enojado,lateinamerikanisch; in Spanien: enfadado,,Nutzerentscheidung: bleibt mit Notiz
+note,apurar,lateinamerikanisch; in Spanien: darse prisa,,Nutzerentscheidung: bleibt mit Notiz
+note,computadora,lateinamerikanisch; in Spanien: ordenador,,Nutzerentscheidung: bleibt mit Notiz
+note,celular,lateinamerikanisch; in Spanien: móvil,,Nutzerentscheidung: bleibt mit Notiz
+note,departamento,lateinamerikanisch; in Spanien: piso,,Nutzerentscheidung: bleibt mit Notiz
+note,lastimar,lateinamerikanisch; in Spanien: hacer daño,,Nutzerentscheidung: bleibt mit Notiz
+note,extrañar,lateinamerikanisch; in Spanien: echar de menos,,Nutzerentscheidung: bleibt mit Notiz
+note,vos,lateinamerikanisch; in Spanien: vosotros/tú,,Nutzerentscheidung: bleibt mit Notiz
+note,video,lateinamerikanisch; in Spanien: vídeo,,Nutzerentscheidung: bleibt mit Notiz
 remove,jerry,,,Eigenname
 remove,thomas,,,Eigenname
 remove,washington,,,Eigenname
@@ -354,7 +354,7 @@ rename,rata,rata:noun,,Grundform/Wortart korrigiert
 rename,sincero,sincero:adj,,Grundform/Wortart korrigiert
 keep,don,,,spanisch (Anrede don)
 flag,don,,,filmtypisch (Anrede)
-flag,carro,,,lateinamerikanisch (Spanien: coche)
+note,carro,lateinamerikanisch; in Spanien: coche,,Nutzerentscheidung: bleibt mit Notiz
 flag,sheriff,,,filmtypisch (Western/USA)
 remove,eric,,,Eigenname
 remove,anna,,,Eigenname

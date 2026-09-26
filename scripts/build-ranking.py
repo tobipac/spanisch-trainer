@@ -20,6 +20,7 @@ Regeln (data/ranking/rules.csv, Spalten action,key,value,ambiguous,grund):
   flag     Lemma zur Entscheidung durch den Nutzer markieren (filmtypisch, Kraftausdruck, lateinamerikanisch)
   exclude  Lemma vom Nutzer gestrichen: bleibt mit excluded=true und ohne Rang in der CSV
   checked  unsicheres Lemma geprüft und korrekt
+  note     Notiz zum Lemma, wird in E2b als Word.note übernommen (z. B. lateinamerikanisch)
 Jede angewandte Korrektur wird in data/ranking/corrections.csv protokolliert.
 """
 
@@ -88,6 +89,7 @@ class Rules:
     flag: dict[str, str] = field(default_factory=dict)  # lemma -> Grund (filmtypisch …)
     exclude: dict[str, str] = field(default_factory=dict)  # lemma -> Grund (vom Nutzer gestrichen)
     checked: set[str] = field(default_factory=set)  # unsichere Lemmata, die geprüft und korrekt sind
+    note: dict[str, str] = field(default_factory=dict)  # lemma -> Notiz fürs Wortpaket (Word.note)
 
 
 def parse_targets(value: str) -> list[tuple[str, str, float]]:
@@ -122,6 +124,8 @@ def load_rules() -> Rules:
                 rules.rename[key] = (lemma, pos, grund)
             elif action == "flag":
                 rules.flag[key] = grund
+            elif action == "note":
+                rules.note[key] = value
             elif action == "checked":
                 rules.checked.add(key)
             elif action == "exclude":

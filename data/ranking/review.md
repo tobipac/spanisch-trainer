@@ -11,20 +11,6 @@ Bitte je Wort entscheiden: **bleibt** oder **streichen**.
 
 | Rang | Lemma | Wortart | häufigste Formen | Grund |
 |---:|---|---|---|---|
-| 338 | auto | noun | auto autos | lateinamerikanisch (Spanien: coche) |
-| 453 | lindo | adj | lindo linda lindos | lateinamerikanisch (Spanien: bonito) |
-| 499 | afuera | adv | afuera afueras | lateinamerikanisch (Spanien: fuera) |
-| 728 | manejar | verb | manejar manejarlo maneja | lateinamerikanisch (Spanien: conducir) |
-| 734 | acá | adv | acá | lateinamerikanisch (Spanien: aquí) |
-| 815 | departamento | noun | departamento departamentos | lateinamerikanisch (Spanien: piso) |
-| 852 | adentro | adv | adentro | lateinamerikanisch (Spanien: dentro) |
-| 884 | extrañar | verb | extraña extrañar extrañaré | lateinamerikanisch (Spanien: echar de menos) |
-| 1020 | lastimar | verb | lastimado lastimar lastimarte | lateinamerikanisch (Spanien: hacer daño) |
-| 1070 | vos | pron | vos | lateinamerikanisch (Spanien: vosotros/tú) |
-| 1157 | enojado | adj | enojado enojada enojados | lateinamerikanisch (Spanien: enfadado) |
-| 1208 | video | noun | video videos | lateinamerikanisch (Spanien: vídeo) |
-| 1313 | apurar | verb | apúrate apúrense apurado | lateinamerikanisch (Spanien: darse prisa) |
-| 1337 | computadora | noun | computadora computadoras | lateinamerikanisch (Spanien: ordenador) |
 
 ## Mehrdeutige Grundformen in den Top 1.500 (`ambiguous=true`)
 
