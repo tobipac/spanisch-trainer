@@ -1,5 +1,5 @@
 # SPEC.md – Spanisch-Vokabeltrainer V1
-_Version 3 · 260926 · Änderungen gegenüber Version 2: Abschnitte 3, 4, 5, 7, 8 (Umkehrkarten-Warteschlange und -Limit, neutrale Tage, Joker-Regeln, „gefestigt“ = FSRS-`stability`, gestrichene Lemmata, Klarstellungen Prüfskript und Level)_
+_Version 3 · 260926 · Änderungen gegenüber Version 2: Abschnitte 3, 4, 5, 7, 8 (Umkehrkarten-Warteschlange und -Limit, neutrale Tage, Joker-Regeln, „gefestigt“ = FSRS-`stability`, gestrichene Lemmata, Klarstellungen Prüfskript und Level, Umkehrkarten im Tagesziel, Anzeige „Umkehrkarten offen“, `dueAtStartIds`)_
 _Version 2 · 260924 · Änderungen gegenüber Version 1: Abschnitte 3, 5, 7, 8, 11, 12 (Rangfolge und Abdeckung aus offener Häufigkeitsliste)_
 
 ## 1. Ziel
@@ -47,6 +47,7 @@ interface DayRecord {
   reviewsDone: number;
   goalReached: boolean;
   neutral: boolean;       // Tag ohne Aufgaben (siehe 7. Streak)
+  dueAtStartIds: string[]; // Karten, die beim ersten Öffnen des Lerntags fällig sind (fällig vor Lerntag-Ende); Basis für Tagesziel und Drosselung
   jokerUsed: boolean;
   xp: number;
 }
@@ -82,6 +83,7 @@ interface Settings { newPerDay: number; autoPlayAudio: boolean; voiceURI?: strin
 **Tagesziel erreicht**, wenn:
 - alle zu Tagesbeginn fälligen Karten bewertet sind, und
 - das (ggf. gedrosselte) Limit für neue Wörter erfüllt ist.
+- Umkehrkarten: Nur die **erste Einführung** einer Umkehrkarte aus der Warteschlange ist optional und zählt nicht zum Tagesziel. Bereits eingeführte Umkehrkarten zählen, sobald sie fällig sind, wie jede andere fällige Karte zum Tagesziel (und zur Drosselung).
 
 ## 5. Screens
 
@@ -92,6 +94,7 @@ interface Settings { newPerDay: number; autoPlayAudio: boolean; voiceURI?: strin
 **Heute (Startseite)**
 - Tagesring: Fortschritt Richtung Tagesziel.
 - Zahlen: fällig heute, neu heute, geschätzte Minuten (8 Sekunden pro Karte, im Code als Annahme dokumentiert).
+- „Umkehrkarten offen: X“ (Anzahl Karten in der Warteschlange). Ist die Warteschlange größer als das Doppelte des Tageslimits für Umkehrkarten (Einstellung „neue Wörter pro Tag“, ohne Drosselung), erscheint ein dezenter Hinweis.
 - Streak mit Joker-Anzeige.
 - Großer Button „Lernen starten“.
 - Backup-Hinweis, wenn das letzte Backup mehr als 7 Tage zurückliegt.
@@ -145,7 +148,7 @@ interface Settings { newPerDay: number; autoPlayAudio: boolean; voiceURI?: strin
   - **keine** XP für zusätzliche neue Wörter über das Limit hinaus
 - **Streak:**
   - zählt Tage mit erreichtem Tagesziel
-  - **Neutraler Tag:** Sind zu Beginn des Lerntags keine Karten fällig und ist das (ggf. gedrosselte) Limit für neue Wörter 0, gilt der Tag als neutral (`neutral = true`). Er zählt nicht für den Streak, unterbricht ihn aber nicht. Keine XP, kein Bonus, kein Joker-Verbrauch.
+  - **Neutraler Tag:** Sind zu Beginn des Lerntags keine Karten fällig und ist das (ggf. gedrosselte) Limit für neue Wörter 0, gilt der Tag als neutral (`neutral = true`). Er zählt nicht für den Streak, unterbricht ihn aber nicht. Kein Tagesziel-Bonus, kein Joker-Verbrauch. Freiwillig bewertete Karten (z. B. Umkehrkarten) bringen die normalen XP pro Bewertung.
   - 1 Joker pro Kalenderwoche wird automatisch für einen verpassten Tag eingesetzt
   - Kalenderwoche = Montag bis Sonntag nach Lerntagen, also von Montag 04:00 bis Montag 04:00.
   - Ein ungenutzter Joker verfällt am Ende der Woche; Joker sammeln sich nicht an.
