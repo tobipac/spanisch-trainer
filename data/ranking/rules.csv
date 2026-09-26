@@ -415,8 +415,8 @@ remove,roma,,,Eigenname (Ort)
 assign,mio,mío:det,,Schreibvariante
 assign,mios,mío:det,,Schreibvariante
 assign,intentado,intentar:verb,,Verbform (Partizip)
-flag,pandemia,,,nachrichtentypisch (zeitgebunden 2022)
-flag,gol,,,nachrichtentypisch (Sport)
-flag,torneo,,,nachrichtentypisch (Sport)
-flag,argentino,,,nachrichtentypisch (lateinamerikanische Nachrichten)
-flag,mexicano,,,nachrichtentypisch (lateinamerikanische Nachrichten)
+checked,pandemia,,,Nutzerentscheidung: bleibt
+checked,gol,,,Nutzerentscheidung: bleibt
+checked,torneo,,,Nutzerentscheidung: bleibt
+checked,argentino,,,Nutzerentscheidung: bleibt
+checked,mexicano,,,Nutzerentscheidung: bleibt

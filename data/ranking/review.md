@@ -11,11 +11,6 @@ Bitte je Wort entscheiden: **bleibt** oder **streichen**.
 
 | Rang | Lemma | Wortart | häufigste Formen | Grund |
 |---:|---|---|---|---|
-| 625 | argentino | adj | argentina argentino argentinos | nachrichtentypisch (lateinamerikanische Nachrichten) |
-| 1180 | gol | noun | gol goles | nachrichtentypisch (Sport) |
-| 1208 | mexicano | adj | mexicano mexicana mexicanos | nachrichtentypisch (lateinamerikanische Nachrichten) |
-| 1293 | torneo | noun | torneo torneos | nachrichtentypisch (Sport) |
-| 1483 | pandemia | noun | pandemia pandemias | nachrichtentypisch (zeitgebunden 2022) |
 
 ## Mehrdeutige Grundformen in den Top 1.500 (`ambiguous=true`)
 
