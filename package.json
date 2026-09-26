@@ -13,6 +13,7 @@
     "test": "vitest run",
     "validate:words": "node scripts/validate-words.ts",
     "sample:words": "node scripts/sample-words.ts",
+    "build:coverage": "node scripts/build-coverage.ts",
     "icons": "node scripts/generate-icons.ts"
   },
   "dependencies": {
