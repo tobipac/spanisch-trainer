@@ -25,3 +25,6 @@ __pycache__/
 *.mobi
 *.azw3
 /reference/
+
+# Lokale Claude-Code-Einstellungen
+.claude/
