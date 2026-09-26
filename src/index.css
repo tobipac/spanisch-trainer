@@ -14,6 +14,16 @@ body,
   overscroll-behavior: none;
 }
 
+/* iOS (installierte App mit transparenter Statusleiste): 100 % ist dort teils kürzer als der Bildschirm,
+   sodass unten ein leerer Streifen bleibt. 100dvh ist die tatsächlich sichtbare Höhe. */
+@supports (height: 100dvh) {
+  html,
+  body,
+  #root {
+    height: 100dvh;
+  }
+}
+
 body {
   margin: 0;
   background: #ffffff;
