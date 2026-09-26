@@ -10,6 +10,7 @@ import {
   newSession,
   nextCard,
   reverseQueue,
+  remainingToday,
   reverseQueueHint,
   throttleFor,
   type NextCard,
@@ -358,5 +359,21 @@ describe('Mehrtägiger Ablauf', () => {
     // jede Umkehrkarte gehört zu einem Wort, dessen Spanisch → Deutsch-Karte existiert
     const esDe = new Set(sim.cards.filter((c) => c.direction === 'es-de').map((c) => c.wordId));
     expect(sim.cards.filter((c) => c.direction === 'de-es').every((c) => esDe.has(c.wordId))).toBe(true);
+  });
+});
+
+describe('Restzählung für den Fortschrittsbalken', () => {
+  it('fällige Karten + offene neue Wörter + verfügbare Umkehrkarten, sinkt beim Lernen auf 0', () => {
+    const sim = new Sim(words(10), settings({ newPerDay: 5 }));
+    sim.cards = [...dueReviews(3), queuedReverse('q', YESTERDAY), queuedReverse('heute', NOW)];
+    const input = () => ({ day: sim.day(NOW), cards: sim.cards, words: sim.words, settings: sim.settings });
+    expect(remainingToday(input())).toBe(3 + 5 + 1);
+    sim.studyAll(NOW);
+    expect(remainingToday({ ...input(), day: sim.day(NOW) })).toBe(0);
+  });
+
+  it('neue Wörter werden durch die verbleibenden Wörter begrenzt', () => {
+    const day = createDayRecord(TODAY, [], words(2), settings({ newPerDay: 12 }));
+    expect(remainingToday({ day, cards: [], words: words(2), settings: settings({ newPerDay: 12 }) })).toBe(2);
   });
 });

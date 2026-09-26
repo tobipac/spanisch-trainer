@@ -178,6 +178,22 @@ export function nextCard({ now, day, cards, words, settings, session }: NextCard
   return ahead ? { kind: 'learning', card: ahead } : null;
 }
 
+/**
+ * Geschätzte Anzahl Karten, die heute noch drankommen (für Fortschrittsbalken und Zeitschätzung).
+ * Lernschritt-Karten zählen einmal, auch wenn sie mehrfach wiederkommen können.
+ */
+export function remainingToday({ day, cards, words, settings }: Omit<NextCardInput, 'now' | 'session'>): number {
+  const end = dayEnd(day.day).getTime();
+  const due = cards.filter((c) => isIntroduced(c) && dueMs(c) < end).length;
+  const limits = dayLimits(day, cards, words, settings);
+  const newLeft = Math.max(0, Math.min(limits.newLimit - day.newDone, unintroducedWords(cards, words).length));
+  const reverseLeft = Math.max(
+    0,
+    Math.min(limits.reverseLimit - day.reverseDone, availableReverseCards(cards, words, day.day).length),
+  );
+  return due + newLeft + reverseLeft;
+}
+
 // ---------- Tagesziel ----------
 
 /** Tagesziel: alle zu Tagesbeginn fälligen Karten heute bewertet und Limit für neue Wörter erfüllt. */

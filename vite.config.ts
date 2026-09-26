@@ -22,6 +22,10 @@ export default defineConfig({
       },
     }),
   ],
+  build: {
+    // Die Wortpakete sind bewusst im Haupt-Bundle (offline sofort verfügbar); daher höhere Warnschwelle.
+    chunkSizeWarningLimit: 1500,
+  },
   test: {
     include: ['tests/**/*.test.ts'],
     environment: 'node',
