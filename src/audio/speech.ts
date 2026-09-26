@@ -6,9 +6,17 @@ const synth = (): SpeechSynthesis | undefined =>
   typeof window !== 'undefined' && 'speechSynthesis' in window ? window.speechSynthesis : undefined;
 
 let voices: SpeechSynthesisVoice[] = [];
+const voiceListeners = new Set<() => void>();
 
 function loadVoices(): void {
   voices = synth()?.getVoices() ?? [];
+  voiceListeners.forEach((l) => l());
+}
+
+/** Benachrichtigung, sobald iOS die Stimmen (nach-)geladen hat. Gibt eine Abmeldefunktion zurück. */
+export function onVoicesChanged(listener: () => void): () => void {
+  voiceListeners.add(listener);
+  return () => voiceListeners.delete(listener);
 }
 
 // iOS lädt die Stimmen verzögert: erst nach „voiceschanged“ auslesen.
