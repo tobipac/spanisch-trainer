@@ -1,0 +1,370 @@
+action,key,value,ambiguous,grund
+remove,eh,,,Füllwort
+remove,ah,,,Füllwort
+remove,oh,,,Füllwort
+remove,ok,,,Füllwort
+remove,okay,,,Füllwort
+remove,hey,,,Füllwort
+remove,ey,,,Füllwort
+remove,mm,,,Füllwort
+remove,mmm,,,Füllwort
+remove,hmm,,,Füllwort
+remove,hm,,,Füllwort
+remove,uh,,,Füllwort
+remove,um,,,Füllwort
+remove,huh,,,Füllwort
+remove,ay,,,Füllwort
+remove,uf,,,Füllwort
+remove,bah,,,Füllwort
+remove,ja,,,Füllwort
+remove,jaja,,,Füllwort
+remove,je,,,Füllwort
+remove,shh,,,Füllwort
+remove,psst,,,Füllwort
+remove,wow,,,Füllwort
+remove,guau,,,Füllwort
+remove,bla,,,Füllwort
+remove,maría,,,Eigenname
+assign,fue,ser:verb:0.6|ir:verb:0.4,true,mehrdeutig ser/ir
+assign,fui,ser:verb:0.4|ir:verb:0.6,true,mehrdeutig ser/ir
+assign,fuiste,ser:verb:0.4|ir:verb:0.6,true,mehrdeutig ser/ir
+assign,fuimos,ser:verb:0.4|ir:verb:0.6,true,mehrdeutig ser/ir
+assign,fueron,ser:verb:0.6|ir:verb:0.4,true,mehrdeutig ser/ir
+assign,fuera,fuera:adv:0.6|ser:verb:0.3|ir:verb:0.1,true,mehrdeutig fuera/ser/ir
+assign,fuese,ser:verb:0.8|ir:verb:0.2,true,mehrdeutig ser/ir
+assign,sé,saber:verb,true,mehrdeutig saber/ser (Imperativ selten)
+assign,vino,venir:verb:0.5|vino:noun:0.5,true,mehrdeutig venir/vino
+assign,ve,ver:verb:0.5|ir:verb:0.5,true,mehrdeutig ver/ir
+assign,vete,ir:verb,,Imperativ irse
+assign,sal,salir:verb:0.6|sal:noun:0.4,true,mehrdeutig salir/sal
+assign,casa,casa:noun,,spaCy: Eigenname
+assign,hola,hola:interj,,spaCy: Eigenname
+assign,gracias,gracias:interj,,eigene Grundform (Dank)
+assign,dios,dios:noun,,spaCy: dio
+assign,vosotros,vosotros:pron,,spaCy: vosotro
+assign,vosotras,vosotros:pron,,spaCy: vosotra
+assign,vale,vale:interj:0.7|valer:verb:0.3,true,mehrdeutig vale (einverstanden)/valer
+assign,del,de:prep,,Kontraktion de+el
+assign,al,a:prep,,Kontraktion a+el
+assign,me,me:pron,,Objektpronomen als eigene Grundform
+assign,te,te:pron,,Objektpronomen als eigene Grundform
+assign,se,se:pron,,Objektpronomen als eigene Grundform
+assign,lo,lo:pron,,Objektpronomen/neutraler Artikel als eigene Grundform
+assign,le,le:pron,,Objektpronomen als eigene Grundform
+assign,les,le:pron,,Objektpronomen als eigene Grundform
+assign,nos,nos:pron,,Objektpronomen als eigene Grundform
+assign,os,os:pron,,Objektpronomen als eigene Grundform
+assign,hecho,hacer:verb:0.8|hecho:noun:0.2,true,mehrdeutig hacer (Partizip)/hecho
+assign,dicho,decir:verb,,Partizip von decir
+flag,señor,,,filmtypisch (Anrede)
+flag,disparar,,,filmtypisch (Gewalt)
+flag,mierda,,,Kraftausdruck
+flag,joder,,,Kraftausdruck
+flag,coño,,,Kraftausdruck
+keep,he,,,spanisch (haber)
+keep,come,,,spanisch (comer)
+keep,comes,,,spanisch (comer)
+keep,once,,,spanisch (elf)
+keep,decide,,,spanisch (decidir)
+keep,escape,,,spanisch
+keep,tires,,,spanisch (tirar)
+keep,use,,,spanisch (usar)
+keep,series,,,spanisch (serie)
+keep,individual,,,spanisch
+keep,regular,,,spanisch
+keep,usual,,,spanisch
+keep,imagine,,,spanisch (imaginar)
+keep,prepare,,,spanisch (preparar)
+keep,describe,,,spanisch (describir)
+keep,invite,,,spanisch (invitar)
+keep,balance,,,spanisch
+keep,bus,,,spanisch
+remove,john,,,Eigenname
+remove,jack,,,Eigenname
+remove,sam,,,Eigenname
+remove,joe,,,Eigenname
+remove,michael,,,Eigenname
+remove,david,,,Eigenname
+remove,frank,,,Eigenname
+remove,charlie,,,Eigenname
+remove,tom,,,Eigenname
+remove,george,,,Eigenname
+remove,mike,,,Eigenname
+remove,peter,,,Eigenname
+remove,paul,,,Eigenname
+remove,ben,,,Eigenname
+remove,james,,,Eigenname
+remove,max,,,Eigenname
+remove,henry,,,Eigenname
+remove,harry,,,Eigenname
+remove,mary,,,Eigenname
+remove,bill,,,Eigenname
+remove,jimmy,,,Eigenname
+remove,bob,,,Eigenname
+remove,jim,,,Eigenname
+remove,danny,,,Eigenname
+remove,alex,,,Eigenname
+remove,steve,,,Eigenname
+remove,tony,,,Eigenname
+remove,nick,,,Eigenname
+remove,sarah,,,Eigenname
+remove,tommy,,,Eigenname
+remove,jane,,,Eigenname
+remove,ray,,,Eigenname
+remove,billy,,,Eigenname
+remove,johnny,,,Eigenname
+remove,richard,,,Eigenname
+remove,eddie,,,Eigenname
+remove,mark,,,Eigenname
+remove,robert,,,Eigenname
+remove,chris,,,Eigenname
+remove,ryan,,,Eigenname
+remove,jake,,,Eigenname
+remove,bobby,,,Eigenname
+remove,martin,,,Eigenname
+remove,amy,,,Eigenname
+remove,daniel,,,Eigenname
+remove,adam,,,Eigenname
+remove,kevin,,,Eigenname
+remove,brian,,,Eigenname
+remove,charles,,,Eigenname
+remove,chase,,,Eigenname
+remove,chad,,,Eigenname
+remove,carlos,,,Eigenname
+remove,carla,,,Eigenname
+remove,carlo,,,Eigenname
+remove,pamela,,,Eigenname
+remove,homer,,,Eigenname
+remove,hyoga,,,Eigenname
+remove,jesús,,,Eigenname
+remove,york,,,Eigenname (Ort/Organisation)
+remove,londres,,,Eigenname (Ort/Organisation)
+remove,parís,,,Eigenname (Ort/Organisation)
+remove,francia,,,Eigenname (Ort/Organisation)
+remove,inglaterra,,,Eigenname (Ort/Organisation)
+remove,américa,,,Eigenname (Ort/Organisation)
+remove,fbi,,,Eigenname (Ort/Organisation)
+remove,io,,,kein spanisches Wort
+remove,ia,,,kein spanisches Wort
+remove,ei,,,kein spanisches Wort
+assign,yo,yo:pron,,Personalpronomen als eigene Grundform
+assign,mí,mí:pron,,Personalpronomen als eigene Grundform
+assign,conmigo,conmigo:pron,,Personalpronomen als eigene Grundform
+assign,tú,tú:pron,,Personalpronomen als eigene Grundform
+assign,ti,ti:pron,,Personalpronomen als eigene Grundform
+assign,tí,ti:pron,,Personalpronomen als eigene Grundform
+assign,contigo,contigo:pron,,Personalpronomen als eigene Grundform
+assign,él,él:pron,,Personalpronomen als eigene Grundform
+assign,ella,ella:pron,,Personalpronomen als eigene Grundform
+assign,ellos,ellos:pron,,Personalpronomen als eigene Grundform
+assign,ellas,ellos:pron,,Personalpronomen als eigene Grundform
+assign,nosotros,nosotros:pron,,Personalpronomen als eigene Grundform
+assign,nosotras,nosotros:pron,,Personalpronomen als eigene Grundform
+assign,ustedes,ustedes:pron,,Personalpronomen als eigene Grundform
+assign,usted,usted:pron,,Personalpronomen als eigene Grundform
+assign,muy,muy:adv,,eigene Grundform (nicht mucho)
+assign,tan,tan:adv,,eigene Grundform (nicht tanto)
+assign,aqui,aquí:adv,,Schreibvariante
+assign,asi,así:adv,,Schreibvariante
+assign,mas,más:adv,,Schreibvariante
+assign,ahi,ahí:adv,,Schreibvariante
+assign,dia,día:noun,,Schreibvariante
+assign,dias,día:noun,,Schreibvariante
+assign,órden,orden:noun,,Schreibvariante
+assign,órdenes,orden:noun,,Schreibvariante
+assign,estár,estar:verb,,Schreibvariante
+assign,deberia,deber:verb,,Schreibvariante
+assign,sólo,solo:adv,,ältere Schreibung von solo
+assign,sóla,solo:adv,,Schreibvariante
+assign,trabajo,trabajo:noun:0.7|trabajar:verb:0.3,true,mehrdeutig Nomen/Verb
+assign,cuenta,cuenta:noun:0.5|contar:verb:0.5,true,mehrdeutig Nomen/Verb
+assign,pregunta,pregunta:noun:0.5|preguntar:verb:0.5,true,mehrdeutig Nomen/Verb
+assign,duda,duda:noun:0.6|dudar:verb:0.4,true,mehrdeutig Nomen/Verb
+assign,ayuda,ayuda:noun:0.5|ayudar:verb:0.5,true,mehrdeutig Nomen/Verb
+assign,culpa,culpa:noun:0.8|culpar:verb:0.2,true,mehrdeutig Nomen/Verb
+assign,deseo,deseo:noun:0.4|desear:verb:0.6,true,mehrdeutig Nomen/Verb
+assign,estado,estar:verb:0.7|estado:noun:0.3,true,mehrdeutig Nomen/Verb
+assign,vaya,ir:verb:0.6|vaya:interj:0.4,true,mehrdeutig Nomen/Verb
+assign,diferencia,diferencia:noun,true,mehrdeutig Nomen/Verb
+assign,estados,estado:noun,,Nomen
+assign,preocupes,preocupar:verb,,Verbform (Lemmatisierung korrigiert)
+assign,preocupe,preocupar:verb,,Verbform (Lemmatisierung korrigiert)
+assign,sientes,sentir:verb,,Verbform (Lemmatisierung korrigiert)
+assign,ayudarte,ayudar:verb,,Verbform (Lemmatisierung korrigiert)
+assign,detente,detener:verb,,Verbform (Lemmatisierung korrigiert)
+assign,pon,poner:verb,,Verbform (Lemmatisierung korrigiert)
+assign,refiero,referir:verb,,Verbform (Lemmatisierung korrigiert)
+assign,refieres,referir:verb,,Verbform (Lemmatisierung korrigiert)
+assign,solía,soler:verb,,Verbform (Lemmatisierung korrigiert)
+assign,riendo,reír:verb,,Verbform (Lemmatisierung korrigiert)
+assign,vengan,venir:verb,,Verbform (Lemmatisierung korrigiert)
+assign,eras,ser:verb,,Verbform (Lemmatisierung korrigiert)
+assign,matado,matar:verb,,Verbform (Lemmatisierung korrigiert)
+assign,llamado,llamar:verb,,Verbform (Lemmatisierung korrigiert)
+assign,moleste,molestar:verb,,Verbform (Lemmatisierung korrigiert)
+assign,métete,meter:verb,,Verbform (Lemmatisierung korrigiert)
+assign,ruego,rogar:verb,,Verbform (Lemmatisierung korrigiert)
+assign,suele,soler:verb,,Verbform (Lemmatisierung korrigiert)
+assign,suelen,soler:verb,,Verbform (Lemmatisierung korrigiert)
+assign,pare,parar:verb,,Verbform (Lemmatisierung korrigiert)
+assign,paren,parar:verb,,Verbform (Lemmatisierung korrigiert)
+assign,párate,parar:verb,,Verbform (Lemmatisierung korrigiert)
+assign,supieras,saber:verb,,Verbform (Lemmatisierung korrigiert)
+assign,llamada,llamada:noun,,Grundform/Wortart korrigiert
+assign,llamadas,llamada:noun,,Grundform/Wortart korrigiert
+assign,salida,salida:noun,,Grundform/Wortart korrigiert
+assign,salidas,salida:noun,,Grundform/Wortart korrigiert
+assign,señorita,señorita:noun,,Grundform/Wortart korrigiert
+assign,señoritas,señorita:noun,,Grundform/Wortart korrigiert
+assign,loca,loco:adj,,Grundform/Wortart korrigiert
+assign,buena,bueno:adj,,Grundform/Wortart korrigiert
+assign,buenas,bueno:adj,,Grundform/Wortart korrigiert
+assign,buen,bueno:adj,,Grundform/Wortart korrigiert
+assign,buenos,bueno:adj,,Grundform/Wortart korrigiert
+assign,mala,malo:adj,,Grundform/Wortart korrigiert
+assign,malas,malo:adj,,Grundform/Wortart korrigiert
+assign,negra,negro:adj,,Grundform/Wortart korrigiert
+assign,enferma,enfermo:adj,,Grundform/Wortart korrigiert
+assign,enfermas,enfermo:adj,,Grundform/Wortart korrigiert
+assign,dólares,dólar:noun,,Grundform/Wortart korrigiert
+assign,dólar,dólar:noun,,Grundform/Wortart korrigiert
+assign,asuntos,asunto:noun,,Grundform/Wortart korrigiert
+assign,modos,modo:noun,,Grundform/Wortart korrigiert
+assign,cuántas,cuánto:det,,Grundform/Wortart korrigiert
+assign,veras,veras:noun,,Grundform/Wortart korrigiert
+assign,célula,célula:noun,,Grundform/Wortart korrigiert
+assign,células,célula:noun,,Grundform/Wortart korrigiert
+assign,partículas,partícula:noun,,Grundform/Wortart korrigiert
+assign,espectáculo,espectáculo:noun,,Grundform/Wortart korrigiert
+assign,enfrente,enfrente:adv,,Grundform/Wortart korrigiert
+assign,cabo,cabo:noun,,Grundform/Wortart korrigiert
+assign,humanos,humano:adj,,Grundform/Wortart korrigiert
+assign,húmedos,húmedo:adj,,Grundform/Wortart korrigiert
+assign,pétalos,pétalo:noun,,Grundform/Wortart korrigiert
+assign,judíos,judío:noun,,Grundform/Wortart korrigiert
+assign,santa,santo:adj,,Grundform/Wortart korrigiert
+assign,san,santo:adj,,Grundform/Wortart korrigiert
+assign,adiós,adiós:interj,,Grundform/Wortart korrigiert
+assign,vos,vos:pron,,Grundform/Wortart korrigiert
+rename,tuyo,tuyo:det,,Wortart korrigiert
+rename,par,par:noun,,Wortart korrigiert
+rename,medio,medio:adj,,Wortart korrigiert
+rename,verdadero,verdadero:adj,,Wortart korrigiert
+rename,loco,loco:adj,,Wortart korrigiert
+rename,tonto,tonto:adj,,Wortart korrigiert
+rename,muchacho,muchacho:noun,,Wortart korrigiert
+rename,médico,médico:noun,,Wortart korrigiert
+rename,asesino,asesino:noun,,Wortart korrigiert
+rename,trampa,trampa:noun,,Wortart korrigiert
+rename,contigo,contigo:pron,,Wortart korrigiert
+rename,rojo,rojo:adj,,Wortart korrigiert
+rename,guapo,guapo:adj,,Wortart korrigiert
+rename,gordo,gordo:adj,,Wortart korrigiert
+rename,esposo,esposo:noun,,Wortart korrigiert
+rename,enemigo,enemigo:noun,,Wortart korrigiert
+rename,cerdo,cerdo:noun,,Wortart korrigiert
+rename,joder,joder:verb,,Wortart korrigiert
+rename,puto,puto:adj,,Wortart korrigiert
+rename,evidencia,evidencia:noun,,Wortart korrigiert
+rename,nosotros,nosotros:pron,,Wortart korrigiert
+rename,gratis,gratis:adv,,Wortart korrigiert
+rename,enfermo,enfermo:adj,,Wortart korrigiert
+rename,valiente,valiente:adj,,Wortart korrigiert
+rename,responsable,responsable:adj,,Wortart korrigiert
+rename,nacional,nacional:adj,,Wortart korrigiert
+rename,profesional,profesional:adj,,Wortart korrigiert
+rename,borracho,borracho:adj,,Wortart korrigiert
+rename,frente,frente:noun,,Wortart korrigiert
+rename,montón,montón:noun,,Wortart korrigiert
+rename,principio,principio:noun,,Wortart korrigiert
+rename,trasero,trasero:noun,,Wortart korrigiert
+rename,repente,repente:noun,,Wortart korrigiert
+flag,caballero,,,filmtypisch (Anrede)
+flag,majestad,,,filmtypisch (Anrede)
+flag,señoría,,,filmtypisch (Anrede)
+flag,matar,,,filmtypisch (Gewalt/Krimi)
+flag,arma,,,filmtypisch (Gewalt/Krimi)
+flag,asesino,,,filmtypisch (Gewalt/Krimi)
+flag,asesinato,,,filmtypisch (Gewalt/Krimi)
+flag,asesinar,,,filmtypisch (Gewalt/Krimi)
+flag,pistola,,,filmtypisch (Gewalt/Krimi)
+flag,bala,,,filmtypisch (Gewalt/Krimi)
+flag,disparo,,,filmtypisch (Gewalt/Krimi)
+flag,homicidio,,,filmtypisch (Gewalt/Krimi)
+flag,víctima,,,filmtypisch (Gewalt/Krimi)
+flag,sospechoso,,,filmtypisch (Gewalt/Krimi)
+flag,cadáver,,,filmtypisch (Gewalt/Krimi)
+flag,capitán,,,filmtypisch (Militär/Polizei)
+flag,agente,,,filmtypisch (Militär/Polizei)
+flag,detective,,,filmtypisch (Militär/Polizei)
+flag,teniente,,,filmtypisch (Militär/Polizei)
+flag,sargento,,,filmtypisch (Militär/Polizei)
+flag,coronel,,,filmtypisch (Militär/Polizei)
+flag,comandante,,,filmtypisch (Militär/Polizei)
+flag,puta,,,Kraftausdruck
+flag,puto,,,Kraftausdruck
+flag,carajo,,,Kraftausdruck
+flag,culo,,,Kraftausdruck
+flag,cabrón,,,Kraftausdruck
+flag,bastardo,,,Kraftausdruck
+flag,perra,,,Kraftausdruck
+flag,maldito,,,Kraftausdruck
+flag,maldición,,,Kraftausdruck
+flag,demonio,,,Kraftausdruck
+flag,diablo,,,Kraftausdruck
+flag,jodido,,,Kraftausdruck
+flag,imbécil,,,Kraftausdruck
+flag,auto,,,lateinamerikanisch (Spanien: coche)
+flag,lindo,,,lateinamerikanisch (Spanien: bonito)
+flag,afuera,,,lateinamerikanisch (Spanien: fuera)
+flag,adentro,,,lateinamerikanisch (Spanien: dentro)
+flag,acá,,,lateinamerikanisch (Spanien: aquí)
+flag,manejar,,,lateinamerikanisch (Spanien: conducir)
+flag,enojado,,,lateinamerikanisch (Spanien: enfadado)
+flag,apurar,,,lateinamerikanisch (Spanien: darse prisa)
+flag,computadora,,,lateinamerikanisch (Spanien: ordenador)
+flag,celular,,,lateinamerikanisch (Spanien: móvil)
+flag,departamento,,,lateinamerikanisch (Spanien: piso)
+flag,lastimar,,,lateinamerikanisch (Spanien: hacer daño)
+flag,extrañar,,,lateinamerikanisch (Spanien: echar de menos)
+flag,vos,,,lateinamerikanisch (Spanien: vosotros/tú)
+flag,video,,,lateinamerikanisch (Spanien: vídeo)
+remove,jerry,,,Eigenname
+remove,thomas,,,Eigenname
+remove,washington,,,Eigenname
+remove,andy,,,Eigenname
+remove,rachel,,,Eigenname
+remove,scott,,,Eigenname
+remove,pete,,,Eigenname
+remove,kim,,,Eigenname
+remove,larry,,,Eigenname
+remove,walter,,,Eigenname
+remove,emily,,,Eigenname
+assign,fué,ser:verb:0.6|ir:verb:0.4,true,ältere Schreibung von fue
+assign,tambien,también:adv,,Schreibvariante
+assign,sr,señor:noun,,Abkürzung
+assign,tv,televisión:noun,,Abkürzung
+assign,tíos,tío:noun,,Grundform korrigiert
+assign,mama,mamá:noun,,Schreibvariante
+assign,mamas,mamá:noun,,Schreibvariante
+assign,fría,frío:adj,,Grundform korrigiert
+assign,frías,frío:adj,,Grundform korrigiert
+rename,oir,oír:verb,,Grundform/Wortart korrigiert
+rename,rata,rata:noun,,Grundform/Wortart korrigiert
+rename,sincero,sincero:adj,,Grundform/Wortart korrigiert
+keep,don,,,spanisch (Anrede don)
+flag,don,,,filmtypisch (Anrede)
+flag,carro,,,lateinamerikanisch (Spanien: coche)
+flag,sheriff,,,filmtypisch (Western/USA)
+remove,eric,,,Eigenname
+remove,anna,,,Eigenname
+remove,kate,,,Eigenname
+remove,jason,,,Eigenname
+remove,jeff,,,Eigenname
+remove,matt,,,Eigenname
+remove,kelly,,,Eigenname
+assign,juegos,juego:noun,,Grundform korrigiert
+assign,amas,amar:verb,,Verbform (Lemmatisierung korrigiert)
+flag,adn,,,filmtypisch (Krimi)
+checked,referir,,,geprüft: korrekt
+checked,soler,,,geprüft: korrekt
