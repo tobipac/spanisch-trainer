@@ -132,7 +132,7 @@ export function HomeScreen({ onStart }: Props) {
           <Notice>🃏 Joker für {weekday(streak.jokerThisWeek)} eingesetzt – dein Streak bleibt erhalten.</Notice>
         )}
         {!streak.jokerThisWeek && streak.jokerAvailable && streak.streak > 0 && (
-          <p className="px-1 text-xs text-neutral-500">🃏 Joker diese Woche verfügbar: rettet einen verpassten Tag.</p>
+          <p className="px-1 text-sm text-neutral-500 dark:text-neutral-400">🃏 Joker diese Woche verfügbar: rettet einen verpassten Tag.</p>
         )}
         <p className="px-1 text-sm text-neutral-600 dark:text-neutral-400">
           Umkehrkarten offen: <strong>{counts.reverseQueued}</strong>
@@ -155,7 +155,7 @@ export function HomeScreen({ onStart }: Props) {
         </div>
       </section>
 
-      <div className="mt-auto pt-2">
+      <div className="mt-auto pt-2 pb-6">
         <button
           type="button"
           onClick={() => {

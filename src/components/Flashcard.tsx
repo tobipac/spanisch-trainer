@@ -107,7 +107,7 @@ export function Flashcard({ word, direction, revealed, onReveal, onSwipe, onSpea
             <p className="mt-1 text-neutral-600 dark:text-neutral-400">{word.exampleDe}</p>
           </button>
 
-          {word.note && <p className="mt-4 text-sm text-neutral-600 dark:text-neutral-400">💡 {word.note}</p>}
+          {word.note && <p className="mt-5 text-lg leading-snug text-neutral-700 dark:text-neutral-300">💡 {word.note}</p>}
         </div>
       </motion.div>
 

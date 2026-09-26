@@ -200,7 +200,7 @@ export function LearnScreen({ onExit }: Props) {
         )}
       </main>
 
-      <footer className="min-h-16">
+      <footer className="mb-8 min-h-16">
         {revealed ? (
           <RatingButtons intervals={intervals} disabled={busy} onRate={(r) => void handleRate(r)} />
         ) : (
