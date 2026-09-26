@@ -1,0 +1,27 @@
+# Abhängigkeiten und Build
+node_modules/
+dist/
+dev-dist/
+*.tsbuildinfo
+coverage/
+
+# Umgebung / Editor
+.env
+.env.*
+.vercel/
+.DS_Store
+Thumbs.db
+.vscode/*
+!.vscode/extensions.json
+.idea/
+
+# Python (Build-Skripte Wortliste)
+__pycache__/
+.venv/
+
+# Keine Buch-, PDF- oder E-Book-Dateien im Projekt (siehe CLAUDE.md)
+*.pdf
+*.epub
+*.mobi
+*.azw3
+/reference/
