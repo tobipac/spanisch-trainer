@@ -1,4 +1,5 @@
 # SPEC.md – Spanisch-Vokabeltrainer V1
+_Version 4 · 260926 · Änderungen gegenüber Version 3: Abschnitte 5, 7, 8.1, 12 (Rangliste aus gesprochener und geschriebener Sprache gemischt, Leipzig Corpora als zweite Quelle)_
 _Version 3 · 260926 · Änderungen gegenüber Version 2: Abschnitte 3, 4, 5, 7, 8 (Umkehrkarten-Warteschlange und -Limit, neutrale Tage, Joker-Regeln, „gefestigt“ = FSRS-`stability`, gestrichene Lemmata, Klarstellungen Prüfskript und Level, Umkehrkarten im Tagesziel, Anzeige „Umkehrkarten offen“, `dueAtStartIds`)_
 _Version 2 · 260924 · Änderungen gegenüber Version 1: Abschnitte 3, 5, 7, 8, 11, 12 (Rangfolge und Abdeckung aus offener Häufigkeitsliste)_
 
@@ -116,7 +117,7 @@ interface Settings { newPerDay: number; autoPlayAudio: boolean; voiceURI?: strin
   - Anzahl gefestigt (FSRS-`stability` der Spanisch → Deutsch-Karte von 21 Tagen oder mehr; nicht das geplante Intervall)
   - Fortschrittsbalken
   - Abzeichen bei 90 % gefestigt
-- Abdeckungsanzeige: „Du kennst ca. X % der Wörter in gesprochenem Spanisch“ (Berechnung siehe Abschnitt 7).
+- Abdeckungsanzeige: „Du kennst ca. X % der Wörter in Alltag und Medien“ (Berechnung siehe Abschnitt 7).
 - Verlauf der letzten 30 Tage: Wiederholungen pro Tag als einfaches Balkendiagramm.
 - Vorschau: fällige Karten in den nächsten 7 Tagen.
 
@@ -127,7 +128,10 @@ interface Settings { newPerDay: number; autoPlayAudio: boolean; voiceURI?: strin
 - Audio automatisch abspielen an/aus
 - Backup exportieren und importieren
 - App-Version, Datenbank-Info (Anzahl Karten, Speicherstatus)
-- Quellen: Häufigkeitsliste FrequencyWords (Hermit Dave, auf Basis OpenSubtitles), Lizenz CC-BY-SA 4.0, mit Link
+- Quellen, jeweils mit Link:
+  - Häufigkeitsliste FrequencyWords (Hermit Dave, auf Basis OpenSubtitles 2018), Lizenz CC-BY-SA 4.0
+  - Leipzig Corpora Collection (Universität Leipzig), Spanisch: Nachrichten 2022 und Wikipedia 2021, Lizenz CC-BY 4.0
+  - Die daraus abgeleitete Rangliste steht unter CC-BY-SA 4.0
 
 ## 6. Audio (V1: Stimme des Handys)
 - `speechSynthesis`, Stimmenwahl nach Priorität:
@@ -159,15 +163,21 @@ interface Settings { newPerDay: number; autoPlayAudio: boolean; voiceURI?: strin
 - **Abdeckung:** Summe von `freqShare` aller gefestigten Wörter (FSRS-`stability` der Spanisch → Deutsch-Karte von 21 Tagen oder mehr).
   - Anzeige gerundet auf ganze Prozent, immer mit „ca.“.
   - Zusätzlich die maximal erreichbare Abdeckung aller 1.500 Wörter als Zielmarke.
-  - „ca.“ bleibt Pflicht, denn die Werte stammen aus Filmuntertiteln und das Zusammenführen auf Grundformen ist nicht fehlerfrei.
+  - „ca.“ bleibt Pflicht, denn die Werte stammen aus Filmuntertiteln, Nachrichten und Wikipedia und das Zusammenführen auf Grundformen ist nicht fehlerfrei.
 
 - **Animationen:** Kartenwechsel, Tagesring, Abzeichen. Dezent und schnell (unter 300 ms), keine blockierenden Effekte.
 
 ## 8. Wortliste
 
 ### 8.1 Rangliste (`scripts/build-ranking.py`, einmalig vor Paket 1)
-1. **Quelle:** Repo `hermitdave/FrequencyWords` auf GitHub, spanische Liste `es_50k.txt` (Wortform + Anzahl), neueste Ausgabe. Den genauen Pfad im Repo prüfen.
+1. **Quellen** (gemischt, Gewichte in `scripts/build-ranking.py`):
+   - **Gesprochen, Gewicht 2/3:** Repo `hermitdave/FrequencyWords` auf GitHub, spanische Liste `es_50k.txt` (Wortform + Anzahl, OpenSubtitles 2018, CC-BY-SA 4.0).
+   - **Geschrieben, Gewicht 1/3:** Leipzig Corpora Collection, `spa_news_2022_300K` und `spa_wikipedia_2021_300K` (je 1/6, CC-BY 4.0).
+     - Vorbereitung mit `scripts/prepare-written.py`: Groß-/Kleinschreibung zusammenführen; Wörter, die fast nie kleingeschrieben vorkommen, gelten als Eigennamen und entfallen.
+     - Ablage der vorbereiteten Listen (je 50.000 Wortformen) in `data/source/`.
+   - Mischung: je Wortform der gewichtete Anteil an allen Wörtern der jeweiligen Quelle. `count` in der Rangliste = gewichteter Anteil pro 1 Mrd. Wörter.
    - Ablage in `data/source/` samt Lizenztext und Quellenangabe.
+   - Hintergrund: Nur Untertitel unterschätzen Wörter aus Politik, Wirtschaft und Medien (*gobierno*, *desarrollo*); nur Schriftsprache unterschätzt Alltagswörter. Die Mischung gleicht beides aus.
 2. **Bereinigen:** Tokens mit Ziffern oder Sonderzeichen entfernen, ebenso Einzelbuchstaben (außer *a*, *y*, *o*, *e*, *u*), Wörter ohne spanische Wortform (z. B. englische Tokens), Eigennamen und Interjektionen/Füllwörter (*eh*, *ah*, *oh*, *ok*).
 3. **Auf Grundformen zusammenführen:** spaCy `es_core_news_md`, jede Wortform → Lemma + Wortart.
    - Zählwerte je Lemma summieren; die 3 häufigsten Wortformen je Lemma mitspeichern.
@@ -179,7 +189,7 @@ interface Settings { newPerDay: number; autoPlayAudio: boolean; voiceURI?: strin
      - Sie bleiben im Nenner von `freqShare`; die Anteile aller anderen Lemmata ändern sich nicht. Die maximal erreichbare Abdeckung sinkt entsprechend.
      - Die Ränge der übrigen Lemmata werden lückenlos neu vergeben. Das ist nur für noch nicht veröffentlichte Pakete zulässig (siehe 8.2); gestrichen wird daher vor der Freigabe eines Pakets.
 5. **Plausibilitätsprüfung durch Claude Code:**
-   - Top 1.500 durchsehen; auffällig filmtypische Wörter markieren (z. B. *señor*, Schimpfwörter, *disparar*).
+   - Top 1.500 durchsehen; auffällig filmtypische Wörter markieren (z. B. *señor*, Schimpfwörter, *disparar*), ebenso auffällig nachrichtentypische Wörter (z. B. *pandemia*, Sport).
    - Bei solchen Wörtern entscheidet der Nutzer, ob sie bleiben.
    - Lemmatisierungsfehler korrigieren und in `data/ranking/corrections.csv` protokollieren (`lemma, alt, neu, grund`).
 
@@ -254,5 +264,6 @@ Nach jeder Etappe: Build und Tests grün, Commit, Bericht, dann auf Abnahme wart
 - **Qualität der generierten Übersetzungen und Sätze** → Prüfskript und Stichprobe pro Paket.
 - **Grundformen-Fehler** (mehrdeutige Formen wie *fue*, *sé*, *vino*) → `ambiguous`-Markierung, Korrekturprotokoll, Nutzer-Stichprobe.
 - **Filmsprache in der Quelle** (Anrede, Befehle, Kraftausdrücke) → Plausibilitätsprüfung in 8.1, Entscheidung durch den Nutzer.
+- **Nachrichtensprache in der Quelle** (zeitgebundene Themen, Sport, Lateinamerika-Schwerpunkt) → Markierung in 8.1, Entscheidung durch den Nutzer.
 - **Lizenz CC-BY-SA:** Die Rangliste gilt als abgeleitete Datenbank → Quellenangabe in der App und in `data/source/`. Die abgeleiteten Ranglistendaten stehen ebenfalls unter CC-BY-SA.
 - **Abdeckung bleibt ein Näherungswert** → Anzeige immer mit „ca.“.

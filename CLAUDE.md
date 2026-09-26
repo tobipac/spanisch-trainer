@@ -58,7 +58,7 @@ tests/
 
 ## Regeln für die Wortliste
 - Variante: Spanien (es-ES). Beispiele: *coche*, *móvil*, *ordenador*, *zumo*; *vosotros*-Formen erlaubt.
-- **Rangfolge ausschließlich aus der offenen Häufigkeitsliste** (FrequencyWords / OpenSubtitles, CC-BY-SA 4.0), Details in SPEC.md Abschnitt 8. Quellenangabe in `data/source/` und in der App (Einstellungen → Quellen).
+- **Rangfolge ausschließlich aus offenen Häufigkeitslisten**: FrequencyWords / OpenSubtitles (CC-BY-SA 4.0, gesprochen, 2/3) gemischt mit Leipzig Corpora Nachrichten + Wikipedia (CC-BY 4.0, geschrieben, 1/3), Details in SPEC.md Abschnitt 8. Quellenangabe in `data/source/` und in der App (Einstellungen → Quellen).
 - Nicht aus urheberrechtlich geschützten Werken übernehmen, insbesondere nicht aus „A Frequency Dictionary of Spanish“ (Davies). Rang-Korrekturen, die der Nutzer aus eigenen Stichproben meldet, werden als einzelne Korrekturen übernommen und in `data/ranking/corrections.csv` protokolliert.
 - **Keine PDF-, E-Book- oder Buchdateien im Projekt.** `.gitignore` enthält `*.pdf`, `*.epub`, `/reference/`. Taucht eine solche Datei im Arbeitsordner auf: nicht lesen, nicht committen, Nutzer informieren.
 - Bestehende Einträge (`id`, `rank`) nie ohne Rückfrage ändern oder löschen, denn am Gerät hängt Lernfortschritt daran.

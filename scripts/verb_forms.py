@@ -21,6 +21,8 @@ ER_IR_ENDINGS = [
     "ía", "ías", "íamos", "íais", "ían", "a", "as", "amos", "áis", "an",
     "iera", "ieras", "iéramos", "ierais", "ieran", "iese", "ieses", "iesen", "iendo", "ido", "ida", "idos", "idas",
     "ed", "id", "yendo", "yó", "yeron", "ído", "ída",
+    # nach j-Stämmen ohne i (dijeron, dijera, trajese)
+    "eron", "era", "eras", "éramos", "erais", "eran", "ese", "eses", "esen",
 ]
 # Futur und Konditional hängen an den Infinitiv an
 FUT_COND_ENDINGS = ["é", "ás", "á", "emos", "éis", "án", "ía", "ías", "íamos", "íais", "ían"]

@@ -1,154 +1,157 @@
 lemma,alt,neu,grund
 lo,él:pron,lo:pron,Objektpronomen/neutraler Artikel als eigene Grundform
-me,yo:pron,me:pron,Objektpronomen als eigene Grundform
 se,él:pron,se:pron,Objektpronomen als eigene Grundform
-te,tú:pron,te:pron,Objektpronomen als eigene Grundform
 del,del:prep,de:prep,Kontraktion de+el
+me,yo:pron,me:pron,Objektpronomen als eigene Grundform
+te,tú:pron,te:pron,Objektpronomen als eigene Grundform
 al,al:prep,a:prep,Kontraktion a+el
 le,él:pron,le:pron,Objektpronomen als eigene Grundform
+fue,ser:verb,ser:verb:0.6|ir:verb:0.4,mehrdeutig ser/ir
 muy,mucho:adv,muy:adv,eigene Grundform (nicht mucho)
 nos,yo:pron,nos:pron,Objektpronomen als eigene Grundform
 ella,él:pron,ella:pron,Personalpronomen als eigene Grundform
-fue,ser:verb,ser:verb:0.6|ir:verb:0.4,mehrdeutig ser/ir
 gracias,gracia:noun,gracias:interj,eigene Grundform (Dank)
 sólo,sólo:adv,solo:adv,ältere Schreibung von solo
-hola,hola:noun,hola:interj,spaCy: Eigenname
 tan,tanto:adv,tan:adv,eigene Grundform (nicht tanto)
+hola,hola:noun,hola:interj,spaCy: Eigenname
 mí,yo:pron,mí:pron,Personalpronomen als eigene Grundform
-dios,dio:noun,dios:noun,spaCy: dio
-ti,tú:pron,ti:pron,Personalpronomen als eigene Grundform
 hecho,hecho:adj,hacer:verb:0.8|hecho:noun:0.2,mehrdeutig hacer (Partizip)/hecho
 trabajo,trabajar:verb,trabajo:noun:0.7|trabajar:verb:0.3,mehrdeutig Nomen/Verb
-nosotros,yo:pron,nosotros:pron,Personalpronomen als eigene Grundform
-ellos,él:pron,ellos:pron,Personalpronomen als eigene Grundform
-fuera,ser:verb,fuera:adv:0.6|ser:verb:0.3|ir:verb:0.1,mehrdeutig fuera/ser/ir
-les,él:pron,le:pron,Objektpronomen als eigene Grundform
+dios,dio:noun,dios:noun,spaCy: dio
+ti,tú:pron,ti:pron,Personalpronomen als eigene Grundform
 estado,estado:noun,estar:verb:0.7|estado:noun:0.3,mehrdeutig Nomen/Verb
+ellos,él:pron,ellos:pron,Personalpronomen als eigene Grundform
+les,él:pron,le:pron,Objektpronomen als eigene Grundform
+nosotros,yo:pron,nosotros:pron,Personalpronomen als eigene Grundform
+fuera,ser:verb,fuera:adv:0.6|ser:verb:0.3|ir:verb:0.1,mehrdeutig fuera/ser/ir
+cuenta,contar:verb,cuenta:noun:0.5|contar:verb:0.5,mehrdeutig Nomen/Verb
 vale,valer:verb,vale:interj:0.7|valer:verb:0.3,mehrdeutig vale (einverstanden)/valer
 buena,buen:adj,bueno:adj,Grundform/Wortart korrigiert
+fueron,ser:verb,ser:verb:0.6|ir:verb:0.4,mehrdeutig ser/ir
 buen,buen:adj,bueno:adj,Grundform/Wortart korrigiert
+dicho,dicho:adj,decir:verb,Partizip von decir
 conmigo,yo:pron,conmigo:pron,Personalpronomen als eigene Grundform
+ve,ver:verb,ver:verb:0.5|ir:verb:0.5,mehrdeutig ver/ir
 contigo,contiguir:verb,contigo:pron,Personalpronomen als eigene Grundform
 ustedes,tú:pron,ustedes:pron,Personalpronomen als eigene Grundform
-dicho,dicho:adj,decir:verb,Partizip von decir
-ve,ver:verb,ver:verb:0.5|ir:verb:0.5,mehrdeutig ver/ir
-cuenta,contar:verb,cuenta:noun:0.5|contar:verb:0.5,mehrdeutig Nomen/Verb
-vaya,vaya:verb,ir:verb:0.6|vaya:interj:0.4,mehrdeutig Nomen/Verb
-buenas,buena:adj,bueno:adj,Grundform/Wortart korrigiert
-adiós,adiós:noun,adiós:interj,Grundform/Wortart korrigiert
 ayuda,ayuda:noun,ayuda:noun:0.5|ayudar:verb:0.5,mehrdeutig Nomen/Verb
+nacional,nacional:noun,nacional:adj,Wortart korrigiert
+vaya,vaya:verb,ir:verb:0.6|vaya:interj:0.4,mehrdeutig Nomen/Verb
+medio,medio:num,medio:adj,Wortart korrigiert
+buenas,buena:adj,bueno:adj,Grundform/Wortart korrigiert
+buenos,buen:adj,bueno:adj,Grundform/Wortart korrigiert
+adiós,adiós:noun,adiós:interj,Grundform/Wortart korrigiert
+frente,frente:adv,frente:noun,Wortart korrigiert
 señorita,señoritar:verb,señorita:noun,Grundform/Wortart korrigiert
 os,tú:pron,os:pron,Objektpronomen als eigene Grundform
-buenos,buen:adj,bueno:adj,Grundform/Wortart korrigiert
-mas,mas:adv,más:adv,Schreibvariante
-loco,loco:noun,loco:adj,Wortart korrigiert
-fui,ir:verb,ser:verb:0.4|ir:verb:0.6,mehrdeutig ser/ir
-vete,vete:verb,ir:verb,Imperativ irse
-culpa,culpar:verb,culpa:noun:0.8|culpar:verb:0.2,mehrdeutig Nomen/Verb
-pregunta,preguntar:verb,pregunta:noun:0.5|preguntar:verb:0.5,mehrdeutig Nomen/Verb
-vino,venir:verb,venir:verb:0.5|vino:noun:0.5,mehrdeutig venir/vino
-fueron,ser:verb,ser:verb:0.6|ir:verb:0.4,mehrdeutig ser/ir
-par,par:verb,par:noun,Wortart korrigiert
-medio,medio:num,medio:adj,Wortart korrigiert
 dólares,dólares:noun,dólar:noun,Grundform/Wortart korrigiert
-preocupes,preocupe:pron,preocupar:verb,Verbform (Lemmatisierung korrigiert)
 llamado,llamado:adj,llamar:verb,Verbform (Lemmatisierung korrigiert)
-aqui,aqui:interj,aquí:adv,Schreibvariante
+mas,mas:adv,más:adv,Schreibvariante
+pregunta,preguntar:verb,pregunta:noun:0.5|preguntar:verb:0.5,mehrdeutig Nomen/Verb
+fui,ir:verb,ser:verb:0.4|ir:verb:0.6,mehrdeutig ser/ir
+loco,loco:noun,loco:adj,Wortart korrigiert
+vino,venir:verb,venir:verb:0.5|vino:noun:0.5,mehrdeutig venir/vino
+par,par:verb,par:noun,Wortart korrigiert
+culpa,culpar:verb,culpa:noun:0.8|culpar:verb:0.2,mehrdeutig Nomen/Verb
+vete,vete:verb,ir:verb,Imperativ irse
 llamada,llamado:adj,llamada:noun,Grundform/Wortart korrigiert
-asesino,asesino:adj,asesino:noun,Wortart korrigiert
-frente,frente:adv,frente:noun,Wortart korrigiert
+ellas,él:pron,ellos:pron,Personalpronomen als eigene Grundform
+preocupes,preocupe:pron,preocupar:verb,Verbform (Lemmatisierung korrigiert)
 médico,médico:adj,médico:noun,Wortart korrigiert
+cabo,cabo:verb,cabo:noun,Grundform/Wortart korrigiert
+principio,principio:adj,principio:noun,Wortart korrigiert
+aqui,aqui:interj,aquí:adv,Schreibvariante
+asesino,asesino:adj,asesino:noun,Wortart korrigiert
+diferencia,diferenciar:verb,diferencia:noun,mehrdeutig Nomen/Verb
+humanos,huma yo:verb,humano:adj,Grundform/Wortart korrigiert
+salida,salido:adj,salida:noun,Grundform/Wortart korrigiert
+duda,dudar:verb,duda:noun:0.6|dudar:verb:0.4,mehrdeutig Nomen/Verb
+juegos,juegos:noun,juego:noun,Grundform korrigiert
 fuiste,fuiste:verb,ser:verb:0.4|ir:verb:0.6,mehrdeutig ser/ir
 tuyo,tuyo:verb,tuyo:det,Wortart korrigiert
+deseo,desear:verb,deseo:noun:0.4|desear:verb:0.6,mehrdeutig Nomen/Verb
+montón,montón:adv,montón:noun,Wortart korrigiert
 vosotros,vosotro:adj,vosotros:pron,spaCy: vosotro
 loca,locar:verb,loco:adj,Grundform/Wortart korrigiert
 sientes,sient:adj,sentir:verb,Verbform (Lemmatisierung korrigiert)
-montón,montón:adv,montón:noun,Wortart korrigiert
-ellas,él:pron,ellos:pron,Personalpronomen als eigene Grundform
+verdadero,verdadero:noun,verdadero:adj,Wortart korrigiert
+profesional,profesional:noun,profesional:adj,Wortart korrigiert
+esposo,esposo:adj,esposo:noun,Wortart korrigiert
 eras,era:noun,ser:verb,Verbform (Lemmatisierung korrigiert)
 asi,asi:noun,así:adv,Schreibvariante
 tonto,tonto:noun,tonto:adj,Wortart korrigiert
-muchacho,muchacho:adj,muchacho:noun,Wortart korrigiert
 sal,sal:verb,salir:verb:0.6|sal:noun:0.4,mehrdeutig salir/sal
-principio,principio:adj,principio:noun,Wortart korrigiert
-deseo,desear:verb,deseo:noun:0.4|desear:verb:0.6,mehrdeutig Nomen/Verb
-esposo,esposo:adj,esposo:noun,Wortart korrigiert
-verdadero,verdadero:noun,verdadero:adj,Wortart korrigiert
-veras,vera:adj,veras:noun,Grundform/Wortart korrigiert
-duda,dudar:verb,duda:noun:0.6|dudar:verb:0.4,mehrdeutig Nomen/Verb
-ayudarte,ayudarte:noun,ayudar:verb,Verbform (Lemmatisierung korrigiert)
-joder,joder:noun,joder:verb,Wortart korrigiert
-san,san:noun,santo:adj,Grundform/Wortart korrigiert
-trasero,trasero:adj,trasero:noun,Wortart korrigiert
-modos,modos:noun,modo:noun,Grundform/Wortart korrigiert
-diferencia,diferenciar:verb,diferencia:noun,mehrdeutig Nomen/Verb
-tí,tí:pron,ti:pron,Personalpronomen als eigene Grundform
-enfermo,enfermo:noun,enfermo:adj,Wortart korrigiert
-órdenes,órden:noun,orden:noun,Schreibvariante
-salida,salido:adj,salida:noun,Grundform/Wortart korrigiert
-matado,matado:adj,matar:verb,Verbform (Lemmatisierung korrigiert)
-humanos,huma yo:verb,humano:adj,Grundform/Wortart korrigiert
-repente,repente:noun,repente:noun,Wortart korrigiert
+muchacho,muchacho:adj,muchacho:noun,Wortart korrigiert
 rojo,rojo:noun,rojo:adj,Wortart korrigiert
-vos,vo:noun,vos:pron,Grundform/Wortart korrigiert
-enemigo,enemigo:adj,enemigo:noun,Wortart korrigiert
-fuimos,ir:verb,ser:verb:0.4|ir:verb:0.6,mehrdeutig ser/ir
-santa,santa:noun,santo:adj,Grundform/Wortart korrigiert
-cuántas,cuántos:pron,cuánto:det,Grundform/Wortart korrigiert
-asuntos,asuntos:noun,asunto:noun,Grundform/Wortart korrigiert
-trampa,trampa:verb,trampa:noun,Wortart korrigiert
 responsable,responsable:noun,responsable:adj,Wortart korrigiert
-detente,detente:noun,detener:verb,Verbform (Lemmatisierung korrigiert)
-cabo,cabo:verb,cabo:noun,Grundform/Wortart korrigiert
-malas,mala:adj,malo:adj,Grundform/Wortart korrigiert
-vengan,vengar:verb,venir:verb,Verbform (Lemmatisierung korrigiert)
-nosotras,nosotrir:verb,nosotros:pron,Personalpronomen als eigene Grundform
-evidencia,evidencia:other,evidencia:noun,Wortart korrigiert
-nacional,nacional:noun,nacional:adj,Wortart korrigiert
-enferma,enferma:noun,enfermo:adj,Grundform/Wortart korrigiert
+órdenes,órden:noun,orden:noun,Schreibvariante
+asuntos,asuntos:noun,asunto:noun,Grundform/Wortart korrigiert
+modos,modos:noun,modo:noun,Grundform/Wortart korrigiert
+veras,vera:adj,veras:noun,Grundform/Wortart korrigiert
+ayudarte,ayudarte:noun,ayudar:verb,Verbform (Lemmatisierung korrigiert)
+enemigo,enemigo:adj,enemigo:noun,Wortart korrigiert
+trasero,trasero:adj,trasero:noun,Wortart korrigiert
+joder,joder:noun,joder:verb,Wortart korrigiert
+enfermo,enfermo:noun,enfermo:adj,Wortart korrigiert
+san,san:noun,santo:adj,Grundform/Wortart korrigiert
+tí,tí:pron,ti:pron,Personalpronomen als eigene Grundform
+matado,matado:adj,matar:verb,Verbform (Lemmatisierung korrigiert)
+repente,repente:noun,repente:noun,Wortart korrigiert
 llamadas,llamado:adj,llamada:noun,Grundform/Wortart korrigiert
-borracho,borracho:noun,borracho:adj,Wortart korrigiert
-puto,puto:other,puto:adj,Wortart korrigiert
-profesional,profesional:noun,profesional:adj,Wortart korrigiert
-cerdo,cerdo:adj,cerdo:noun,Wortart korrigiert
-ahi,ahi:noun,ahí:adv,Schreibvariante
-gratis,gratis:noun,gratis:adv,Wortart korrigiert
-pon,pon:noun,poner:verb,Verbform (Lemmatisierung korrigiert)
+vos,vo:noun,vos:pron,Grundform/Wortart korrigiert
+fuimos,ir:verb,ser:verb:0.4|ir:verb:0.6,mehrdeutig ser/ir
+malas,mala:adj,malo:adj,Grundform/Wortart korrigiert
 negra,negra:noun,negro:adj,Grundform/Wortart korrigiert
-juegos,juegos:noun,juego:noun,Grundform korrigiert
-amas,ama:noun,amar:verb,Verbform (Lemmatisierung korrigiert)
+trampa,trampa:verb,trampa:noun,Wortart korrigiert
+cuántas,cuántos:pron,cuánto:det,Grundform/Wortart korrigiert
+santa,santa:noun,santo:adj,Grundform/Wortart korrigiert
 fuese,ser:verb,ser:verb:0.8|ir:verb:0.2,mehrdeutig ser/ir
-tambien,tambien:noun,también:adv,Schreibvariante
-sr,sr:noun,señor:noun,Abkürzung
+vengan,vengar:verb,venir:verb,Verbform (Lemmatisierung korrigiert)
+detente,detente:noun,detener:verb,Verbform (Lemmatisierung korrigiert)
+nosotras,nosotrir:verb,nosotros:pron,Personalpronomen als eigene Grundform
+gratis,gratis:noun,gratis:adv,Wortart korrigiert
+enferma,enferma:noun,enfermo:adj,Grundform/Wortart korrigiert
+cerdo,cerdo:adj,cerdo:noun,Wortart korrigiert
+borracho,borracho:noun,borracho:adj,Wortart korrigiert
+intentado,intentado:adj,intentar:verb,Verbform (Partizip)
+puto,puto:other,puto:adj,Wortart korrigiert
 valiente,valiente:noun,valiente:adj,Wortart korrigiert
-tv,tv:noun,televisión:noun,Abkürzung
-guapo,guapo:noun,guapo:adj,Wortart korrigiert
-gordo,gordo:noun,gordo:adj,Wortart korrigiert
-fué,fué:verb,ser:verb:0.6|ir:verb:0.4,ältere Schreibung von fue
-dia,dia:noun,día:noun,Schreibvariante
-mama,mama:noun,mamá:noun,Schreibvariante
+ahi,ahi:noun,ahí:adv,Schreibvariante
+pon,pon:noun,poner:verb,Verbform (Lemmatisierung korrigiert)
 fría,fría:noun,frío:adj,Grundform korrigiert
+amas,ama:noun,amar:verb,Verbform (Lemmatisierung korrigiert)
+tambien,tambien:noun,también:adv,Schreibvariante
+gordo,gordo:noun,gordo:adj,Wortart korrigiert
+mama,mama:noun,mamá:noun,Schreibvariante
+sr,sr:noun,señor:noun,Abkürzung
+guapo,guapo:noun,guapo:adj,Wortart korrigiert
+mio,mio:pron,mío:det,Schreibvariante
+dia,dia:noun,día:noun,Schreibvariante
+tv,tv:noun,televisión:noun,Abkürzung
+fué,fué:verb,ser:verb:0.6|ir:verb:0.4,ältere Schreibung von fue
 ruego,rugir:verb,rogar:verb,Verbform (Lemmatisierung korrigiert)
-pare,parir:verb,parar:verb,Verbform (Lemmatisierung korrigiert)
-dias,dia:noun,día:noun,Schreibvariante
 enfrente,enfrentar:verb,enfrente:adv,Grundform/Wortart korrigiert
-rata,rata:other,rata:noun,Grundform/Wortart korrigiert
+pare,parir:verb,parar:verb,Verbform (Lemmatisierung korrigiert)
 sincero,sincero:noun,sincero:adj,Grundform/Wortart korrigiert
+rata,rata:other,rata:noun,Grundform/Wortart korrigiert
+dias,dia:noun,día:noun,Schreibvariante
 oir,oir:verb,oír:verb,Grundform/Wortart korrigiert
 paren,parir:verb,parar:verb,Verbform (Lemmatisierung korrigiert)
-supieras,superar:verb,saber:verb,Verbform (Lemmatisierung korrigiert)
+evidencia,evidencia:noun,evidencia:noun,Wortart korrigiert
 moleste,molestir:verb,molestar:verb,Verbform (Lemmatisierung korrigiert)
+supieras,superar:verb,saber:verb,Verbform (Lemmatisierung korrigiert)
 riendo,reir:verb,reír:verb,Verbform (Lemmatisierung korrigiert)
 vosotras,vosotrar:verb,vosotros:pron,spaCy: vosotra
 deberia,deberiar:verb,deber:verb,Schreibvariante
 métete,métete:verb,meter:verb,Verbform (Lemmatisierung korrigiert)
-párate,parir tú:verb,parar:verb,Verbform (Lemmatisierung korrigiert)
 frías,fría:noun,frío:adj,Grundform korrigiert
+párate,parir tú:verb,parar:verb,Verbform (Lemmatisierung korrigiert)
 enfermas,enferma:noun,enfermo:adj,Grundform/Wortart korrigiert
 húmedos,húmedo:noun,húmedo:adj,Grundform/Wortart korrigiert
+mios,mio:pron,mío:det,Schreibvariante
+mamas,mama:noun,mamá:noun,Schreibvariante
 sóla,sólo:adj,solo:adv,Schreibvariante
 estár,estár:verb,estar:verb,Schreibvariante
-mamas,mama:noun,mamá:noun,Schreibvariante
 órden,órden:noun,orden:noun,Schreibvariante
 señor,enthalten,gestrichen,Nutzerentscheidung: filmtypisch/Kraftausdruck gestrichen
 disparar,enthalten,gestrichen,Nutzerentscheidung: filmtypisch/Kraftausdruck gestrichen

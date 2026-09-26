@@ -1,7 +1,10 @@
-"""Erzeugt data/ranking/lemma-ranking.csv aus der FrequencyWords-Liste (SPEC.md Abschnitt 8.1).
+"""Erzeugt data/ranking/lemma-ranking.csv aus gesprochener und geschriebener Sprache (SPEC.md Abschnitt 8.1).
 
 Ablauf:
-  1. es_50k.txt einlesen (Wortform + Anzahl)
+  1. Quellen einlesen und mischen: 2/3 gesprochen (es_50k.txt, FrequencyWords/OpenSubtitles),
+     1/3 geschrieben (Leipzig Corpora: Nachrichten 2022 und Wikipedia 2021 je 1/6, vorbereitet mit
+     scripts/prepare-written.py). Je Wortform wird der gewichtete Anteil gebildet; "count" in der
+     Ausgabe ist dieser Anteil pro 1 Mrd. Wörter.
   2. bereinigen: Ziffern/Sonderzeichen, Einzelbuchstaben, englische Tokens, Füllwörter, Regeln "remove"
   3. Wortform -> Lemma + Wortart: Regeln aus data/ranking/rules.csv, sonst spaCy (es_core_news_md),
      Verbformen mit angehängten Pronomen (dime, hazlo) werden zerlegt
@@ -39,6 +42,13 @@ from verb_forms import CLITIC_SUFFIXES, IRREGULAR_FORMS, IRREGULAR_STEMS, infini
 
 ROOT = Path(__file__).resolve().parent.parent
 SOURCE = ROOT / "data" / "source" / "es_50k.txt"
+# (Datei, Gewicht) – Summe der Gewichte = 1
+SOURCES = [
+    (ROOT / "data" / "source" / "es_50k.txt", 2 / 3),
+    (ROOT / "data" / "source" / "leipzig_news_2022_50k.txt", 1 / 6),
+    (ROOT / "data" / "source" / "leipzig_wikipedia_2021_50k.txt", 1 / 6),
+]
+SCALE = 1_000_000_000  # Ausgabe-"count" = gewichteter Anteil pro 1 Mrd. Wörter
 SOURCE_EN = ROOT / "data" / "source" / "en_50k.txt"
 RULES = ROOT / "data" / "ranking" / "rules.csv"
 OUT_RANKING = ROOT / "data" / "ranking" / "lemma-ranking.csv"
@@ -60,7 +70,7 @@ POS_MAP = {
     "ADP": "prep", "CCONJ": "conj", "SCONJ": "conj", "DET": "det", "NUM": "num", "INTJ": "interj",
 }
 
-MIN_INFINITIVE_COUNT = 100  # Infinitiv muss in der Quelle mindestens so oft vorkommen
+MIN_INFINITIVE_COUNT = 250  # Infinitiv muss mindestens so oft pro 1 Mrd. Wörter vorkommen
 # Infinitive, die spaCy isoliert als Nomen einordnet
 ALWAYS_INFINITIVES = {"poder", "deber", "ser", "haber", "saber", "parecer", "amanecer", "comer", "cenar"}
 # von spaCy fälschlich als Verb erkannte Nomen, Adjektive, Namen und englische Wörter auf -ar/-er/-ir
@@ -145,9 +155,36 @@ def read_list(path: Path) -> list[tuple[str, int]]:
     return rows
 
 
+def source_shares(path: Path) -> dict[str, float]:
+    """Anteil je Wortform an allen Wörtern (nur Buchstaben-Tokens) einer Quelle; Abkürzungen zusammengeführt."""
+    merged: Counter[str] = Counter()
+    for form, count in read_list(path):
+        form = ABBREVIATIONS.get(form, form)
+        merged[form] += count
+    total = sum(c for f, c in merged.items() if TOKEN_RE.match(f))
+    return {f: c / total for f, c in merged.items()}
+
+
+def blend_sources() -> tuple[list[tuple[str, int]], dict[str, float]]:
+    """Gewichtete Mischung aller Quellen -> [(form, count pro Mrd.)], dazu die Anteile nur gesprochen."""
+    combined: Counter[str] = Counter()
+    spoken: dict[str, float] = {}
+    for i, (path, weight) in enumerate(SOURCES):
+        shares = source_shares(path)
+        if i == 0:
+            spoken = shares
+        for form, share in shares.items():
+            combined[form] += weight * share
+    # nur Buchstaben-Tokens: Satzzeichen und Zahlen der geschriebenen Quellen zählen nicht mit
+    rows = sorted(
+        ((f, round(v * SCALE)) for f, v in combined.items() if TOKEN_RE.match(f)), key=lambda kv: -kv[1]
+    )
+    return [(f, c) for f, c in rows if c > 0], spoken
+
+
 def main() -> None:
     rules = load_rules()
-    es = read_list(SOURCE)
+    es, spoken_share = blend_sources()
     en = read_list(SOURCE_EN)
     es_total_raw = sum(c for _, c in es)
     en_total = sum(c for _, c in en)
@@ -156,11 +193,7 @@ def main() -> None:
     # ---------- 2. Bereinigen ----------
     kept: list[tuple[str, int]] = []
     removed: list[tuple[str, int, str]] = []
-    merged: Counter[str] = Counter()
     for form, count in es:
-        merged[ABBREVIATIONS.get(form, form)] += count
-    es_clean = sorted(merged.items(), key=lambda kv: -kv[1])
-    for form, count in es_clean:
         reason = None
         if not TOKEN_RE.match(form):
             reason = "Ziffern/Sonderzeichen"
@@ -206,6 +239,7 @@ def main() -> None:
 
     lemma_counts: Counter[str] = Counter()
     lemma_forms: dict[str, Counter[str]] = defaultdict(Counter)
+    lemma_spoken: Counter[str] = Counter()  # Anteil nur aus gesprochener Sprache (für die Prüfliste)
     lemma_pos: dict[str, Counter[str]] = defaultdict(Counter)
     forced_pos: dict[str, str] = {}
     ambiguous: set[str] = set()
@@ -247,6 +281,7 @@ def main() -> None:
                 lemma, pos = new_lemma, new_pos
                 forced_pos[lemma] = pos
             lemma_counts[lemma] += count * share
+            lemma_spoken[lemma] += spoken_share.get(form, 0.0) * share
             lemma_forms[lemma][form] += count * share
             lemma_pos[lemma][pos] += count * share
             if amb:
@@ -297,7 +332,9 @@ def main() -> None:
         w.writeheader()
         w.writerows(unique_corr)
 
-    write_review(rows, rules, removed, total, es_total_raw, uncertain)
+    spoken_order = [l for l, _ in sorted(lemma_spoken.items(), key=lambda kv: -kv[1]) if l not in rules.exclude]
+    spoken_rank = {l: i + 1 for i, l in enumerate(spoken_order)}
+    write_review(rows, rules, removed, total, es_total_raw, uncertain, spoken_rank)
 
     ranked = [r for r in rows if r["rank"] != ""]
     cov = sum(float(r["freqShare"]) for r in ranked[:1500])
@@ -308,7 +345,7 @@ def main() -> None:
     print(f"Korrekturen: {len(unique_corr)}, mehrdeutig markiert: {len(ambiguous)}")
 
 
-def write_review(rows, rules: Rules, removed, total, es_total_raw, uncertain) -> None:
+def write_review(rows, rules: Rules, removed, total, es_total_raw, uncertain, spoken_rank) -> None:
     ranked = [r for r in rows if r["rank"] != ""]
     lines = [
         "# Prüfliste Rangliste (E2a)",
@@ -348,6 +385,37 @@ def write_review(rows, rules: Rules, removed, total, es_total_raw, uncertain) ->
     for r in ranked[:1500]:
         if r["lemma"] in uncertain and r["lemma"] not in rules.checked:
             lines.append(f"| {r['rank']} | {r['lemma']} | {r['pos']} | {r['topForms']} |")
+    def moved(r):
+        return spoken_rank.get(r["lemma"], 99_999) - int(r["rank"])
+
+    risers = sorted((r for r in ranked[:1500] if moved(r) > 0), key=lambda r: -moved(r))[:60]
+    fallers = sorted(
+        (r for r in ranked[:3000] if spoken_rank.get(r["lemma"], 99_999) <= 1500 and int(r["rank"]) > 1500),
+        key=lambda r: spoken_rank[r["lemma"]],
+    )
+    lines += [
+        "",
+        "## Größte Verschiebungen durch die Mischung mit geschriebener Sprache",
+        "",
+        "Rang „nur gesprochen“ = Rang, den das Wort ohne Nachrichten/Wikipedia hätte.",
+        "",
+        "### Neu oder deutlich weiter vorne",
+        "",
+        "| Rang | Lemma | Rang nur gesprochen | häufigste Formen |",
+        "|---:|---|---:|---|",
+    ]
+    for r in risers:
+        sr = spoken_rank.get(r["lemma"])
+        lines.append(f"| {r['rank']} | {r['lemma']} | {sr if sr else '–'} | {r['topForms']} |")
+    lines += [
+        "",
+        "### Aus den Top 1.500 gefallen (waren nur gesprochen in den Top 1.500)",
+        "",
+        "| Rang nur gesprochen | Lemma | Rang jetzt | häufigste Formen |",
+        "|---:|---|---:|---|",
+    ]
+    for r in fallers:
+        lines.append(f"| {spoken_rank[r['lemma']]} | {r['lemma']} | {r['rank']} | {r['topForms']} |")
     lines += [
         "",
         f"## Top {REVIEW_TOP}",
