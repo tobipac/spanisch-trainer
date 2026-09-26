@@ -368,3 +368,46 @@ assign,amas,amar:verb,,Verbform (Lemmatisierung korrigiert)
 flag,adn,,,filmtypisch (Krimi)
 checked,referir,,,geprüft: korrekt
 checked,soler,,,geprüft: korrekt
+exclude,señor,,,Nutzerentscheidung: filmtypisch/Kraftausdruck gestrichen
+exclude,disparar,,,Nutzerentscheidung: filmtypisch/Kraftausdruck gestrichen
+exclude,mierda,,,Nutzerentscheidung: filmtypisch/Kraftausdruck gestrichen
+exclude,joder,,,Nutzerentscheidung: filmtypisch/Kraftausdruck gestrichen
+exclude,coño,,,Nutzerentscheidung: filmtypisch/Kraftausdruck gestrichen
+exclude,caballero,,,Nutzerentscheidung: filmtypisch/Kraftausdruck gestrichen
+exclude,majestad,,,Nutzerentscheidung: filmtypisch/Kraftausdruck gestrichen
+exclude,señoría,,,Nutzerentscheidung: filmtypisch/Kraftausdruck gestrichen
+exclude,matar,,,Nutzerentscheidung: filmtypisch/Kraftausdruck gestrichen
+exclude,arma,,,Nutzerentscheidung: filmtypisch/Kraftausdruck gestrichen
+exclude,asesino,,,Nutzerentscheidung: filmtypisch/Kraftausdruck gestrichen
+exclude,asesinato,,,Nutzerentscheidung: filmtypisch/Kraftausdruck gestrichen
+exclude,asesinar,,,Nutzerentscheidung: filmtypisch/Kraftausdruck gestrichen
+exclude,pistola,,,Nutzerentscheidung: filmtypisch/Kraftausdruck gestrichen
+exclude,bala,,,Nutzerentscheidung: filmtypisch/Kraftausdruck gestrichen
+exclude,disparo,,,Nutzerentscheidung: filmtypisch/Kraftausdruck gestrichen
+exclude,homicidio,,,Nutzerentscheidung: filmtypisch/Kraftausdruck gestrichen
+exclude,víctima,,,Nutzerentscheidung: filmtypisch/Kraftausdruck gestrichen
+exclude,sospechoso,,,Nutzerentscheidung: filmtypisch/Kraftausdruck gestrichen
+exclude,cadáver,,,Nutzerentscheidung: filmtypisch/Kraftausdruck gestrichen
+exclude,capitán,,,Nutzerentscheidung: filmtypisch/Kraftausdruck gestrichen
+exclude,agente,,,Nutzerentscheidung: filmtypisch/Kraftausdruck gestrichen
+exclude,detective,,,Nutzerentscheidung: filmtypisch/Kraftausdruck gestrichen
+exclude,teniente,,,Nutzerentscheidung: filmtypisch/Kraftausdruck gestrichen
+exclude,sargento,,,Nutzerentscheidung: filmtypisch/Kraftausdruck gestrichen
+exclude,coronel,,,Nutzerentscheidung: filmtypisch/Kraftausdruck gestrichen
+exclude,comandante,,,Nutzerentscheidung: filmtypisch/Kraftausdruck gestrichen
+exclude,puta,,,Nutzerentscheidung: filmtypisch/Kraftausdruck gestrichen
+exclude,puto,,,Nutzerentscheidung: filmtypisch/Kraftausdruck gestrichen
+exclude,carajo,,,Nutzerentscheidung: filmtypisch/Kraftausdruck gestrichen
+exclude,culo,,,Nutzerentscheidung: filmtypisch/Kraftausdruck gestrichen
+exclude,cabrón,,,Nutzerentscheidung: filmtypisch/Kraftausdruck gestrichen
+exclude,bastardo,,,Nutzerentscheidung: filmtypisch/Kraftausdruck gestrichen
+exclude,perra,,,Nutzerentscheidung: filmtypisch/Kraftausdruck gestrichen
+exclude,maldito,,,Nutzerentscheidung: filmtypisch/Kraftausdruck gestrichen
+exclude,maldición,,,Nutzerentscheidung: filmtypisch/Kraftausdruck gestrichen
+exclude,demonio,,,Nutzerentscheidung: filmtypisch/Kraftausdruck gestrichen
+exclude,diablo,,,Nutzerentscheidung: filmtypisch/Kraftausdruck gestrichen
+exclude,jodido,,,Nutzerentscheidung: filmtypisch/Kraftausdruck gestrichen
+exclude,imbécil,,,Nutzerentscheidung: filmtypisch/Kraftausdruck gestrichen
+exclude,don,,,Nutzerentscheidung: filmtypisch/Kraftausdruck gestrichen
+exclude,sheriff,,,Nutzerentscheidung: filmtypisch/Kraftausdruck gestrichen
+exclude,adn,,,Nutzerentscheidung: filmtypisch/Kraftausdruck gestrichen
