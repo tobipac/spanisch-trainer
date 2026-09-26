@@ -60,3 +60,6 @@ export function levelForXp(xp: number): number {
 export const DEFAULT_SPEECH_RATE = 0.9;
 export const SPEECH_RATE_MIN = 0.7;
 export const SPEECH_RATE_MAX = 1.1;
+
+/** Backup-Hinweis auf dem Heute-Screen, wenn das letzte Backup älter ist als so viele Tage. */
+export const BACKUP_REMINDER_DAYS = 7;

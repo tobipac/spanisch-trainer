@@ -1,5 +1,6 @@
 import { AnimatePresence } from 'framer-motion';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { now as clockNow } from '../app/clock.ts';
 import { speak } from '../audio/speech.ts';
 import { Flashcard } from '../components/Flashcard.tsx';
 import { ProgressBar } from '../components/ProgressBar.tsx';
@@ -8,6 +9,7 @@ import { SessionSummary } from '../components/SessionSummary.tsx';
 import { WORD_BY_ID, WORD_REFS } from '../data/words.ts';
 import { db } from '../db/database.ts';
 import { getOrCreateDay, loadSettings, rate, undo, type UndoToken } from '../db/repository.ts';
+import { computeStreak } from '../domain/gamification.ts';
 import { formatInterval, previewDue } from '../domain/scheduler.ts';
 import { newSession, nextCard, remainingToday, type NextCard, type SessionState } from '../domain/session.ts';
 import type { DayRecord, Rating, Settings } from '../domain/types.ts';
@@ -33,12 +35,13 @@ export function LearnScreen({ onExit }: Props) {
   const [done, setDone] = useState(0);
   const [xp, setXp] = useState(0);
   const [last, setLast] = useState<LastRating | null>(null);
+  const [streak, setStreak] = useState(0);
   const session = useRef<SessionState>(newSession());
   const cardKey = useRef(0);
 
   /** Nächste Karte aus dem aktuellen Stand der Datenbank bestimmen. */
   const advance = useCallback(async () => {
-    const now = new Date();
+    const now = clockNow();
     const [d, cards, s] = await Promise.all([getOrCreateDay(db, now, WORD_REFS), db.cards.toArray(), loadSettings(db)]);
     const input = { now, day: d, cards, words: WORD_REFS, settings: s, session: session.current };
     const next = nextCard(input);
@@ -49,6 +52,7 @@ export function LearnScreen({ onExit }: Props) {
     setRevealed(false);
     setCurrent(next);
     setFinished(next === null);
+    if (next === null) setStreak(computeStreak(await db.days.toArray(), d.day).streak);
   }, []);
 
   useEffect(() => {
@@ -71,7 +75,7 @@ export function LearnScreen({ onExit }: Props) {
 
   const intervals = useMemo(() => {
     if (!current) return { 1: '', 2: '', 3: '', 4: '' };
-    const now = new Date();
+    const now = clockNow();
     const due = previewDue(current.card.fsrs, now);
     return {
       1: formatInterval(now, due[1]),
@@ -87,7 +91,7 @@ export function LearnScreen({ onExit }: Props) {
       setBusy(true);
       try {
         const { result, undo: token } = await rate(db, {
-          now: new Date(),
+          now: clockNow(),
           next: current,
           rating,
           words: WORD_REFS,
@@ -112,7 +116,7 @@ export function LearnScreen({ onExit }: Props) {
       session.current = await undo(db, last.token);
       setDone((n) => n - 1);
       setXp((n) => n - last.xp);
-      setDay(await getOrCreateDay(db, new Date(), WORD_REFS));
+      setDay(await getOrCreateDay(db, clockNow(), WORD_REFS));
       cardKey.current += 1;
       setCurrent(last.card); // dieselbe Karte im Zustand vor der Bewertung, aufgedeckt
       setRevealed(true);
@@ -139,7 +143,7 @@ export function LearnScreen({ onExit }: Props) {
   if (finished) {
     return (
       <div className="flex h-full flex-col">
-        <SessionSummary cards={done} xp={xp} goalReached={day?.goalReached ?? false} onClose={onExit} />
+        <SessionSummary cards={done} xp={xp} streak={streak} goalReached={day?.goalReached ?? false} onClose={onExit} />
         {last && (
           <button type="button" onClick={() => void handleUndo()} className="mt-4 min-h-11 text-sm text-neutral-500 underline">
             Letzte Bewertung rückgängig

@@ -3,12 +3,13 @@ import { motion } from 'framer-motion';
 interface Props {
   cards: number;
   xp: number;
+  streak: number;
   goalReached: boolean;
   onClose: () => void;
 }
 
-/** Zusammenfassung am Session-Ende. Streak folgt in E4. */
-export function SessionSummary({ cards, xp, goalReached, onClose }: Props) {
+/** Zusammenfassung am Session-Ende. */
+export function SessionSummary({ cards, xp, streak, goalReached, onClose }: Props) {
   return (
     <div className="flex h-full flex-col items-center justify-center gap-8 text-center">
       <motion.div
@@ -35,7 +36,7 @@ export function SessionSummary({ cards, xp, goalReached, onClose }: Props) {
           {goalReached ? 'Alles für heute erledigt.' : 'Nichts mehr fällig. Später kommen noch Lernschritte.'}
         </p>
       </div>
-      <dl className="grid w-full max-w-xs grid-cols-2 gap-3">
+      <dl className="grid w-full max-w-xs grid-cols-3 gap-3">
         <div className="rounded-2xl bg-neutral-100 p-4 dark:bg-neutral-800">
           <dt className="text-sm text-neutral-500 dark:text-neutral-400">Karten</dt>
           <dd className="text-3xl font-bold">{cards}</dd>
@@ -43,6 +44,10 @@ export function SessionSummary({ cards, xp, goalReached, onClose }: Props) {
         <div className="rounded-2xl bg-neutral-100 p-4 dark:bg-neutral-800">
           <dt className="text-sm text-neutral-500 dark:text-neutral-400">XP</dt>
           <dd className="text-3xl font-bold">+{xp}</dd>
+        </div>
+        <div className="rounded-2xl bg-neutral-100 p-4 dark:bg-neutral-800">
+          <dt className="text-sm text-neutral-500 dark:text-neutral-400">Streak</dt>
+          <dd className="text-3xl font-bold">{streak}</dd>
         </div>
       </dl>
       <button

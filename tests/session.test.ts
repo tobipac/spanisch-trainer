@@ -10,6 +10,7 @@ import {
   newSession,
   nextCard,
   reverseQueue,
+  goalProgress,
   remainingToday,
   reverseQueueHint,
   throttleFor,
@@ -375,5 +376,19 @@ describe('Restzählung für den Fortschrittsbalken', () => {
   it('neue Wörter werden durch die verbleibenden Wörter begrenzt', () => {
     const day = createDayRecord(TODAY, [], words(2), settings({ newPerDay: 12 }));
     expect(remainingToday({ day, cards: [], words: words(2), settings: settings({ newPerDay: 12 }) })).toBe(2);
+  });
+});
+
+describe('Fortschritt Richtung Tagesziel (Tagesring)', () => {
+  it('bewertete fällige Karten + neue Wörter bis zum Limit', () => {
+    const sim = new Sim(words(10), settings({ newPerDay: 5 }));
+    sim.cards = dueReviews(4);
+    const p = () => goalProgress(sim.day(NOW), sim.cards, sim.words, sim.settings);
+    expect(p()).toEqual({ done: 0, total: 9 });
+    sim.rate(NOW, sim.next(NOW)!, 3); // eine Wiederholung
+    expect(p()).toEqual({ done: 1, total: 9 });
+    sim.studyAll(NOW);
+    expect(p()).toEqual({ done: 9, total: 9 });
+    expect(sim.day(NOW).goalReached).toBe(true);
   });
 });

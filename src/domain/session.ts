@@ -178,20 +178,38 @@ export function nextCard({ now, day, cards, words, settings, session }: NextCard
   return ahead ? { kind: 'learning', card: ahead } : null;
 }
 
+export interface TodayCounts {
+  /** eingeführte Karten, die heute noch fällig sind (inkl. Lernschritte und fälliger Umkehrkarten) */
+  due: number;
+  /** neue Wörter, die heute noch eingeführt werden (nach Drosselung) */
+  newLeft: number;
+  /** Umkehrkarten aus der Warteschlange, die heute noch eingeführt werden */
+  reverseLeft: number;
+  /** alle Umkehrkarten in der Warteschlange (auch die erst morgen verfügbaren) */
+  reverseQueued: number;
+}
+
+export function todayCounts({ day, cards, words, settings }: Omit<NextCardInput, 'now' | 'session'>): TodayCounts {
+  const end = dayEnd(day.day).getTime();
+  const limits = dayLimits(day, cards, words, settings);
+  return {
+    due: cards.filter((c) => isIntroduced(c) && dueMs(c) < end).length,
+    newLeft: Math.max(0, Math.min(limits.newLimit - day.newDone, unintroducedWords(cards, words).length)),
+    reverseLeft: Math.max(
+      0,
+      Math.min(limits.reverseLimit - day.reverseDone, availableReverseCards(cards, words, day.day).length),
+    ),
+    reverseQueued: reverseQueue(cards, words).length,
+  };
+}
+
 /**
  * Geschätzte Anzahl Karten, die heute noch drankommen (für Fortschrittsbalken und Zeitschätzung).
  * Lernschritt-Karten zählen einmal, auch wenn sie mehrfach wiederkommen können.
  */
-export function remainingToday({ day, cards, words, settings }: Omit<NextCardInput, 'now' | 'session'>): number {
-  const end = dayEnd(day.day).getTime();
-  const due = cards.filter((c) => isIntroduced(c) && dueMs(c) < end).length;
-  const limits = dayLimits(day, cards, words, settings);
-  const newLeft = Math.max(0, Math.min(limits.newLimit - day.newDone, unintroducedWords(cards, words).length));
-  const reverseLeft = Math.max(
-    0,
-    Math.min(limits.reverseLimit - day.reverseDone, availableReverseCards(cards, words, day.day).length),
-  );
-  return due + newLeft + reverseLeft;
+export function remainingToday(input: Omit<NextCardInput, 'now' | 'session'>): number {
+  const c = todayCounts(input);
+  return c.due + c.newLeft + c.reverseLeft;
 }
 
 // ---------- Tagesziel ----------
@@ -205,6 +223,23 @@ export function isGoalReached(day: DayRecord, cards: CardRecord[], words: WordRe
     return lr !== undefined && new Date(lr).getTime() >= start;
   });
   return allRated && day.newDone >= dayLimits(day, cards, words, settings).newLimit;
+}
+
+/** Fortschritt Richtung Tagesziel für den Tagesring: bewertete fällige Karten + eingeführte neue Wörter. */
+export function goalProgress(
+  day: DayRecord,
+  cards: CardRecord[],
+  words: WordRef[],
+  settings: Settings,
+): { done: number; total: number } {
+  const start = dayStart(day.day).getTime();
+  const byId = new Map(cards.map((c) => [c.id, c]));
+  const rated = day.dueAtStartIds.filter((id) => {
+    const lr = byId.get(id)?.fsrs.last_review;
+    return lr !== undefined && new Date(lr).getTime() >= start;
+  }).length;
+  const { newLimit } = dayLimits(day, cards, words, settings);
+  return { done: rated + Math.min(day.newDone, newLimit), total: day.dueAtStartIds.length + newLimit };
 }
 
 // ---------- Bewertung und Rückgängig ----------
