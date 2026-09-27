@@ -87,7 +87,8 @@ export function articleHint(es: string, article: string | undefined): string | n
   if (!article) return null;
   const w = es.toLowerCase();
   if (article === 'la' && w.endsWith('o') && !FEMININE_EXCEPTIONS.has(w)) return `„la ${es}“: Nomen auf -o sind meist männlich`;
-  if (article === 'el' && !MASCULINE_EXCEPTIONS.has(w) && !EL_FEMININE.has(w)) {
+  // -ista-Nomen haben beide Geschlechter (el/la artista, el/la periodista)
+  if (article === 'el' && !MASCULINE_EXCEPTIONS.has(w) && !EL_FEMININE.has(w) && !w.endsWith('ista')) {
     if (/(ción|sión|dad|tad|tud|umbre)$/.test(w)) return `„el ${es}“: Nomen auf -ción/-dad/-tud/-umbre sind weiblich`;
     if (w.endsWith('a') && !w.endsWith('ma')) return `„el ${es}“: Nomen auf -a sind meist weiblich`;
   }
