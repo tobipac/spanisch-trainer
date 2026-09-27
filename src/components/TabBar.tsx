@@ -26,7 +26,7 @@ export function TabBar({ active, onChange }: Props) {
           onClick={() => onChange(t.id)}
           aria-current={active === t.id ? 'page' : undefined}
           className={`flex min-h-12 flex-col items-center justify-center gap-0.5 text-xs ${
-            active === t.id ? 'text-accent' : 'text-neutral-500'
+            active === t.id ? 'text-accent-ink' : 'text-neutral-500'
           }`}
         >
           <svg viewBox="0 0 24 24" className="size-6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">

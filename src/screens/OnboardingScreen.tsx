@@ -58,7 +58,7 @@ export function OnboardingScreen({ onDone }: Props) {
           transition={{ duration: CARD_ANIMATION_S }}
           className="flex flex-1 flex-col justify-center gap-5"
         >
-          <p className="text-sm font-semibold text-accent">
+          <p className="text-sm font-semibold text-accent-ink">
             {page + 1} / {PAGES.length}
           </p>
           <h1 className="text-3xl font-bold">{p.title}</h1>
@@ -67,7 +67,7 @@ export function OnboardingScreen({ onDone }: Props) {
               {t}
             </p>
           ))}
-          {last && isStandalone() && <p className="font-semibold text-accent">✓ Du nutzt die App bereits vom Home-Bildschirm.</p>}
+          {last && isStandalone() && <p className="font-semibold text-accent-ink">✓ Du nutzt die App bereits vom Home-Bildschirm.</p>}
         </motion.section>
       </AnimatePresence>
       <div className="mb-4 flex justify-center gap-2" aria-hidden="true">

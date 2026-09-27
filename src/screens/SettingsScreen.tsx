@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { now } from '../app/clock.ts';
+import { clearErrors, readErrors, type ErrorEntry } from '../app/errorLog.ts';
 import { shareOrDownload, storageStatus, type StorageStatus } from '../app/platform.ts';
 import { availableVoices, onVoicesChanged, speak } from '../audio/speech.ts';
 import { chooseVoice, spanishVoices } from '../audio/voices.ts';
@@ -41,6 +42,9 @@ export function SettingsScreen({ onShowOnboarding }: Props) {
   const [pendingImport, setPendingImport] = useState<{ backup: BackupFile; summary: BackupSummary } | null>(null);
   const [importError, setImportError] = useState<string | null>(null);
   const fileInput = useRef<HTMLInputElement>(null);
+  const [errors, setErrors] = useState<ErrorEntry[]>(() => readErrors());
+  const [showErrors, setShowErrors] = useState(false);
+  const [copied, setCopied] = useState(false);
 
   const loadInfo = useCallback(async () => {
     const [cards, logs, storage] = await Promise.all([db.cards.toArray(), db.reviewLogs.count(), storageStatus()]);
@@ -219,7 +223,7 @@ export function SettingsScreen({ onShowOnboarding }: Props) {
               {pendingImport.summary.reviewLogs} Bewertungen, {pendingImport.summary.days}{' '}
               {pendingImport.summary.days === 1 ? 'Lerntag' : 'Lerntage'}.
             </p>
-            <p className="mt-2 font-semibold text-accent">Dein aktueller Stand wird vollständig ersetzt.</p>
+            <p className="mt-2 font-semibold text-accent-ink">Dein aktueller Stand wird vollständig ersetzt.</p>
             <div className="mt-3 flex gap-2">
               <button type="button" className={`${btnPrimary} flex-1`} onClick={() => void confirmImport()}>
                 Ersetzen
@@ -230,7 +234,7 @@ export function SettingsScreen({ onShowOnboarding }: Props) {
             </div>
           </div>
         )}
-        {importError && <p className="text-sm font-semibold text-accent">{importError}</p>}
+        {importError && <p className="text-sm font-semibold text-accent-ink">{importError}</p>}
         {backupMsg && <p className="text-sm">{backupMsg}</p>}
       </Section>
 
@@ -256,6 +260,45 @@ export function SettingsScreen({ onShowOnboarding }: Props) {
             {info?.storage.usageBytes !== undefined && ` · ${(info.storage.usageBytes / 1_048_576).toFixed(1).replace('.', ',')} MB`}
           </dd>
         </dl>
+        <div className="flex items-center justify-between text-sm">
+          <span>
+            Fehlerprotokoll: <strong>{errors.length === 0 ? 'keine Fehler' : `${errors.length} Einträge`}</strong>
+          </span>
+          {errors.length > 0 && (
+            <button type="button" className="min-h-11 px-2 underline" onClick={() => setShowErrors(!showErrors)}>
+              {showErrors ? 'Ausblenden' : 'Anzeigen'}
+            </button>
+          )}
+        </div>
+        {showErrors && errors.length > 0 && (
+          <div className="flex flex-col gap-2">
+            <pre className="max-h-60 overflow-auto whitespace-pre-wrap rounded-xl bg-white p-2 text-xs dark:bg-neutral-800">
+              {errors.map((e) => [`${e.at} (v${e.version})`, e.message, e.stack ?? ''].join('\n')).join('\n\n')}
+            </pre>
+            <div className="flex gap-2">
+              <button
+                type="button"
+                className={`${btnSecondary} flex-1`}
+                onClick={() => {
+                  void navigator.clipboard?.writeText(JSON.stringify(errors, null, 2)).then(() => setCopied(true));
+                }}
+              >
+                {copied ? 'Kopiert ✓' : 'Kopieren'}
+              </button>
+              <button
+                type="button"
+                className={`${btnSecondary} flex-1`}
+                onClick={() => {
+                  clearErrors();
+                  setErrors([]);
+                  setShowErrors(false);
+                }}
+              >
+                Leeren
+              </button>
+            </div>
+          </div>
+        )}
         <button type="button" className={btnSecondary} onClick={onShowOnboarding}>
           Einführung erneut ansehen
         </button>

@@ -1,6 +1,7 @@
 import { AnimatePresence } from 'framer-motion';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { now as clockNow } from '../app/clock.ts';
+import { logError } from '../app/errorLog.ts';
 import { speak } from '../audio/speech.ts';
 import { Flashcard } from '../components/Flashcard.tsx';
 import { ProgressBar } from '../components/ProgressBar.tsx';
@@ -56,7 +57,7 @@ export function LearnScreen({ onExit }: Props) {
   }, []);
 
   useEffect(() => {
-    void advance();
+    advance().catch((e: unknown) => logError(e, 'Karte laden'));
   }, [advance]);
 
   const word = current ? WORD_BY_ID.get(current.card.wordId) : undefined;
@@ -102,6 +103,8 @@ export function LearnScreen({ onExit }: Props) {
         setDone((n) => n + 1);
         setXp((n) => n + result.xpGained);
         await advance();
+      } catch (e) {
+        logError(e, 'Bewerten');
       } finally {
         setBusy(false);
       }
@@ -181,7 +184,7 @@ export function LearnScreen({ onExit }: Props) {
         </button>
       </header>
 
-      <main className="relative min-h-0 flex-1">
+      <div className="relative min-h-0 flex-1">
         <AnimatePresence mode="wait">
           {current && word && (
             <Flashcard
@@ -198,7 +201,7 @@ export function LearnScreen({ onExit }: Props) {
         {current && !word && (
           <p className="p-6 text-center text-neutral-500">Wort {current.card.wordId} fehlt in den Wortpaketen.</p>
         )}
-      </main>
+      </div>
 
       <footer className="mb-8 min-h-16">
         {revealed ? (

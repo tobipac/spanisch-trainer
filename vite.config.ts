@@ -20,7 +20,8 @@ export default defineConfig({
       // 'prompt': Kein automatisches Neuladen mitten in einer Session (SPEC.md Abschnitt 10).
       registerType: 'prompt',
       injectRegister: false,
-      includeAssets: ['icons/apple-touch-icon.png', 'favicon.svg'],
+      // Icons, Favicon und Manifest erfasst bereits globPatterns – nicht doppelt vorab speichern.
+      includeManifestIcons: false,
       manifest: pwaManifest,
       workbox: {
         globPatterns: precacheGlobPatterns,

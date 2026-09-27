@@ -35,7 +35,7 @@ export function DayRing({ done, total, reached }: Props) {
       <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
         {reached ? (
           <>
-            <span className="text-4xl font-bold text-accent">✓</span>
+            <span className="text-4xl font-bold text-accent-ink">✓</span>
             <span className="mt-1 text-sm font-medium">Tagesziel erreicht</span>
           </>
         ) : (

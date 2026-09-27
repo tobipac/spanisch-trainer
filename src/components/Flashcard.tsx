@@ -119,7 +119,7 @@ export function Flashcard({ word, direction, revealed, onReveal, onSwipe, onSpea
         Nochmal
       </motion.div>
       <motion.div
-        className="pointer-events-none absolute right-4 top-4 rounded-lg border-2 border-accent px-2 py-1 text-sm font-bold text-accent"
+        className="pointer-events-none absolute right-4 top-4 rounded-lg border-2 border-accent-ink px-2 py-1 text-sm font-bold text-accent-ink"
         style={{ opacity: goodOpacity }}
       >
         Gut

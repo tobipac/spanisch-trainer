@@ -40,18 +40,26 @@ export function App() {
           : 'pb-[max(env(safe-area-inset-bottom),1rem)]'
       }`}
     >
-      {mode === 'onboarding' && <OnboardingScreen onDone={() => void finishOnboarding()} />}
-      {mode === 'learning' && <LearnScreen onExit={() => setMode('tabs')} />}
+      {mode === 'onboarding' && (
+        <main className="min-h-0 flex-1">
+          <OnboardingScreen onDone={() => void finishOnboarding()} />
+        </main>
+      )}
+      {mode === 'learning' && (
+        <main className="min-h-0 flex-1">
+          <LearnScreen onExit={() => setMode('tabs')} />
+        </main>
+      )}
       {mode === 'tabs' && (
         <>
           {!standalone && <InstallHint />}
           {/* Kein Update-Hinweis während einer Session – erst zurück in den Tabs. */}
           {updateAvailable && <UpdateToast />}
-          <div className="min-h-0 flex-1">
+          <main className="min-h-0 flex-1">
             {tab === 'home' && <HomeScreen onStart={() => setMode('learning')} />}
             {tab === 'progress' && <ProgressScreen />}
             {tab === 'settings' && <SettingsScreen onShowOnboarding={() => setMode('onboarding')} />}
-          </div>
+          </main>
           <TabBar active={tab} onChange={setTab} />
         </>
       )}

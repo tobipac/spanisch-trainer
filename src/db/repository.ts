@@ -34,13 +34,21 @@ export async function saveSettings(db: TrainerDB, settings: Settings): Promise<v
 /** Tagesdatensatz des aktuellen Lerntags holen oder beim ersten Öffnen anlegen (Snapshot der fälligen Karten). */
 export async function getOrCreateDay(db: TrainerDB, now: Date, words: WordRef[]): Promise<DayRecord> {
   const day = learningDayOf(now);
-  return db.transaction('rw', db.days, db.cards, db.settings, async () => {
+  try {
+    return await db.transaction('rw', db.days, db.cards, db.settings, async () => {
+      const existing = await db.days.get(day);
+      if (existing) return existing;
+      const record = createDayRecord(day, await db.cards.toArray(), words, await loadSettings(db));
+      await db.days.add(record);
+      return record;
+    });
+  } catch (e) {
+    // Zwei gleichzeitige Aufrufe (z. B. Heute-Screen und Rückkehr in die App nach 04:00):
+    // der zweite scheitert am bereits angelegten Datensatz – dann diesen verwenden.
     const existing = await db.days.get(day);
     if (existing) return existing;
-    const record = createDayRecord(day, await db.cards.toArray(), words, await loadSettings(db));
-    await db.days.add(record);
-    return record;
-  });
+    throw e;
+  }
 }
 
 /** Rückgängig-Information inklusive der von IndexedDB vergebenen Log-ID. */

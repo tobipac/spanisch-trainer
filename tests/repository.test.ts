@@ -64,6 +64,13 @@ describe('Tagesdatensatz', () => {
     expect((await getOrCreateDay(db, at(2026, 10, 2, 4, 0), W)).day).toBe('2026-10-02');
     expect(await db.days.count()).toBe(2);
   });
+
+  it('gleichzeitige Aufrufe legen den Tag nur einmal an und scheitern nicht', async () => {
+    await db.cards.add(reviewCard('a', at(2026, 10, 1, 8)));
+    const results = await Promise.all(Array.from({ length: 5 }, () => getOrCreateDay(db, NOW, W)));
+    expect(new Set(results.map((r) => r.day))).toEqual(new Set(['2026-10-01']));
+    expect(await db.days.count()).toBe(1);
+  });
 });
 
 describe('Bewerten', () => {

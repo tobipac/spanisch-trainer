@@ -1,7 +1,9 @@
 @import 'tailwindcss';
 
 @theme {
-  --color-accent: #d9480f;
+  /* accent: Flächen mit weißer Schrift (Kontrast 5,2:1). accent-ink: Akzentfarbe als Schrift/Linie auf dem Hintergrund. */
+  --color-accent: #c2410c;
+  --color-accent-ink: #c2410c;
   --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
 }
 
@@ -24,6 +26,15 @@ body,
   }
 }
 
+button,
+a,
+input,
+select,
+label,
+[role='button'] {
+  touch-action: manipulation; /* kein Zoom durch Doppeltippen */
+}
+
 body {
   margin: 0;
   background: #ffffff;
@@ -33,6 +44,9 @@ body {
 }
 
 @media (prefers-color-scheme: dark) {
+  :root {
+    --color-accent-ink: #f97316; /* 7,5:1 auf Schwarz */
+  }
   body {
     background: #000000;
     color: #ffffff;

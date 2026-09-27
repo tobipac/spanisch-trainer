@@ -3,7 +3,7 @@
 import { writeFileSync } from 'node:fs';
 import { deflateSync } from 'node:zlib';
 
-const ACCENT: [number, number, number] = [0xd9, 0x48, 0x0f];
+const ACCENT: [number, number, number] = [0xc2, 0x41, 0x0c];
 const WHITE: [number, number, number] = [0xff, 0xff, 0xff];
 const SUPERSAMPLE = 4;
 

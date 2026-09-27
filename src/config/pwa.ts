@@ -4,6 +4,7 @@ import type { ManifestOptions } from 'vite-plugin-pwa';
 import { ACCENT_COLOR, APP_NAME, BACKGROUND_LIGHT } from './app.ts';
 
 export const pwaManifest: Partial<ManifestOptions> = {
+  id: '/',
   name: APP_NAME,
   short_name: APP_NAME,
   description: 'Persönlicher Vokabeltrainer für die 1.500 häufigsten spanischen Wörter',
@@ -22,4 +23,5 @@ export const pwaManifest: Partial<ManifestOptions> = {
 };
 
 /** Dateitypen, die der Service Worker vorab speichert – inklusive Wortpakete (JSON). */
-export const precacheGlobPatterns = ['**/*.{js,css,html,json,png,svg,ico,webmanifest}'];
+// Das Manifest ergänzt vite-plugin-pwa selbst.
+export const precacheGlobPatterns = ['**/*.{js,css,html,json,png,svg,ico}'];

@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { now } from '../app/clock.ts';
+import { logError } from '../app/errorLog.ts';
 import { unlockAudio } from '../audio/speech.ts';
 import { DayRing } from '../components/DayRing.tsx';
 import { APP_NAME } from '../config/app.ts';
@@ -8,7 +9,7 @@ import { WORD_REFS } from '../data/words.ts';
 import { db } from '../db/database.ts';
 import { getOrCreateDay, loadSettings } from '../db/repository.ts';
 import { backupDue, computeStreak, levelInfo, type LevelInfo, type StreakInfo } from '../domain/gamification.ts';
-import { dayStart } from '../domain/learningDay.ts';
+import { dayEnd, dayStart } from '../domain/learningDay.ts';
 import {
   dayLimits,
   goalProgress,
@@ -72,10 +73,27 @@ function Notice({ children }: { children: React.ReactNode }) {
 /** Heute-Screen (SPEC.md Abschnitt 5). */
 export function HomeScreen({ onStart }: Props) {
   const [state, setState] = useState<HomeState | null>(null);
+  const [failed, setFailed] = useState(false);
 
   const refresh = useCallback(() => {
-    void loadHome().then(setState);
+    loadHome()
+      .then((s) => {
+        setState(s);
+        setFailed(false);
+      })
+      .catch((e: unknown) => {
+        logError(e, 'Heute laden');
+        setFailed(true);
+      });
   }, []);
+
+  // Bleibt die App über 04:00 geöffnet, zum neuen Lerntag automatisch neu laden.
+  useEffect(() => {
+    if (!state) return;
+    const ms = dayEnd(state.day.day).getTime() - now().getTime() + 1000;
+    const timer = setTimeout(refresh, Math.max(1000, Math.min(ms, 2 ** 31 - 1)));
+    return () => clearTimeout(timer);
+  }, [state, refresh]);
 
   useEffect(() => {
     refresh();
@@ -85,6 +103,16 @@ export function HomeScreen({ onStart }: Props) {
     return () => document.removeEventListener('visibilitychange', onVisible);
   }, [refresh]);
 
+  if (failed) {
+    return (
+      <div className="flex h-full flex-col items-center justify-center gap-3 text-center">
+        <p>Deine Daten konnten nicht geladen werden.</p>
+        <button type="button" onClick={refresh} className="min-h-11 rounded-xl bg-accent px-4 font-semibold text-white">
+          Erneut versuchen
+        </button>
+      </div>
+    );
+  }
   if (!state) return <div className="h-full" />;
 
   const { day, counts, progress, limits, streak, level } = state;
