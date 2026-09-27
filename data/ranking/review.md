@@ -41,9 +41,9 @@ Bitte je Wort entscheiden: **bleibt** oder **streichen**.
 | 654 | culpa | noun | culpa culpas |
 | 657 | diferencia | noun | diferencia diferencias |
 | 785 | vaya | interj | vaya |
-| 971 | vino | noun | vino vinos |
-| 975 | duda | noun | duda dudas |
-| 1039 | dudar | verb | duda dudo dudar |
+| 972 | vino | noun | vino vinos |
+| 976 | duda | noun | duda dudas |
+| 1040 | dudar | verb | duda dudo dudar |
 | 1434 | culpar | verb | culpa culpar culpó |
 | 1438 | deseo | noun | deseo deseos |
 
@@ -60,322 +60,320 @@ Rang „nur gesprochen“ = Rang, den das Wort ohne Nachrichten/Wikipedia hätte
 
 | Rang | Lemma | Rang nur gesprochen | häufigste Formen |
 |---:|---|---:|---|
-| 1483 | pandemia | 21570 | pandemia pandemias |
-| 1313 | posteriormente | 14178 | posteriormente |
-| 1353 | localidad | 13202 | localidad localidades |
-| 831 | municipio | 12500 | municipio municipios |
-| 737 | destacar | 7389 | destacó destaca destacar |
-| 1379 | ubicado | 7989 | ubicado ubicada ubicados |
-| 1493 | gestión | 8081 | gestión gestiones |
-| 981 | diverso | 7344 | diversos diversas diversa |
-| 988 | municipal | 5978 | municipal municipales |
-| 1207 | usuario | 6114 | usuarios usuario |
-| 625 | argentino | 5524 | argentina argentino argentinos |
-| 1390 | jornada | 6023 | jornada jornadas |
-| 1463 | numeroso | 5924 | numerosos numerosas numerosa |
-| 889 | provincia | 5259 | provincia provincias |
-| 1336 | vivienda | 5207 | vivienda viviendas |
-| 1416 | participación | 5078 | participación participaciones |
-| 1216 | publicado | 4851 | publicado publicada publicados |
-| 1368 | selección | 4969 | selección selecciones |
-| 1330 | cultural | 4927 | cultural culturales |
-| 1427 | género | 5007 | género géneros |
-| 1180 | gol | 4515 | gol goles |
-| 1112 | mediante | 4426 | mediante |
-| 927 | febrero | 4136 | febrero |
-| 1192 | dicho | 4371 | dicha dichos dichas |
-| 1277 | habitante | 4370 | habitantes habitante |
-| 1445 | crecimiento | 4476 | crecimiento crecimientos |
-| 1140 | institución | 4078 | institución instituciones |
-| 937 | generar | 3835 | generar genera generó |
-| 755 | enero | 3648 | enero |
-| 1499 | aplicación | 4305 | aplicación aplicaciones |
-| 1346 | categoría | 4094 | categoría categorías |
-| 767 | diciembre | 3499 | diciembre |
-| 678 | económico | 3312 | económica económico económicos |
-| 802 | marzo | 3397 | marzo |
-| 675 | señalar | 3237 | señaló señala señalar |
-| 811 | noviembre | 3355 | noviembre |
-| 1293 | torneo | 3829 | torneo torneos |
-| 1395 | funcionario | 3912 | funcionarios funcionario funcionaria |
-| 1005 | euro | 3509 | euros euro |
-| 1103 | edición | 3589 | edición ediciones |
-| 669 | desarrollo | 3133 | desarrollo desarrollos |
-| 877 | álbum | 3329 | álbum álbumes |
-| 1136 | histórico | 3552 | histórico histórica históricos |
-| 1475 | periodo | 3881 | periodo periodos |
-| 875 | agosto | 3269 | agosto |
-| 735 | octubre | 3119 | octubre |
-| 913 | actualmente | 3288 | actualmente |
-| 579 | población | 2952 | población poblaciones |
-| 1479 | amplio | 3837 | amplia amplio amplias |
-| 778 | afirmar | 3066 | afirmó afirma afirman |
-| 636 | región | 2917 | región regiones |
-| 1009 | ministerio | 3272 | ministerio ministerios |
-| 652 | sector | 2910 | sector sectores |
-| 1190 | inicio | 3447 | inicio inicios |
-| 1077 | agregar | 3311 | agregó agrega agregar |
-| 781 | junio | 2970 | junio |
-| 752 | septiembre | 2905 | septiembre |
-| 1304 | administración | 3421 | administración administraciones |
-| 1286 | formación | 3398 | formación formaciones |
-| 851 | abril | 2943 | abril |
+| 1479 | pandemia | 21565 | pandemia pandemias |
+| 1312 | posteriormente | 14173 | posteriormente |
+| 1354 | localidad | 13197 | localidad localidades |
+| 831 | municipio | 12495 | municipio municipios |
+| 737 | destacar | 7384 | destacó destaca destacar |
+| 1380 | ubicado | 7984 | ubicado ubicada ubicados |
+| 1489 | gestión | 8076 | gestión gestiones |
+| 982 | diverso | 7339 | diversos diversas diversa |
+| 989 | municipal | 5973 | municipal municipales |
+| 1207 | usuario | 6109 | usuarios usuario |
+| 625 | argentino | 5518 | argentina argentino argentinos |
+| 1391 | jornada | 6018 | jornada jornadas |
+| 1461 | numeroso | 5919 | numerosos numerosas numerosa |
+| 889 | provincia | 5253 | provincia provincias |
+| 1337 | vivienda | 5201 | vivienda viviendas |
+| 1416 | participación | 5072 | participación participaciones |
+| 1216 | publicado | 4846 | publicado publicada publicados |
+| 1369 | selección | 4963 | selección selecciones |
+| 1330 | cultural | 4921 | cultural culturales |
+| 1427 | género | 5001 | género géneros |
+| 1181 | gol | 4510 | gol goles |
+| 1113 | mediante | 4421 | mediante |
+| 927 | febrero | 4132 | febrero |
+| 1193 | dicho | 4366 | dicha dichos dichas |
+| 1277 | habitante | 4365 | habitantes habitante |
+| 1445 | crecimiento | 4471 | crecimiento crecimientos |
+| 1141 | institución | 4074 | institución instituciones |
+| 937 | generar | 3831 | generar genera generó |
+| 755 | enero | 3644 | enero |
+| 1495 | aplicación | 4301 | aplicación aplicaciones |
+| 1347 | categoría | 4090 | categoría categorías |
+| 767 | diciembre | 3495 | diciembre |
+| 678 | económico | 3308 | económica económico económicos |
+| 802 | marzo | 3393 | marzo |
+| 675 | señalar | 3234 | señaló señala señalar |
+| 811 | noviembre | 3351 | noviembre |
+| 1293 | torneo | 3825 | torneo torneos |
+| 1396 | funcionario | 3907 | funcionarios funcionario funcionaria |
+| 1499 | comentar | 4002 | comentó comenta comentar |
+| 1006 | euro | 3505 | euros euro |
+| 1104 | edición | 3585 | edición ediciones |
+| 669 | desarrollo | 3130 | desarrollo desarrollos |
+| 877 | álbum | 3325 | álbum álbumes |
+| 1137 | histórico | 3548 | histórico histórica históricos |
+| 875 | agosto | 3266 | agosto |
+| 735 | octubre | 3117 | octubre |
+| 913 | actualmente | 3285 | actualmente |
+| 579 | población | 2950 | población poblaciones |
+| 1475 | amplio | 3833 | amplia amplio amplias |
+| 778 | afirmar | 3064 | afirmó afirma afirman |
+| 636 | región | 2915 | región regiones |
+| 1010 | ministerio | 3269 | ministerio ministerios |
+| 652 | sector | 2908 | sector sectores |
+| 1191 | inicio | 3443 | inicio inicios |
+| 1078 | agregar | 3307 | agregó agrega agregar |
+| 781 | junio | 2968 | junio |
+| 752 | septiembre | 2903 | septiembre |
+| 1303 | administración | 3417 | administración administraciones |
+| 1286 | formación | 3394 | formación formaciones |
+| 851 | abril | 2941 | abril |
 
 ### Aus den Top 1.500 gefallen (waren nur gesprochen in den Top 1.500)
 
 | Rang nur gesprochen | Lemma | Rang jetzt | häufigste Formen |
 |---:|---|---:|---|
-| 917 | apuesto | 1518 | apuesto apuestos |
-| 931 | estupendo | 1517 | estupendo estupenda estupendos |
-| 939 | tontería | 1546 | tonterías tontería |
-| 942 | asustado | 1526 | asustado asustada asustados |
-| 957 | sucio | 1511 | sucio sucia sucios |
-| 961 | nena | 1584 | nena nenas |
-| 970 | ridículo | 1577 | ridículo ridícula ridículas |
-| 974 | relajar | 1588 | relájate relajarse relajarte |
-| 975 | gay | 1553 | gay gays |
-| 983 | fumar | 1571 | fumar fumando fuma |
-| 985 | beso | 1558 | beso besos |
-| 990 | vistazo | 1609 | vistazo |
-| 1011 | trampa | 1551 | trampa trampas |
-| 1013 | trago | 1665 | trago tragos |
-| 1015 | fantasma | 1540 | fantasma fantasmas |
-| 1020 | lastimar | 1661 | lastimado lastimar lastimó |
-| 1022 | monstruo | 1537 | monstruo monstruos |
-| 1029 | ojalá | 1607 | ojalá |
-| 1032 | gordo | 1652 | gordo gorda gordos |
-| 1033 | huella | 1516 | huellas huella |
-| 1036 | diente | 1522 | dientes diente |
-| 1040 | colgar | 1592 | colgar cuelga colgando |
-| 1047 | pantalón | 1622 | pantalones pantalón |
-| 1050 | repente | 1618 | repente |
-| 1055 | embarazado | 1567 | embarazada embarazadas embarazado |
-| 1056 | sal | 1636 | sal sales |
-| 1057 | botella | 1586 | botella botellas |
-| 1062 | acaso | 1728 | acaso |
-| 1064 | dormido | 1722 | dormido dormida dormidos |
-| 1066 | olvidado | 1655 | olvidado olvidados olvidada |
-| 1068 | roto | 1621 | roto rotos rotas |
-| 1069 | ruido | 1512 | ruido ruidos |
-| 1070 | vos | 1704 | vos |
-| 1071 | ladrón | 1605 | ladrón ladrones |
-| 1074 | silla | 1548 | silla sillas |
-| 1076 | rayo | 1538 | rayos rayo |
-| 1077 | nariz | 1684 | nariz narices |
-| 1083 | atrapado | 1560 | atrapado atrapados atrapada |
-| 1084 | cerdo | 1690 | cerdo cerdos |
-| 1086 | obviamente | 1639 | obviamente |
-| 1093 | pedazo | 1745 | pedazo pedazos |
-| 1100 | largar | 1809 | lárgate larguémonos lárguense |
-| 1103 | absolutamente | 1631 | absolutamente |
-| 1106 | contestar | 1644 | contestar contestó contestado |
-| 1111 | taxi | 1694 | taxi taxis |
-| 1119 | soñar | 1692 | soñando soñar soñé |
-| 1122 | cuchillo | 1693 | cuchillo cuchillos |
-| 1127 | contratar | 1549 | contratar contrató contraté |
-| 1128 | adivinar | 1837 | adivina adivinar adivinen |
-| 1135 | puro | 1576 | pura puro puros |
-| 1137 | bola | 1659 | bola bolas |
-| 1139 | borracho | 1854 | borracho borrachos |
-| 1141 | fingir | 1827 | fingir fingiendo finge |
-| 1142 | plato | 1513 | plato platos |
-| 1145 | contento | 1688 | contento contentos |
-| 1148 | espíritu | 1507 | espíritu |
-| 1149 | lavar | 1727 | lavar lava lavando |
-| 1150 | equivocar | 1843 | equivoca equivoco equivocó |
-| 1151 | arrestar | 1746 | arrestar arrestaron arrestados |
-| 1156 | enojado | 1846 | enojado enojada enojados |
-| 1157 | honesto | 1822 | honesto honesta honestos |
-| 1158 | leche | 1611 | leche |
-| 1159 | aburrido | 1876 | aburrido aburrida aburridos |
-| 1164 | desastre | 1664 | desastre desastres |
-| 1166 | correo | 1543 | correo correos |
-| 1169 | cabello | 1594 | cabello cabellos |
-| 1170 | agujero | 1733 | agujero agujeros |
-| 1171 | cazar | 1624 | caza cazar cazando |
-| 1172 | deshacer | 1806 | deshacerse deshacerme deshacer |
-| 1173 | escalera | 1657 | escaleras escalera |
-| 1174 | pan | 1510 | pan panes |
-| 1175 | príncipe | 1556 | príncipe príncipes |
-| 1177 | examen | 1570 | examen exámenes examenes |
-| 1178 | cinta | 1563 | cinta cintas |
-| 1179 | pecho | 1679 | pecho pechos |
-| 1181 | bebida | 1581 | bebida bebidas |
-| 1183 | autobús | 1587 | autobús autobuses |
-| 1184 | perseguir | 1610 | persigue persiguiendo perseguir |
-| 1185 | amante | 1656 | amante amantes |
-| 1187 | truco | 1814 | truco trucos |
-| 1189 | gastar | 1685 | gastar gastado gasta |
-| 1190 | hielo | 1660 | hielo hielos |
-| 1193 | hueso | 1706 | huesos hueso |
-| 1197 | inspector | 1853 | inspector inspectores |
-| 1198 | saludar | 1790 | saludar saluda saludo |
-| 1201 | encender | 1778 | encender enciende encendió |
-| 1206 | feo | 1905 | feo fea feas |
-| 1212 | favorito | 1601 | favorito favoritos favoritas |
-| 1214 | pastel | 1880 | pastel pasteles |
-| 1215 | seguramente | 1730 | seguramente |
-| 1216 | papi | 1987 | papi papis |
-| 1217 | pez | 1705 | peces pez |
-| 1219 | pintar | 1699 | pinta pintar pintó |
-| 1225 | rogar | 1955 | ruego ruega rogar |
-| 1227 | espada | 1734 | espada espadas |
-| 1228 | pelota | 1683 | pelota pelotas |
-| 1229 | papa | 1617 | papa |
-| 1230 | enfadado | 1977 | enfadado enfadada enfadados |
-| 1233 | enfermera | 1847 | enfermera enfermeras |
-| 1235 | perdido | 1720 | perdida perdidos perdidas |
-| 1239 | paseo | 1632 | paseo paseos |
-| 1240 | desnudo | 1825 | desnudo desnuda desnudos |
-| 1241 | jurado | 1572 | jurado jurados jurada |
-| 1242 | montar | 1736 | montar monta montando |
-| 1244 | suficientemente | 1770 | suficientemente |
-| 1245 | juzgar | 1561 | juzgado juzgar juzgando |
-| 1247 | sombrero | 1896 | sombrero sombreros |
-| 1249 | valiente | 1895 | valiente valientes |
-| 1250 | universo | 1608 | universo universos |
-| 1251 | princesa | 1815 | princesa princesas |
-| 1252 | belleza | 1612 | belleza bellezas |
-| 1253 | pollo | 1872 | pollo pollos |
-| 1254 | robado | 1864 | robado robados robadas |
-| 1258 | descanso | 1658 | descanso descansos |
-| 1259 | quieto | 2067 | quieto quietos quietas |
-| 1264 | mirada | 1666 | mirada miradas |
-| 1271 | inventar | 1865 | inventó inventado inventar |
-| 1273 | pensamiento | 1580 | pensamiento pensamientos |
-| 1274 | charlar | 1759 | charla charlas charlar |
-| 1278 | extra | 1726 | extra extras |
-| 1280 | tardar | 1713 | tardar tarda tardará |
-| 1281 | magia | 1831 | magia magias |
-| 1282 | helado | 1981 | helado helados helada |
-| 1283 | inútil | 1993 | inútil inútiles |
-| 1284 | vergüenza | 1973 | vergüenza |
-| 1285 | escoger | 1816 | escoger escogió escoge |
-| 1287 | rezar | 1917 | rezar reza rezo |
-| 1289 | adorar | 2070 | adoro adora adoran |
-| 1290 | arriesgar | 2045 | arriesgar arriesgarme arriesgarse |
-| 1291 | muchísimo | 1849 | muchísimo muchísimas muchísima |
-| 1296 | sabio | 1999 | sabia sabio sabias |
-| 1301 | poderoso | 1700 | poderoso poderosa poderosas |
-| 1302 | pájaro | 1939 | pájaro pájaros |
-| 1303 | criatura | 1871 | criatura criaturas |
-| 1308 | parecido | 1718 | parecido parecida parecidos |
-| 1309 | bruja | 1995 | bruja brujas |
-| 1311 | talento | 1573 | talento talentos |
-| 1313 | apurar | 2170 | apúrate apúrense apurado |
-| 1314 | meta | 1550 | meta metas |
-| 1316 | despacio | 2172 | despacio |
-| 1319 | metido | 2105 | metido metidos metidas |
-| 1321 | llenar | 1748 | llenar llenó llenado |
-| 1323 | grandioso | 2178 | grandioso grandiosa grandiosos |
-| 1325 | notar | 1753 | notar noté notó |
-| 1327 | salvaje | 1920 | salvaje salvajes |
-| 1332 | copia | 1579 | copia copias |
-| 1333 | últimamente | 2096 | últimamente |
-| 1334 | humor | 1811 | humor |
-| 1335 | bote | 1985 | bote botes |
-| 1337 | computadora | 1838 | computadora computadoras |
-| 1339 | cargar | 1881 | cargar cargando cargó |
-| 1343 | conexión | 1542 | conexión conexiones |
-| 1346 | sospechar | 1860 | sospecha sospecho sospechar |
-| 1347 | oscuridad | 2053 | oscuridad |
-| 1352 | camisa | 2069 | camisa camisas |
-| 1354 | durar | 1519 | duró durar durará |
-| 1355 | almuerzo | 2124 | almuerzo almuerzos |
-| 1356 | explotar | 1859 | explotar explotó explota |
-| 1357 | mono | 1906 | mono monos |
-| 1362 | gratis | 2002 | gratis |
-| 1363 | bolsillo | 1967 | bolsillo bolsillos |
-| 1364 | genio | 2108 | genio genios |
-| 1366 | pesado | 1740 | pesado pesada pesados |
-| 1367 | polvo | 1962 | polvo polvos |
-| 1369 | campamento | 1820 | campamento campamentos |
-| 1370 | promesa | 1819 | promesa promesas |
-| 1376 | prisionero | 1830 | prisioneros prisionero |
-| 1377 | ciego | 2098 | ciego ciega ciegos |
-| 1378 | aventura | 1710 | aventura aventuras |
-| 1379 | rostro | 1729 | rostro rostros |
-| 1382 | lección | 2035 | lección lecciones |
-| 1384 | perfectamente | 1956 | perfectamente |
-| 1385 | tormenta | 1689 | tormenta tormentas |
-| 1387 | lástima | 2303 | lástima |
-| 1388 | asqueroso | 2317 | asqueroso asquerosa asquerosos |
-| 1390 | recuerdo | 1969 | recuerdos |
-| 1391 | molesto | 2155 | molesto molestas molestos |
-| 1392 | cien | 1869 | cien |
-| 1393 | discurso | 1508 | discurso discursos |
-| 1394 | sombra | 1856 | sombra sombras |
-| 1395 | lobo | 1964 | lobo lobos |
-| 1396 | lucir | 1777 | luce lucía lucir |
-| 1397 | normalmente | 1669 | normalmente |
-| 1398 | tumba | 1890 | tumba tumbas |
-| 1401 | voluntad | 1645 | voluntad voluntades |
-| 1402 | insistir | 1578 | insistió insiste insisto |
-| 1404 | sensación | 1735 | sensación sensaciones |
-| 1406 | desayuno | 2209 | desayuno desayunos |
-| 1407 | crédito | 1536 | crédito créditos |
-| 1408 | enamorar | 1932 | enamora enamoré enamoró |
-| 1410 | acusar | 1598 | acusó acusa acusar |
-| 1411 | sonreír | 2237 | sonríe sonreír sonriente |
-| 1412 | pecado | 2157 | pecado pecados |
-| 1415 | grabar | 1505 | grabar grabó grabando |
-| 1416 | confesar | 1775 | confesó confesar confiesa |
-| 1418 | roca | 1737 | roca rocas |
-| 1419 | impresionante | 2091 | impresionante |
-| 1420 | queso | 2037 | queso quesos |
-| 1421 | cancelar | 1839 | cancelar cancelado canceló |
-| 1424 | mapa | 1763 | mapa mapas |
-| 1426 | ocurrido | 1599 | ocurrido ocurridos ocurrida |
-| 1427 | indio | 1829 | indios indio indias |
-| 1428 | débil | 2003 | débil |
-| 1429 | pillar | 2359 | pillado pillar pillas |
-| 1430 | esquina | 1804 | esquina esquinas |
-| 1435 | cuerda | 1908 | cuerda cuerdas |
-| 1436 | rata | 2241 | rata ratas |
-| 1437 | chocolate | 2148 | chocolate chocolates |
-| 1438 | contado | 1983 | contado contados contada |
-| 1440 | cobrar | 1625 | cobrar cobra cobran |
-| 1441 | milagro | 2071 | milagro milagros |
-| 1442 | cigarrillo | 2289 | cigarrillo cigarrillos |
-| 1445 | cocinar | 2192 | cocinar cocinando cocino |
-| 1446 | mami | 2387 | mami |
-| 1447 | vestir | 1878 | vestir vestirse vestía |
-| 1449 | afortunado | 2281 | afortunado afortunada afortunados |
-| 1450 | paquete | 1795 | paquete paquetes |
-| 1451 | desconocido | 1712 | desconocido desconocida desconocidos |
-| 1452 | emoción | 1802 | emociones emoción |
-| 1454 | sincero | 2226 | sincero sincera sinceros |
-| 1455 | pesadilla | 2230 | pesadilla pesadillas |
-| 1456 | vaso | 2106 | vaso vasos |
-| 1457 | techo | 1750 | techo techos |
-| 1458 | maleta | 2304 | maleta maletas |
-| 1459 | primo | 2144 | primo |
-| 1462 | interrumpir | 2017 | interrumpir interrumpido interrumpió |
-| 1464 | internet | 1515 | internet |
-| 1465 | vivo | 2072 | vivos vivas |
-| 1466 | alcohol | 1882 | alcohol alcoholes |
-| 1468 | atractivo | 1715 | atractivo atractiva atractivos |
-| 1469 | cura | 2131 | cura curas |
-| 1470 | fotografía | 1509 | fotografía fotografías |
-| 1471 | votar | 1643 | votar votó votaron |
-| 1472 | celoso | 2348 | celoso celosa celosos |
-| 1473 | sexy | 2349 | sexy |
-| 1474 | deprisa | 2420 | deprisa |
-| 1475 | rodilla | 2068 | rodillas rodilla |
-| 1477 | tesoro | 2073 | tesoro tesoros |
-| 1479 | olor | 2167 | olor olores |
-| 1480 | liso | 2153 | lisa liso lisos |
-| 1482 | gloria | 2063 | gloria glorias |
-| 1483 | firme | 1857 | firme firmes |
-| 1488 | salón | 1590 | salón salones |
-| 1489 | excusa | 2233 | excusa excusas |
-| 1490 | cheque | 2350 | cheque cheques |
-| 1491 | funeral | 2193 | funeral funerales |
-| 1492 | lío | 2428 | lío líos |
-| 1493 | claramente | 1897 | claramente |
-| 1494 | oso | 2255 | oso osos |
-| 1499 | corriente | 1523 | corriente corrientes |
-| 1500 | muñeca | 2240 | muñeca muñecas |
+| 917 | apuesto | 1514 | apuesto apuestos |
+| 931 | estupendo | 1513 | estupendo estupenda estupendos |
+| 939 | tontería | 1542 | tonterías tontería |
+| 942 | asustado | 1522 | asustado asustada asustados |
+| 957 | sucio | 1507 | sucio sucia sucios |
+| 961 | nena | 1580 | nena nenas |
+| 970 | ridículo | 1573 | ridículo ridícula ridículas |
+| 974 | relajar | 1584 | relájate relajarse relajarte |
+| 975 | gay | 1549 | gay gays |
+| 983 | fumar | 1567 | fumar fumando fuma |
+| 985 | beso | 1554 | beso besos |
+| 990 | vistazo | 1605 | vistazo |
+| 1011 | trampa | 1547 | trampa trampas |
+| 1013 | trago | 1661 | trago tragos |
+| 1015 | fantasma | 1536 | fantasma fantasmas |
+| 1020 | lastimar | 1657 | lastimado lastimar lastimó |
+| 1022 | monstruo | 1533 | monstruo monstruos |
+| 1029 | ojalá | 1603 | ojalá |
+| 1032 | gordo | 1648 | gordo gorda gordos |
+| 1033 | huella | 1512 | huellas huella |
+| 1036 | diente | 1518 | dientes diente |
+| 1040 | colgar | 1588 | colgar cuelga colgando |
+| 1047 | pantalón | 1618 | pantalones pantalón |
+| 1050 | repente | 1614 | repente |
+| 1055 | embarazado | 1563 | embarazada embarazadas embarazado |
+| 1056 | sal | 1632 | sal sales |
+| 1057 | botella | 1582 | botella botellas |
+| 1062 | acaso | 1724 | acaso |
+| 1064 | dormido | 1718 | dormido dormida dormidos |
+| 1066 | olvidado | 1651 | olvidado olvidados olvidada |
+| 1068 | roto | 1617 | roto rotos rotas |
+| 1069 | ruido | 1508 | ruido ruidos |
+| 1070 | vos | 1700 | vos |
+| 1071 | ladrón | 1601 | ladrón ladrones |
+| 1074 | silla | 1544 | silla sillas |
+| 1076 | rayo | 1534 | rayos rayo |
+| 1077 | nariz | 1680 | nariz narices |
+| 1083 | atrapado | 1556 | atrapado atrapados atrapada |
+| 1084 | cerdo | 1686 | cerdo cerdos |
+| 1086 | obviamente | 1635 | obviamente |
+| 1093 | pedazo | 1741 | pedazo pedazos |
+| 1100 | largar | 1805 | lárgate larguémonos lárguense |
+| 1103 | absolutamente | 1627 | absolutamente |
+| 1106 | contestar | 1640 | contestar contestó contestado |
+| 1111 | taxi | 1690 | taxi taxis |
+| 1120 | soñar | 1688 | soñando soñar soñé |
+| 1123 | cuchillo | 1689 | cuchillo cuchillos |
+| 1128 | contratar | 1545 | contratar contrató contraté |
+| 1129 | adivinar | 1833 | adivina adivinar adivinen |
+| 1136 | puro | 1572 | pura puro puros |
+| 1138 | bola | 1655 | bola bolas |
+| 1140 | borracho | 1850 | borracho borrachos |
+| 1142 | fingir | 1823 | fingir fingiendo finge |
+| 1143 | plato | 1509 | plato platos |
+| 1146 | contento | 1684 | contento contentos |
+| 1149 | espíritu | 1503 | espíritu |
+| 1150 | lavar | 1723 | lavar lava lavando |
+| 1151 | equivocar | 1839 | equivoca equivoco equivocó |
+| 1152 | arrestar | 1742 | arrestar arrestaron arrestados |
+| 1157 | enojado | 1842 | enojado enojada enojados |
+| 1158 | honesto | 1818 | honesto honesta honestos |
+| 1159 | leche | 1607 | leche |
+| 1160 | aburrido | 1872 | aburrido aburrida aburridos |
+| 1165 | desastre | 1660 | desastre desastres |
+| 1167 | correo | 1539 | correo correos |
+| 1170 | cabello | 1590 | cabello cabellos |
+| 1171 | agujero | 1729 | agujero agujeros |
+| 1172 | cazar | 1620 | caza cazar cazando |
+| 1173 | deshacer | 1802 | deshacerse deshacerme deshacer |
+| 1174 | escalera | 1653 | escaleras escalera |
+| 1175 | pan | 1506 | pan panes |
+| 1176 | príncipe | 1552 | príncipe príncipes |
+| 1178 | examen | 1566 | examen exámenes examenes |
+| 1179 | cinta | 1559 | cinta cintas |
+| 1180 | pecho | 1675 | pecho pechos |
+| 1182 | bebida | 1577 | bebida bebidas |
+| 1184 | autobús | 1583 | autobús autobuses |
+| 1185 | perseguir | 1606 | persigue persiguiendo perseguir |
+| 1186 | amante | 1652 | amante amantes |
+| 1188 | truco | 1810 | truco trucos |
+| 1190 | gastar | 1681 | gastar gastado gasta |
+| 1191 | hielo | 1656 | hielo hielos |
+| 1194 | hueso | 1702 | huesos hueso |
+| 1198 | inspector | 1849 | inspector inspectores |
+| 1199 | saludar | 1786 | saludar saluda saludo |
+| 1202 | encender | 1774 | encender enciende encendió |
+| 1207 | feo | 1901 | feo fea feas |
+| 1213 | favorito | 1597 | favorito favoritos favoritas |
+| 1215 | pastel | 1876 | pastel pasteles |
+| 1216 | seguramente | 1726 | seguramente |
+| 1217 | papi | 1982 | papi papis |
+| 1218 | pez | 1701 | peces pez |
+| 1220 | pintar | 1695 | pinta pintar pintó |
+| 1226 | rogar | 1950 | ruego ruega rogar |
+| 1228 | espada | 1730 | espada espadas |
+| 1229 | pelota | 1679 | pelota pelotas |
+| 1230 | papa | 1613 | papa |
+| 1231 | enfadado | 1972 | enfadado enfadada enfadados |
+| 1234 | enfermera | 1843 | enfermera enfermeras |
+| 1236 | perdido | 1716 | perdida perdidos perdidas |
+| 1240 | paseo | 1628 | paseo paseos |
+| 1241 | desnudo | 1821 | desnudo desnuda desnudos |
+| 1242 | jurado | 1568 | jurado jurados jurada |
+| 1243 | montar | 1732 | montar monta montando |
+| 1245 | suficientemente | 1766 | suficientemente |
+| 1246 | juzgar | 1557 | juzgado juzgar juzgando |
+| 1248 | sombrero | 1892 | sombrero sombreros |
+| 1250 | valiente | 1891 | valiente valientes |
+| 1251 | universo | 1604 | universo universos |
+| 1252 | princesa | 1811 | princesa princesas |
+| 1253 | belleza | 1608 | belleza bellezas |
+| 1254 | pollo | 1868 | pollo pollos |
+| 1255 | robado | 1860 | robado robados robadas |
+| 1259 | descanso | 1654 | descanso descansos |
+| 1260 | quieto | 2062 | quieto quietos quietas |
+| 1264 | mirada | 1662 | mirada miradas |
+| 1271 | inventar | 1861 | inventó inventado inventar |
+| 1273 | pensamiento | 1576 | pensamiento pensamientos |
+| 1274 | charlar | 1755 | charla charlas charlar |
+| 1278 | extra | 1722 | extra extras |
+| 1280 | tardar | 1709 | tardar tarda tardará |
+| 1281 | magia | 1827 | magia magias |
+| 1282 | helado | 1976 | helado helados helada |
+| 1283 | inútil | 1988 | inútil inútiles |
+| 1284 | vergüenza | 1968 | vergüenza |
+| 1285 | escoger | 1812 | escoger escogió escoge |
+| 1287 | rezar | 1913 | rezar reza rezo |
+| 1289 | adorar | 2065 | adoro adora adoran |
+| 1290 | arriesgar | 2040 | arriesgar arriesgarme arriesgarse |
+| 1291 | muchísimo | 1845 | muchísimo muchísimas muchísima |
+| 1296 | sabio | 1994 | sabia sabio sabias |
+| 1301 | poderoso | 1696 | poderoso poderosa poderosas |
+| 1302 | pájaro | 1935 | pájaro pájaros |
+| 1303 | criatura | 1867 | criatura criaturas |
+| 1308 | parecido | 1714 | parecido parecida parecidos |
+| 1309 | bruja | 1990 | bruja brujas |
+| 1311 | talento | 1569 | talento talentos |
+| 1313 | apurar | 2167 | apúrate apúrense apurado |
+| 1314 | meta | 1546 | meta metas |
+| 1316 | despacio | 2169 | despacio |
+| 1319 | metido | 2100 | metido metidos metidas |
+| 1321 | llenar | 1744 | llenar llenó llenado |
+| 1324 | grandioso | 2175 | grandioso grandiosa grandiosos |
+| 1326 | notar | 1749 | notar noté notó |
+| 1328 | salvaje | 1916 | salvaje salvajes |
+| 1333 | copia | 1575 | copia copias |
+| 1334 | últimamente | 2091 | últimamente |
+| 1336 | humor | 1807 | humor |
+| 1337 | bote | 1980 | bote botes |
+| 1339 | computadora | 1834 | computadora computadoras |
+| 1341 | cargar | 1877 | cargar cargando cargó |
+| 1345 | conexión | 1538 | conexión conexiones |
+| 1348 | sospechar | 1856 | sospecha sospecho sospechar |
+| 1349 | oscuridad | 2048 | oscuridad |
+| 1354 | camisa | 2064 | camisa camisas |
+| 1356 | durar | 1515 | duró durar durará |
+| 1357 | almuerzo | 2119 | almuerzo almuerzos |
+| 1358 | explotar | 1855 | explotar explotó explota |
+| 1359 | mono | 1902 | mono monos |
+| 1364 | gratis | 1997 | gratis |
+| 1365 | bolsillo | 1962 | bolsillo bolsillos |
+| 1366 | genio | 2103 | genio genios |
+| 1368 | pesado | 1736 | pesado pesada pesados |
+| 1369 | polvo | 1957 | polvo polvos |
+| 1371 | campamento | 1816 | campamento campamentos |
+| 1372 | promesa | 1815 | promesa promesas |
+| 1378 | prisionero | 1826 | prisioneros prisionero |
+| 1379 | ciego | 2093 | ciego ciega ciegos |
+| 1380 | aventura | 1706 | aventura aventuras |
+| 1381 | rostro | 1725 | rostro rostros |
+| 1384 | lección | 2030 | lección lecciones |
+| 1386 | perfectamente | 1951 | perfectamente |
+| 1387 | tormenta | 1685 | tormenta tormentas |
+| 1389 | lástima | 2300 | lástima |
+| 1390 | asqueroso | 2314 | asqueroso asquerosa asquerosos |
+| 1392 | recuerdo | 1964 | recuerdos |
+| 1393 | molesto | 2152 | molesto molestas molestos |
+| 1394 | cien | 1865 | cien |
+| 1395 | discurso | 1504 | discurso discursos |
+| 1396 | sombra | 1852 | sombra sombras |
+| 1397 | lobo | 1959 | lobo lobos |
+| 1398 | lucir | 1773 | luce lucía lucir |
+| 1399 | normalmente | 1665 | normalmente |
+| 1400 | tumba | 1886 | tumba tumbas |
+| 1403 | voluntad | 1641 | voluntad voluntades |
+| 1404 | insistir | 1574 | insistió insiste insisto |
+| 1406 | sensación | 1731 | sensación sensaciones |
+| 1408 | desayuno | 2206 | desayuno desayunos |
+| 1409 | crédito | 1532 | crédito créditos |
+| 1410 | enamorar | 1928 | enamora enamoré enamoró |
+| 1412 | acusar | 1594 | acusó acusa acusar |
+| 1413 | sonreír | 2234 | sonríe sonreír sonriente |
+| 1414 | pecado | 2154 | pecado pecados |
+| 1417 | grabar | 1501 | grabar grabó grabando |
+| 1418 | confesar | 1771 | confesó confesar confiesa |
+| 1420 | roca | 1733 | roca rocas |
+| 1421 | impresionante | 2086 | impresionante |
+| 1422 | queso | 2032 | queso quesos |
+| 1423 | cancelar | 1835 | cancelar cancelado canceló |
+| 1426 | mapa | 1759 | mapa mapas |
+| 1428 | ocurrido | 1595 | ocurrido ocurridos ocurrida |
+| 1429 | indio | 1825 | indios indio indias |
+| 1430 | débil | 1998 | débil |
+| 1431 | pillar | 2356 | pillado pillar pillas |
+| 1432 | esquina | 1800 | esquina esquinas |
+| 1437 | cuerda | 1904 | cuerda cuerdas |
+| 1438 | rata | 2238 | rata ratas |
+| 1439 | chocolate | 2145 | chocolate chocolates |
+| 1440 | contado | 1978 | contado contados contada |
+| 1442 | cobrar | 1621 | cobrar cobra cobran |
+| 1443 | milagro | 2066 | milagro milagros |
+| 1444 | cigarrillo | 2286 | cigarrillo cigarrillos |
+| 1447 | cocinar | 2189 | cocinar cocinando cocino |
+| 1448 | mami | 2383 | mami |
+| 1449 | vestir | 1874 | vestir vestirse vestía |
+| 1451 | afortunado | 2278 | afortunado afortunada afortunados |
+| 1452 | paquete | 1791 | paquete paquetes |
+| 1453 | desconocido | 1708 | desconocido desconocida desconocidos |
+| 1454 | emoción | 1798 | emociones emoción |
+| 1456 | sincero | 2223 | sincero sincera sinceros |
+| 1457 | pesadilla | 2227 | pesadilla pesadillas |
+| 1458 | vaso | 2101 | vaso vasos |
+| 1459 | techo | 1746 | techo techos |
+| 1460 | maleta | 2301 | maleta maletas |
+| 1461 | primo | 2141 | primo |
+| 1464 | interrumpir | 2012 | interrumpir interrumpido interrumpió |
+| 1466 | internet | 1511 | internet |
+| 1467 | vivo | 2067 | vivos vivas |
+| 1468 | alcohol | 1878 | alcohol alcoholes |
+| 1470 | atractivo | 1711 | atractivo atractiva atractivos |
+| 1471 | cura | 2126 | cura curas |
+| 1472 | fotografía | 1505 | fotografía fotografías |
+| 1473 | votar | 1639 | votar votó votaron |
+| 1474 | celoso | 2345 | celoso celosa celosos |
+| 1475 | sexy | 2346 | sexy |
+| 1476 | deprisa | 2416 | deprisa |
+| 1477 | rodilla | 2063 | rodillas rodilla |
+| 1479 | tesoro | 2068 | tesoro tesoros |
+| 1481 | olor | 2164 | olor olores |
+| 1482 | liso | 2150 | lisa liso lisos |
+| 1484 | gloria | 2058 | gloria glorias |
+| 1485 | firme | 1853 | firme firmes |
+| 1490 | salón | 1586 | salón salones |
+| 1491 | excusa | 2230 | excusa excusas |
+| 1492 | cheque | 2347 | cheque cheques |
+| 1493 | funeral | 2190 | funeral funerales |
+| 1494 | lío | 2424 | lío líos |
+| 1495 | claramente | 1893 | claramente |
+| 1496 | oso | 2252 | oso osos |
 
 ## Top 300
 

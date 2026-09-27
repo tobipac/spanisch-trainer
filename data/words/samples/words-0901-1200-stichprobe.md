@@ -8,22 +8,22 @@
 | 912 | costar | kosten _(o → ue: cuesta; me cuesta = es fällt mir schwer)_ | ¿Cuánto cuesta? | Wie viel kostet es? |  |
 | 915 | esconder | verstecken | ¿Dónde escondes el dinero? | Wo versteckst du das Geld? |  |
 | 930 | el peligro | die Gefahr _(en peligro = in Gefahr)_ | ¡Peligro! | Gefahr! |  |
-| 950 | la marcha | der Marsch; der Gang (Auto); en marcha = in Gang | El coche está en marcha. | Das Auto läuft. |  |
-| 964 | la prisión | das Gefängnis; die Haft | Pasó tres años en prisión. | Er war drei Jahre im Gefängnis. |  |
-| 970 | acordar | vereinbaren; acordarse de = sich erinnern an _(o → ue: me acuerdo)_ | ¿Te acuerdas de mí? | Erinnerst du dich an mich? |  |
-| 971 | el vino ⚑ | der Wein _(vino auch von venir: vino = er kam)_ | Un vino tinto, por favor. | Einen Rotwein, bitte. |  |
-| 975 | la duda ⚑ | der Zweifel; die Frage _(sin duda = zweifellos)_ | Tengo una duda. | Ich habe eine Frage. |  |
-| 1018 | amenazar | drohen; bedrohen | Amenaza con irse. | Er droht damit zu gehen. |  |
-| 1026 | pertenecer | gehören _(unregelmäßig: pertenezco)_ | Este libro pertenece a la biblioteca. | Dieses Buch gehört der Bibliothek. |  |
-| 1039 | dudar ⚑ | zweifeln | Lo dudo. | Das bezweifle ich. |  |
-| 1052 | la calidad | die Qualität | Es de muy buena calidad. | Das ist sehr gute Qualität. |  |
-| 1085 | averiguar | herausfinden | Voy a averiguarlo. | Ich werde es herausfinden. |  |
-| 1088 | la revista | die Zeitschrift | Leo una revista en el tren. | Ich lese im Zug eine Zeitschrift. |  |
-| 1095 | la carne | das Fleisch | No como carne. | Ich esse kein Fleisch. |  |
-| 1111 | el abuelo | der Großvater; Großeltern (abuelos) | Mis abuelos viven en el pueblo. | Meine Großeltern wohnen im Dorf. |  |
-| 1112 | mediante | mittels; durch _(eher schriftsprachlich)_ | Pagué mediante transferencia. | Ich habe per Überweisung bezahlt. |  |
-| 1128 | la bolsa | die Tasche; die Tüte; die Börse | ¿Quiere una bolsa? | Möchten Sie eine Tüte? |  |
-| 1147 | la pared | die Wand | Hay un cuadro en la pared. | An der Wand hängt ein Bild. |  |
-| 1182 | la piel | die Haut; das Leder | Tengo la piel muy blanca. | Ich habe sehr helle Haut. |  |
-| 1194 | el curso | der Kurs; das Schuljahr | Hago un curso de cocina. | Ich mache einen Kochkurs. |  |
-| 1195 | corto | kurz | La película es corta. | Der Film ist kurz. |  |
+| 950 | el árbol | der Baum | Hay un árbol en el jardín. | Im Garten steht ein Baum. |  |
+| 964 | el ciudadano | der Bürger _(weiblich: la ciudadana)_ | Es un derecho de todos los ciudadanos. | Das ist ein Recht aller Bürger. |  |
+| 970 | equivocado | falsch; im Irrtum (estar equivocado) | Estás equivocado. | Du irrst dich. |  |
+| 972 | el vino ⚑ | der Wein _(vino auch von venir: vino = er kam)_ | Un vino tinto, por favor. | Einen Rotwein, bitte. |  |
+| 976 | la duda ⚑ | der Zweifel; die Frage _(sin duda = zweifellos)_ | Tengo una duda. | Ich habe eine Frage. |  |
+| 1018 | el recurso | die Ressource; das Mittel; der Einspruch | No tenemos recursos. | Wir haben keine Mittel. |  |
+| 1026 | revisar | überprüfen; durchsehen | Revisa tu correo. | Schau in deine E-Mails. |  |
+| 1040 | dudar ⚑ | zweifeln | Lo dudo. | Das bezweifle ich. |  |
+| 1052 | la comunicación | die Kommunikation; die Verbindung | La comunicación es importante. | Kommunikation ist wichtig. |  |
+| 1085 | la navidad | Weihnachten _(meist großgeschrieben: Navidad)_ | ¡Feliz Navidad! | Frohe Weihnachten! |  |
+| 1088 | el regreso | die Rückkehr | Estoy de regreso. | Ich bin zurück. |  |
+| 1095 | contrario | gegenteilig; al contrario = im Gegenteil | Al contrario, me encanta. | Im Gegenteil, ich liebe es. |  |
+| 1111 | americano | amerikanisch; el americano = der Amerikaner | Es un coche americano. | Das ist ein amerikanisches Auto. |  |
+| 1112 | el abuelo | der Großvater; Großeltern (abuelos) | Mis abuelos viven en el pueblo. | Meine Großeltern wohnen im Dorf. |  |
+| 1128 | combatir | bekämpfen | Hay que combatir el cambio climático. | Man muss den Klimawandel bekämpfen. |  |
+| 1147 | expresar | ausdrücken; äußern | No sé expresar lo que siento. | Ich weiß nicht, wie ich ausdrücken soll, was ich fühle. |  |
+| 1182 | la basura | der Müll | Saca la basura, por favor. | Bring bitte den Müll raus. |  |
+| 1194 | respirar | atmen | Respira hondo. | Atme tief ein. |  |
+| 1195 | el curso | der Kurs; das Schuljahr | Hago un curso de cocina. | Ich mache einen Kochkurs. |  |

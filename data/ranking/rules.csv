@@ -420,3 +420,14 @@ checked,gol,,,Nutzerentscheidung: bleibt
 checked,torneo,,,Nutzerentscheidung: bleibt
 checked,argentino,,,Nutzerentscheidung: bleibt
 checked,mexicano,,,Nutzerentscheidung: bleibt
+assign,artículo,artículo:noun,,Nomen (spaCy: articular)
+assign,artículos,artículo:noun,,Nomen (spaCy: articular)
+assign,límite,límite:noun,,Nomen (spaCy: limitar)
+assign,límites,límite:noun,,Nomen (spaCy: limitar)
+assign,círculo,círculo:noun,,Nomen (spaCy: circular)
+assign,círculos,círculo:noun,,Nomen (spaCy: circular)
+assign,evidencia,evidencia:noun,,Nomen (spaCy: evidenciar)
+assign,evidencias,evidencia:noun,,Nomen (spaCy: evidenciar)
+exclude,tercer,,,Duplikat: Kurzform von tercero (Rang 804)
+exclude,medida,,,Duplikat: bereits unter medido (Rang 961) mit la medida
+exclude,periodo,,,Duplikat: Schreibvariante von período

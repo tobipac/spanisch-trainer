@@ -94,6 +94,7 @@ trasero,trasero:adj,trasero:noun,Wortart korrigiert
 joder,joder:noun,joder:verb,Wortart korrigiert
 enfermo,enfermo:noun,enfermo:adj,Wortart korrigiert
 san,san:noun,santo:adj,Grundform/Wortart korrigiert
+evidencia,evidenciar:verb,evidencia:noun,Nomen (spaCy: evidenciar)
 tí,tí:pron,ti:pron,Personalpronomen als eigene Grundform
 matado,matado:adj,matar:verb,Verbform (Lemmatisierung korrigiert)
 repente,repente:noun,repente:noun,Wortart korrigiert
@@ -137,7 +138,6 @@ rata,rata:other,rata:noun,Grundform/Wortart korrigiert
 dias,dia:noun,día:noun,Schreibvariante
 oir,oir:verb,oír:verb,Grundform/Wortart korrigiert
 paren,parir:verb,parar:verb,Verbform (Lemmatisierung korrigiert)
-evidencia,evidencia:noun,evidencia:noun,Wortart korrigiert
 moleste,molestir:verb,molestar:verb,Verbform (Lemmatisierung korrigiert)
 supieras,superar:verb,saber:verb,Verbform (Lemmatisierung korrigiert)
 riendo,reir:verb,reír:verb,Verbform (Lemmatisierung korrigiert)
@@ -196,3 +196,6 @@ imbécil,enthalten,gestrichen,Nutzerentscheidung: filmtypisch/Kraftausdruck gest
 don,enthalten,gestrichen,Nutzerentscheidung: filmtypisch/Kraftausdruck gestrichen
 sheriff,enthalten,gestrichen,Nutzerentscheidung: filmtypisch/Kraftausdruck gestrichen
 adn,enthalten,gestrichen,Nutzerentscheidung: filmtypisch/Kraftausdruck gestrichen
+tercer,enthalten,gestrichen,Duplikat: Kurzform von tercero (Rang 804)
+medida,enthalten,gestrichen,Duplikat: bereits unter medido (Rang 961) mit la medida
+periodo,enthalten,gestrichen,Duplikat: Schreibvariante von período
