@@ -70,6 +70,30 @@ export function rangeFromFileName(name: string): [number, number] | null {
   return m ? [Number(m[1]), Number(m[2])] : null;
 }
 
+/** Bekannte Ausnahmen der Genus-Faustregeln (Einzahl-Lemma). */
+const FEMININE_EXCEPTIONS = new Set(['mano', 'foto', 'radio', 'moto', 'modelo']); // la … trotz -o (la modelo = das Model)
+const MASCULINE_EXCEPTIONS = new Set([
+  'día', 'mapa', 'planeta', 'sofá', 'papá', 'idioma', 'clima', 'drama', 'problema', 'sistema', 'programa', 'tema',
+  'poema', 'esquema', 'síntoma', 'dilema', 'fantasma', 'policía', 'idiota', 'artista', 'guía', 'colega', 'pijama',
+]);
+/** Weibliche Nomen mit betontem a-/ha-: in der Einzahl „el“ (el agua, el área, el alma). */
+const EL_FEMININE = new Set(['agua', 'área', 'alma', 'arma', 'hambre', 'águila', 'aula', 'hacha', 'ala', 'arte']);
+
+/**
+ * Plausibilität des Artikels nach typischen Endungen (nur Warnung – das Spanische hat Ausnahmen).
+ * Liefert eine Meldung oder null.
+ */
+export function articleHint(es: string, article: string | undefined): string | null {
+  if (!article) return null;
+  const w = es.toLowerCase();
+  if (article === 'la' && w.endsWith('o') && !FEMININE_EXCEPTIONS.has(w)) return `„la ${es}“: Nomen auf -o sind meist männlich`;
+  if (article === 'el' && !MASCULINE_EXCEPTIONS.has(w) && !EL_FEMININE.has(w)) {
+    if (/(ción|sión|dad|tad|tud|umbre)$/.test(w)) return `„el ${es}“: Nomen auf -ción/-dad/-tud/-umbre sind weiblich`;
+    if (w.endsWith('a') && !w.endsWith('ma')) return `„el ${es}“: Nomen auf -a sind meist weiblich`;
+  }
+  return null;
+}
+
 const REQUIRED: Array<keyof Word> = ['id', 'rank', 'freqShare', 'es', 'pos', 'de', 'exampleEs', 'exampleDe'];
 
 /** Prüft ein Paket für sich (Felder, Formate, Satzlänge, Übereinstimmung mit der Rangliste). */
@@ -92,6 +116,8 @@ export function checkPackage(fileName: string, words: Word[], ranking: Map<numbe
     if (w.article !== undefined) {
       if (w.pos !== 'noun') err(id, 'article nur bei Nomen');
       if (!ARTICLES.includes(w.article)) err(id, `ungültiger Artikel ${String(w.article)}`);
+      const hint = articleHint(w.es, w.article);
+      if (hint) warn(id, hint);
     }
     if (w.deAlt !== undefined && w.deAlt.length > MAX_DE_ALT) err(id, `deAlt hat mehr als ${MAX_DE_ALT} Einträge`);
     if (typeof w.exampleEs === 'string' && sentenceWords(w.exampleEs).length > MAX_SENTENCE_WORDS) {

@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import {
+  articleHint,
   checkAll,
   checkPackage,
   parseRanking,
@@ -115,5 +116,22 @@ describe('Gesamtprüfung aller Pakete', () => {
     const rising = pkg();
     rising[2] = { ...rising[2]!, freqShare: 0.0025 };
     expect(checkAll(rising).map((f) => f.message)).toContain('freqShare steigt gegenüber dem vorherigen Rang');
+  });
+});
+
+describe('Artikel-Plausibilität', () => {
+  it('meldet typische Fehler', () => {
+    expect(articleHint('imagen', 'el')).toBeNull(); // -en ist nicht eindeutig – keine Meldung
+    expect(articleHint('desarrollo', 'la')).toContain('männlich');
+    expect(articleHint('canción', 'el')).toContain('weiblich');
+    expect(articleHint('ciudad', 'el')).toContain('weiblich');
+    expect(articleHint('casa', 'el')).toContain('weiblich');
+  });
+
+  it('kennt die häufigen Ausnahmen', () => {
+    for (const [w, a] of [['mano', 'la'], ['foto', 'la'], ['día', 'el'], ['problema', 'el'], ['agua', 'el'], ['área', 'el'], ['policía', 'el']] as const) {
+      expect(articleHint(w, a)).toBeNull();
+    }
+    expect(articleHint('casa', undefined)).toBeNull();
   });
 });

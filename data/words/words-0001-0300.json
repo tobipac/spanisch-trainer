@@ -252,7 +252,7 @@
   {"id": "w0251", "rank": 251, "freqShare": 0.0003712, "es": "conmigo", "pos": "pron", "de": "mit mir", "exampleEs": "¿Vienes conmigo?", "exampleDe": "Kommst du mit mir?"},
   {"id": "w0252", "rank": 252, "freqShare": 0.00037111, "es": "serio", "pos": "adj", "de": "ernst", "deAlt": ["seriös"], "exampleEs": "¿Lo dices en serio?", "exampleDe": "Meinst du das ernst?", "note": "en serio = im Ernst"},
   {"id": "w0253", "rank": 253, "freqShare": 0.00036875, "es": "mostrar", "pos": "verb", "de": "zeigen", "exampleEs": "Te voy a mostrar mi piso.", "exampleDe": "Ich zeige dir meine Wohnung.", "note": "o → ue: muestro"},
-  {"id": "w0254", "rank": 254, "freqShare": 0.00036802, "es": "grupo", "article": "la", "pos": "noun", "de": "die Gruppe", "exampleEs": "Viajamos en grupo.", "exampleDe": "Wir reisen in einer Gruppe."},
+  {"id": "w0254", "rank": 254, "freqShare": 0.00036802, "es": "grupo", "article": "el", "pos": "noun", "de": "die Gruppe", "exampleEs": "Viajamos en grupo.", "exampleDe": "Wir reisen in einer Gruppe."},
   {"id": "w0255", "rank": 255, "freqShare": 0.000364, "es": "juego", "article": "el", "pos": "noun", "de": "das Spiel", "exampleEs": "Es solo un juego.", "exampleDe": "Es ist nur ein Spiel."},
   {"id": "w0256", "rank": 256, "freqShare": 0.00036372, "es": "comer", "pos": "verb", "de": "essen", "deAlt": ["zu Mittag essen"], "exampleEs": "¿Comemos juntos hoy?", "exampleDe": "Essen wir heute zusammen zu Mittag?", "note": "in Spanien: comer = zu Mittag essen"},
   {"id": "w0257", "rank": 257, "freqShare": 0.00036197, "es": "jugar", "pos": "verb", "de": "spielen", "exampleEs": "Mi hijo juega al fútbol.", "exampleDe": "Mein Sohn spielt Fußball.", "note": "u → ue: juego, juegas; jugar a"},
