@@ -1,5 +1,5 @@
 import { motion, useMotionValue, useTransform, type PanInfo } from 'framer-motion';
-import { CARD_ANIMATION_S, POS_LABELS, SWIPE_THRESHOLD_PX } from '../config/labels.ts';
+import { ARTICLE_LEMMAS, CARD_ANIMATION_S, POS_LABELS, SWIPE_THRESHOLD_PX } from '../config/labels.ts';
 import type { Direction, Rating, Word } from '../domain/types.ts';
 import { SpeakerButton } from './SpeakerButton.tsx';
 
@@ -13,6 +13,7 @@ interface Props {
 }
 
 const withArticle = (w: Word) => (w.article ? `${w.article} ${w.es}` : w.es);
+const posLabel = (w: Word) => (w.pos === 'det' && ARTICLE_LEMMAS.includes(w.es) ? 'Artikel' : POS_LABELS[w.pos]);
 
 /** Lernkarte: Tippen dreht um, nach dem Aufdecken Wischen links = Nochmal, rechts = Gut. */
 export function Flashcard({ word, direction, revealed, onReveal, onSwipe, onSpeak }: Props) {
@@ -69,45 +70,38 @@ export function Flashcard({ word, direction, revealed, onReveal, onSwipe, onSpea
           <p className="absolute bottom-5 text-sm text-neutral-400">Tippen zum Aufdecken</p>
         </div>
 
-        {/* Rückseite */}
+        {/* Rückseite: Spanisch groß oben, Deutsch direkt darunter; Inhalt vertikal zentriert (my-auto), scrollt bei Überlänge */}
         <div className="absolute inset-0 flex flex-col overflow-y-auto rounded-3xl border border-neutral-200 bg-white p-6 [backface-visibility:hidden] [transform:rotateY(180deg)] dark:border-neutral-800 dark:bg-neutral-900">
-          <div className="flex items-start justify-between gap-3">
-            <div>
-              {direction === 'es-de' ? (
-                <>
-                  <p className="text-sm text-neutral-500 dark:text-neutral-400">{spanish}</p>
-                  <p className="text-3xl font-bold">{word.de}</p>
-                </>
-              ) : (
-                <>
-                  <p className="text-sm text-neutral-500 dark:text-neutral-400">{word.de}</p>
-                  <p className="text-3xl font-bold">{spanish}</p>
-                </>
-              )}
-              {word.deAlt && word.deAlt.length > 0 && (
-                <p className="mt-1 text-base text-neutral-600 dark:text-neutral-300">auch: {word.deAlt.join('; ')}</p>
-              )}
-              <p className="mt-2 inline-block rounded-full bg-neutral-100 px-2.5 py-0.5 text-xs text-neutral-600 dark:bg-neutral-800 dark:text-neutral-300">
-                {POS_LABELS[word.pos]}
-              </p>
+          <div className="my-auto flex flex-col gap-6">
+            <div className="flex items-start justify-between gap-3">
+              <div>
+                <p className="text-4xl font-bold leading-tight">{spanish}</p>
+                <p className="mt-2 text-2xl font-medium text-neutral-700 dark:text-neutral-200">{word.de}</p>
+                {word.deAlt && word.deAlt.length > 0 && (
+                  <p className="mt-1 text-base text-neutral-600 dark:text-neutral-300">auch: {word.deAlt.join('; ')}</p>
+                )}
+                <p className="mt-3 inline-block rounded-full bg-neutral-100 px-2.5 py-0.5 text-xs text-neutral-600 dark:bg-neutral-800 dark:text-neutral-300">
+                  {posLabel(word)}
+                </p>
+              </div>
+              <SpeakerButton onPress={() => onSpeak(word.es)} />
             </div>
-            <SpeakerButton onPress={() => onSpeak(word.es)} />
+
+            <button
+              type="button"
+              className="rounded-2xl bg-neutral-50 p-4 text-left active:bg-neutral-100 dark:bg-neutral-800/60 dark:active:bg-neutral-800"
+              onClick={(e) => {
+                e.stopPropagation();
+                onSpeak(word.exampleEs);
+              }}
+              aria-label="Beispielsatz anhören"
+            >
+              <p className="text-lg font-medium">{word.exampleEs}</p>
+              <p className="mt-1 text-neutral-600 dark:text-neutral-400">{word.exampleDe}</p>
+            </button>
+
+            {word.note && <p className="text-lg leading-snug text-neutral-700 dark:text-neutral-300">💡 {word.note}</p>}
           </div>
-
-          <button
-            type="button"
-            className="mt-6 rounded-2xl bg-neutral-50 p-4 text-left active:bg-neutral-100 dark:bg-neutral-800/60 dark:active:bg-neutral-800"
-            onClick={(e) => {
-              e.stopPropagation();
-              onSpeak(word.exampleEs);
-            }}
-            aria-label="Beispielsatz anhören"
-          >
-            <p className="text-lg font-medium">{word.exampleEs}</p>
-            <p className="mt-1 text-neutral-600 dark:text-neutral-400">{word.exampleDe}</p>
-          </button>
-
-          {word.note && <p className="mt-5 text-lg leading-snug text-neutral-700 dark:text-neutral-300">💡 {word.note}</p>}
         </div>
       </motion.div>
 

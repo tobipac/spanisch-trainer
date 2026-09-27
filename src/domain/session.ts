@@ -6,8 +6,11 @@ import {
   REVERSE_MIN_INTERVAL_DAYS,
   REVERSE_QUEUE_HINT_FACTOR,
   REVIEWS_PER_NEW_CARD,
+  SECONDS_PER_VIEW,
   THROTTLE_HALF_ABOVE,
   THROTTLE_ZERO_ABOVE,
+  VIEWS_PER_NEW_CARD,
+  VIEWS_PER_REVIEW,
   XP_GOAL_BONUS,
   XP_PER_NEW_WORD,
   XP_PER_REVIEW,
@@ -210,6 +213,12 @@ export function todayCounts({ day, cards, words, settings }: Omit<NextCardInput,
 export function remainingToday(input: Omit<NextCardInput, 'now' | 'session'>): number {
   const c = todayCounts(input);
   return c.due + c.newLeft + c.reverseLeft;
+}
+
+/** Geschätzte Minuten für den Rest des Tages (Annahmen siehe config/learning.ts). */
+export function estimateMinutes(counts: Pick<TodayCounts, 'due' | 'newLeft' | 'reverseLeft'>): number {
+  const views = counts.due * VIEWS_PER_REVIEW + (counts.newLeft + counts.reverseLeft) * VIEWS_PER_NEW_CARD;
+  return Math.ceil((views * SECONDS_PER_VIEW) / 60);
 }
 
 // ---------- Tagesziel ----------

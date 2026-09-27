@@ -19,14 +19,14 @@ export function previewDue(card: Card, now: Date): Record<Rating, Date> {
   return { 1: p[1].card.due, 2: p[2].card.due, 3: p[3].card.due, 4: p[4].card.due };
 }
 
-/** Kurzform für die Button-Beschriftung, z. B. "1 min", "10 min", "3 T", "2 Mon". */
+/** Kurzform für die Button-Beschriftung, z. B. "1 min", "10 min", "3 Tage", "2 Mon". */
 export function formatInterval(from: Date, to: Date): string {
   const minutes = Math.max(1, Math.round((to.getTime() - from.getTime()) / 60_000));
   if (minutes < 60) return `${minutes} min`;
   const hours = Math.round(minutes / 60);
   if (hours < 24) return `${hours} h`;
   const days = Math.round(minutes / 1440);
-  if (days < 31) return `${days} T`;
+  if (days < 31) return days === 1 ? '1 Tag' : `${days} Tage`;
   if (days < 365) return `${Math.round(days / 30)} Mon`;
   return `${Math.round((days / 365) * 10) / 10} J`.replace('.', ',');
 }

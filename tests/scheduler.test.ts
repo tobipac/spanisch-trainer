@@ -40,7 +40,8 @@ describe('FSRS-Anbindung', () => {
   it('Intervall-Kurzform für die Buttons', () => {
     expect(formatInterval(now, new Date(now.getTime() + 60_000))).toBe('1 min');
     expect(formatInterval(now, new Date(now.getTime() + 10 * 60_000))).toBe('10 min');
-    expect(formatInterval(now, new Date(now.getTime() + 3 * 86_400_000))).toBe('3 T');
+    expect(formatInterval(now, new Date(now.getTime() + 3 * 86_400_000))).toBe('3 Tage');
+    expect(formatInterval(now, new Date(now.getTime() + 86_400_000))).toBe('1 Tag');
     expect(formatInterval(now, new Date(now.getTime() + 60 * 86_400_000))).toBe('2 Mon');
   });
 });

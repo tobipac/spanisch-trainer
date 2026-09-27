@@ -11,6 +11,7 @@ import {
   nextCard,
   reverseQueue,
   goalProgress,
+  estimateMinutes,
   remainingToday,
   reverseQueueHint,
   throttleFor,
@@ -360,6 +361,16 @@ describe('Mehrtägiger Ablauf', () => {
     // jede Umkehrkarte gehört zu einem Wort, dessen Spanisch → Deutsch-Karte existiert
     const esDe = new Set(sim.cards.filter((c) => c.direction === 'es-de').map((c) => c.wordId));
     expect(sim.cards.filter((c) => c.direction === 'de-es').every((c) => esDe.has(c.wordId))).toBe(true);
+  });
+});
+
+describe('Zeitschätzung', () => {
+  it('neue Karten zählen 3,5 Ansichten, Wiederholungen 1 Ansicht, je 8 s', () => {
+    // 12 neue × 3,5 × 8 s = 336 s, 40 Wiederholungen × 8 s = 320 s → 656 s → aufgerundet 11 min
+    expect(estimateMinutes({ due: 40, newLeft: 12, reverseLeft: 0 })).toBe(11);
+    // Umkehrkarten wie neue Karten: 2 × 3,5 × 8 s = 56 s → 1 min
+    expect(estimateMinutes({ due: 0, newLeft: 0, reverseLeft: 2 })).toBe(1);
+    expect(estimateMinutes({ due: 0, newLeft: 0, reverseLeft: 0 })).toBe(0);
   });
 });
 

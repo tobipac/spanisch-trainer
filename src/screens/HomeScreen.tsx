@@ -4,7 +4,7 @@ import { logError } from '../app/errorLog.ts';
 import { unlockAudio } from '../audio/speech.ts';
 import { DayRing } from '../components/DayRing.tsx';
 import { APP_NAME } from '../config/app.ts';
-import { BACKUP_REMINDER_DAYS, SECONDS_PER_CARD, THROTTLE_HALF_ABOVE, THROTTLE_ZERO_ABOVE } from '../config/learning.ts';
+import { BACKUP_REMINDER_DAYS, THROTTLE_HALF_ABOVE, THROTTLE_ZERO_ABOVE } from '../config/learning.ts';
 import { WORD_REFS } from '../data/words.ts';
 import { db } from '../db/database.ts';
 import { getOrCreateDay, loadSettings } from '../db/repository.ts';
@@ -12,6 +12,7 @@ import { backupDue, computeStreak, levelInfo, type LevelInfo, type StreakInfo } 
 import { dayEnd, dayStart } from '../domain/learningDay.ts';
 import {
   dayLimits,
+  estimateMinutes,
   goalProgress,
   reverseQueueHint,
   todayCounts,
@@ -117,7 +118,7 @@ export function HomeScreen({ onStart }: Props) {
 
   const { day, counts, progress, limits, streak, level } = state;
   const remaining = counts.due + counts.newLeft + counts.reverseLeft;
-  const minutes = Math.ceil((remaining * SECONDS_PER_CARD) / 60);
+  const minutes = estimateMinutes(counts);
   const levelRatio = (level.totalXp - level.currentLevelXp) / (level.nextLevelXp - level.currentLevelXp);
 
   return (

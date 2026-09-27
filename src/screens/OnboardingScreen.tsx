@@ -1,7 +1,7 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import { useState } from 'react';
 import { isStandalone } from '../app/platform.ts';
-import { CARD_ANIMATION_S } from '../config/labels.ts';
+import { ONBOARDING_TRANSITION_S } from '../config/labels.ts';
 
 interface Props {
   onDone: () => void;
@@ -55,7 +55,7 @@ export function OnboardingScreen({ onDone }: Props) {
           initial={{ opacity: 0, x: 24 }}
           animate={{ opacity: 1, x: 0 }}
           exit={{ opacity: 0, x: -24 }}
-          transition={{ duration: CARD_ANIMATION_S }}
+          transition={{ duration: ONBOARDING_TRANSITION_S }}
           className="flex flex-1 flex-col justify-center gap-5"
         >
           <p className="text-sm font-semibold text-accent-ink">

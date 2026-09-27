@@ -42,8 +42,16 @@ export const LEARN_AHEAD_MINUTES = 20;
 /** „Gefestigt“ = FSRS-stability der Spanisch → Deutsch-Karte ab so vielen Tagen. */
 export const STABLE_MIN_STABILITY_DAYS = 21;
 
-/** Annahme für die Zeitschätzung auf dem Heute-Screen. */
-export const SECONDS_PER_CARD = 8;
+/**
+ * Zeitschätzung auf dem Heute-Screen.
+ * Annahme: Eine Kartenansicht dauert ca. 8 s. Neue Karten durchlaufen die Lernschritte und
+ * erscheinen dabei im Schnitt ca. 3,5-mal (erste Ansicht, 1-min- und 10-min-Schritt, gelegentliches
+ * „Nochmal“); eine Wiederholung erscheint einmal. Neue Umkehrkarten zählen wie neue Karten,
+ * weil sie ebenfalls die Lernschritte durchlaufen.
+ */
+export const SECONDS_PER_VIEW = 8;
+export const VIEWS_PER_NEW_CARD = 3.5;
+export const VIEWS_PER_REVIEW = 1;
 
 /** XP (SPEC.md Abschnitt 7). Einführung einer Umkehrkarte zählt als Wiederholung. */
 export const XP_PER_REVIEW = 1;
