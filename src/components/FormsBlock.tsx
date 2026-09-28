@@ -12,9 +12,9 @@ const GENDER4_LABELS = ['m', 'f', 'm Pl.', 'f Pl.'];
 // Tabelle 2 × 3: links Singular, rechts Plural
 const PRESENT_ORDER = [0, 3, 1, 4, 2, 5];
 
-/** Hat das Verb unregelmäßige Präsensformen? */
-export function isIrregularVerb(word: Word): boolean {
-  return (word.forms?.irregular?.length ?? 0) > 0;
+/** Präsenstabelle statt Endungsmuster: unregelmäßige Formen, Schreib- oder Akzentänderung. */
+function hasPresentTable(word: Word): boolean {
+  return (word.forms?.irregular?.length ?? 0) > 0 || word.forms?.irregularKind !== undefined;
 }
 
 function SectionTitle({ children }: { children: string }) {
@@ -61,7 +61,7 @@ export function FormsBlock({ word, sentenceForm, onSpeak }: Props) {
   );
 
   if (word.pos === 'verb' && f.present?.length === 6) {
-    if (isIrregularVerb(word)) {
+    if (hasPresentTable(word)) {
       const irregular = new Set(f.irregular);
       return (
         <>

@@ -25,6 +25,7 @@ export interface Word {
 export type StemChange = 'e → ie' | 'o → ue' | 'u → ue' | 'e → i';
 /** Abweichung nur durch Akzent (envío) oder Schreibanpassung (protejo, venzo) statt echter Unregelmäßigkeit. */
 export type IrregularKind = 'accent' | 'spelling';
+export type SpellingChange = 'g → j' | 'c → z' | 'gu → g';
 
 /** Formenblock auf der Kartenrückseite (alle Felder optional, je nach Wortart). */
 export interface WordForms {
@@ -32,12 +33,16 @@ export interface WordForms {
   heard?: string[];
   /** Präsens, genau 6 Formen (yo, tú, él, nosotros, vosotros, ellos), nur bei Verben */
   present?: string[];
-  /** Indizes (0–5) der unregelmäßigen Präsensformen */
+  /** Indizes (0–5) der unregelmäßigen Präsensformen (ohne reine Akzentunterschiede); werden farbig gezeigt */
   irregular?: number[];
   /** Stammwechsel im Präsens, z. B. „o → ue“ (aus present abgeleitet) */
   stemChange?: StemChange;
   /** nur Akzent- oder Schreibänderung (aus present abgeleitet); fehlt bei echten unregelmäßigen Verben */
   irregularKind?: IrregularKind;
+  /** bei irregularKind „spelling“: welche Schreibanpassung */
+  spellingChange?: SpellingChange;
+  /** bei irregularKind „accent“: Beispielform mit Akzent (actúo) */
+  accentForm?: string;
   /** 4 Formen (m. Sg., f. Sg., m. Pl., f. Pl.): veränderliche Adjektive, Begleiter und Pronomen (nicht Adverbien) */
   gender4?: string[];
   /** Plural, nur wenn unregelmäßig */

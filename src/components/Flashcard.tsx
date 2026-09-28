@@ -1,8 +1,8 @@
 import { motion, useMotionValue, useTransform, type PanInfo } from 'framer-motion';
 import { ARTICLE_LEMMAS, CARD_ANIMATION_S, POS_LABELS, SWIPE_THRESHOLD_PX } from '../config/labels.ts';
-import { highlightForm, IRREGULAR_KIND_LABELS, verbClass } from '../domain/forms.ts';
+import { highlightForm, verbTags } from '../domain/forms.ts';
 import type { Direction, Rating, Word } from '../domain/types.ts';
-import { FormsBlock, isIrregularVerb } from './FormsBlock.tsx';
+import { FormsBlock } from './FormsBlock.tsx';
 import { SpeakerButton } from './SpeakerButton.tsx';
 
 interface Props {
@@ -16,19 +16,6 @@ interface Props {
 
 const withArticle = (w: Word) => (w.article ? `${w.article} ${w.es}` : w.es);
 const posLabel = (w: Word) => (w.pos === 'det' && ARTICLE_LEMMAS.includes(w.es) ? 'Artikel' : POS_LABELS[w.pos]);
-
-/** Zusatz-Labels bei Verben mit Präsensformen: „unregelmäßig“ (+ Stammwechsel), „Akzent“/„Schreibänderung“ oder „regelmäßig · -ar“. */
-function verbLabels(w: Word): Array<{ text: string; accent: boolean }> {
-  if (w.pos !== 'verb' || w.forms?.present?.length !== 6) return [];
-  if (w.forms.irregularKind) return [{ text: IRREGULAR_KIND_LABELS[w.forms.irregularKind], accent: false }];
-  if (isIrregularVerb(w)) {
-    const labels = [{ text: 'unregelmäßig', accent: true }];
-    if (w.forms.stemChange) labels.push({ text: w.forms.stemChange, accent: true });
-    return labels;
-  }
-  const cls = verbClass(w.es);
-  return cls ? [{ text: `regelmäßig · -${cls}`, accent: false }] : [];
-}
 
 const chip = 'rounded-full px-2.5 py-1 text-xs font-semibold';
 
@@ -47,7 +34,7 @@ export function Flashcard({ word, direction, revealed, onReveal, onSwipe, onSpea
 
   const spanish = withArticle(word);
   const hl = highlightForm(word, word.exampleEs);
-  const verb = verbLabels(word);
+  const verb = verbTags(word);
 
   const front =
     direction === 'es-de' ? (

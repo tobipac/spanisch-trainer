@@ -4,7 +4,7 @@
 // Aufruf: npm run sample:words [-- words-0301-0600.json …]  → data/words/samples/<paket>-stichprobe.md
 // Ohne Argument werden alle Pakete neu erzeugt.
 import { mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
-import { highlightForm, IRREGULAR_KIND_LABELS, verbClass } from '../src/domain/forms.ts';
+import { highlightForm, verbTags } from '../src/domain/forms.ts';
 import type { Word } from '../src/domain/types.ts';
 import { parseRanking } from './lib/word-checks.ts';
 
@@ -47,11 +47,7 @@ function formsText(w: Word): string {
   const parts: string[] = [];
   if (f.present) {
     const irregular = new Set(f.irregular ?? []);
-    const labels = f.irregularKind
-      ? [IRREGULAR_KIND_LABELS[f.irregularKind]]
-      : irregular.size > 0
-        ? ['unregelmäßig', f.stemChange].filter(Boolean)
-        : [`regelmäßig -${verbClass(w.es)}`];
+    const labels = verbTags(w).map((t) => t.text);
     parts.push(`Präsens: ${f.present.map((p, i) => (irregular.has(i) ? `**${p}**` : p)).join(', ')} (${labels.join(', ')})`);
   }
   if (f.gender4) parts.push(`Formen: ${f.gender4.join(' · ')}`);

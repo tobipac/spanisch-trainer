@@ -30,24 +30,24 @@
 
 ## Einträge mit Formenblock
 
-17 von 133 Einträgen mit Formen. Präsens: unregelmäßige Formen fett. Beispielsatz: hervorgehobene Form fett.
+17 von 117 Einträgen mit Formen. Präsens: unregelmäßige Formen fett. Beispielsatz: hervorgehobene Form fett.
 
 | Rang | Lemma | Formenblock | Beispielsatz | Hinweis | Anmerkung Nutzer |
 |---:|---|---|---|---|---|
 | 611 | tranquilo | Formen: tranquilo · tranquila · tranquilos · tranquilas<br>häufig gehört: tranquilo, tranquila, tranquilos | ¡**Tranquilo**, no pasa nada! | ¡tranquilo! = beruhige dich |  |
-| 626 | posición | Plural: posiciones | Cambia de **posición**. |  |  |
-| 629 | proteger | Präsens: **protejo**, proteges, protege, protegemos, protegéis, protegen (Schreibänderung)<br>häufig gehört: proteger, protege, protegerte | Esta crema **protege** del sol. |  |  |
+| 635 | dirigir | Präsens: **dirijo**, diriges, dirige, dirigimos, dirigís, dirigen (Schreibweise g → j)<br>häufig gehört: dirige, dirigió, dirigir | Ella **dirige** la empresa. |  |  |
 | 641 | distinto | Formen: distinto · distinta · distintos · distintas<br>häufig gehört: distintos, distintas, distinto | Tenemos opiniones **distintas**. |  |  |
 | 655 | soler | Präsens: **suelo**, **sueles**, **suele**, solemos, soléis, **suelen** (unregelmäßig, o → ue)<br>häufig gehört: solía, suele, suelen | Mi padre **suele** levantarse temprano. | nur mit Infinitiv |  |
 | 695 | conducir | Präsens: **conduzco**, conduces, conduce, conducimos, conducís, conducen (unregelmäßig)<br>häufig gehört: conducir, conduce, conduciendo | No sé **conducir**. | in Spanien: conducir |  |
 | 701 | chino | Formen: chino · china · chinos · chinas<br>häufig gehört: china, chino, chinos | Hablo un poco de **chino**. |  |  |
-| 761 | celebrar | Präsens: celebro, celebras, celebra, celebramos, celebráis, celebran (regelmäßig -ar)<br>häufig gehört: celebrar, celebra, celebró | **Celebramos** su cumpleaños. |  |  |
+| 729 | interés | Plural: intereses | No tengo **interés** en el fútbol. |  |  |
+| 761 | celebrar | Präsens: celebro, celebras, celebra, celebramos, celebráis, celebran (regelmäßig · -ar)<br>häufig gehört: celebrar, celebra, celebró | **Celebramos** su cumpleaños. |  |  |
 | 769 | vuestro | Formen: vuestro · vuestra · vuestros · vuestras | ¿Es **vuestro** coche? | nur in Spanien |  |
-| 775 | respetar | Präsens: respeto, respetas, respeta, respetamos, respetáis, respetan (regelmäßig -ar)<br>häufig gehört: respeto, respetar, respeta | **Respeta** las normas. | el respeto = der Respekt |  |
-| 789 | desaparecer | Präsens: **desaparezco**, desapareces, desaparece, desaparecemos, desaparecéis, desaparecen (unregelmäßig)<br>häufig gehört: desapareció, desaparecer, desaparece | Mi gato **desapareció** ayer. |  |  |
+| 775 | respetar | Präsens: respeto, respetas, respeta, respetamos, respetáis, respetan (regelmäßig · -ar)<br>häufig gehört: respeto, respetar, respeta | **Respeta** las normas. | el respeto = der Respekt |  |
 | 800 | preferir | Präsens: **prefiero**, **prefieres**, **prefiere**, preferimos, preferís, **prefieren** (unregelmäßig, e → ie)<br>häufig gehört: prefiero, preferiría, prefiere | **Prefiero** el té. |  |  |
-| 824 | llorar | Präsens: lloro, lloras, llora, lloramos, lloráis, lloran (regelmäßig -ar)<br>häufig gehört: llorar, llorando, llora | No **llores**, por favor. |  |  |
-| 834 | misión | Plural: misiones | Es una **misión** difícil. |  |  |
+| 819 | representar | Präsens: represento, representas, representa, representamos, representáis, representan (regelmäßig · -ar)<br>häufig gehört: representa, representan, representar | **Representa** a su país. |  |  |
+| 821 | recoger | Präsens: **recojo**, recoges, recoge, recogemos, recogéis, recogen (Schreibweise g → j)<br>häufig gehört: recoger, recoge, recogió | Mi padre me **recoge** a las ocho. |  |  |
 | 835 | maravilloso | Formen: maravilloso · maravillosa · maravillosos · maravillosas<br>häufig gehört: maravilloso, maravillosa, maravillosas | Hace un día **maravilloso**. |  |  |
 | 846 | demostrar | Präsens: **demuestro**, **demuestras**, **demuestra**, demostramos, demostráis, **demuestran** (unregelmäßig, o → ue)<br>häufig gehört: demostrar, demuestra, demostró | Te lo voy a **demostrar**. |  |  |
 | 854 | viernes | Plural: viernes | El **viernes** salimos. |  |  |
+| 897 | juez | Plural: jueces | El **juez** habló con los testigos. | el/la juez |  |

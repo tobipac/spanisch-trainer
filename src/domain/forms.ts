@@ -1,5 +1,5 @@
 // Wortformen für den Formenblock der Kartenrückseite: Präsensmuster, Plural, Hervorhebung im Beispielsatz.
-import type { IrregularKind, StemChange, Word } from './types.ts';
+import type { IrregularKind, SpellingChange, StemChange, Word } from './types.ts';
 
 export type VerbClass = 'ar' | 'er' | 'ir';
 
@@ -34,33 +34,63 @@ export function regularPresent(infinitive: string): string[] | null {
   return regularPresentParts(infinitive)?.map(([s, e]) => s + e) ?? null;
 }
 
-/** Indizes der Formen, die vom regelmäßigen Muster abweichen. */
-export function irregularIndices(infinitive: string, present: readonly string[]): number[] {
-  const regular = regularPresent(infinitive);
-  return present.flatMap((f, i) => (regular && regular[i] === f ? [] : [i]));
-}
-
-/** Beschriftung der Arten von Abweichung (für Etikett und Stichprobe). */
-export const IRREGULAR_KIND_LABELS: Record<IrregularKind, string> = { accent: 'Akzent', spelling: 'Schreibänderung' };
+/** Unterscheiden sich zwei Formen nur im Akzent (actúo/actuo, oímos/oimos)? */
+const accentOnly = (a: string, b: string) => a !== b && stripAccents(a) === stripAccents(b);
 
 /**
- * Art der Abweichung vom regelmäßigen Präsens: „accent“, wenn sich die abweichenden Formen nur im
- * Akzent unterscheiden (envío, actúo, reúno), „spelling“, wenn nur die yo-Form orthografisch angepasst
- * wird (g → j: protejo, c → z nach Konsonant: venzo, gu → g: distingo). Sonst null (echt unregelmäßig).
+ * Indizes der Formen, die wirklich vom regelmäßigen Muster abweichen (farbig in der Tabelle).
+ * Reine Akzentunterschiede zählen nicht (oímos, reímos, envío).
  */
-export function irregularKind(infinitive: string, present: readonly string[]): IrregularKind | null {
+export function irregularIndices(infinitive: string, present: readonly string[]): number[] {
   const regular = regularPresent(infinitive);
-  const idx = irregularIndices(infinitive, present);
-  if (!regular || idx.length === 0) return null;
-  if (idx.every((i) => stripAccents(present[i]!) === stripAccents(regular[i]!))) return 'accent';
-  if (idx.length === 1 && idx[0] === 0) {
+  return present.flatMap((f, i) => (regular && (regular[i] === f || accentOnly(f, regular[i]!)) ? [] : [i]));
+}
+
+/** Indizes der Formen, die sich nur im Akzent vom regelmäßigen Muster unterscheiden. */
+export function accentIndices(infinitive: string, present: readonly string[]): number[] {
+  const regular = regularPresent(infinitive);
+  return regular ? present.flatMap((f, i) => (accentOnly(f, regular[i]!) ? [i] : [])) : [];
+}
+
+export interface IrregularInfo {
+  kind: IrregularKind;
+  /** bei „spelling“: g → j (protejo), c → z (venzo), gu → g (distingo) */
+  spellingChange?: SpellingChange;
+  /** bei „accent“: erste Form mit Akzent als Beispiel (actúo) */
+  accentForm?: string;
+}
+
+/**
+ * Keine echte Unregelmäßigkeit, sondern nur Akzent (alle Abweichungen sind Akzente: actúo, reúno)
+ * oder nur Schreibweise der yo-Form (protejo, venzo, distingo). Sonst null.
+ */
+export function irregularInfo(infinitive: string, present: readonly string[]): IrregularInfo | null {
+  const regular = regularPresent(infinitive);
+  if (!regular) return null;
+  const real = irregularIndices(infinitive, present);
+  const accents = accentIndices(infinitive, present);
+  if (real.length === 0) return accents.length > 0 ? { kind: 'accent', accentForm: present[accents[0]!]! } : null;
+  if (real.length === 1 && real[0] === 0) {
     const stem = regular[0]!.slice(0, -1);
     const yo = present[0];
-    if (stem.endsWith('g') && yo === `${stem.slice(0, -1)}jo`) return 'spelling';
-    if (/[^aeiouáéíóú]c$/.test(stem) && yo === `${stem.slice(0, -1)}zo`) return 'spelling';
-    if (stem.endsWith('gu') && yo === `${stem.slice(0, -1)}o`) return 'spelling';
+    if (stem.endsWith('gu') && yo === `${stem.slice(0, -1)}o`) return { kind: 'spelling', spellingChange: 'gu → g' };
+    if (stem.endsWith('g') && yo === `${stem.slice(0, -1)}jo`) return { kind: 'spelling', spellingChange: 'g → j' };
+    if (/[^aeiouáéíóú]c$/.test(stem) && yo === `${stem.slice(0, -1)}zo`) return { kind: 'spelling', spellingChange: 'c → z' };
   }
   return null;
+}
+
+/** Etiketten eines Verbs: „unregelmäßig“ (+ Stammwechsel), „Schreibweise g → j“, „Akzent · actúo“ oder „regelmäßig · -ar“. */
+export function verbTags(word: Pick<Word, 'es' | 'pos' | 'forms'>): Array<{ text: string; accent: boolean }> {
+  const f = word.forms;
+  if (word.pos !== 'verb' || f?.present?.length !== 6) return [];
+  if (f.irregularKind === 'spelling') return [{ text: `Schreibweise ${f.spellingChange ?? ''}`.trim(), accent: false }];
+  if (f.irregularKind === 'accent') return [{ text: `Akzent · ${f.accentForm ?? ''}`, accent: false }];
+  if ((f.irregular?.length ?? 0) > 0) {
+    return [{ text: 'unregelmäßig', accent: true }, ...(f.stemChange ? [{ text: f.stemChange, accent: true }] : [])];
+  }
+  const cls = verbClass(word.es);
+  return cls ? [{ text: `regelmäßig · -${cls}`, accent: false }] : [];
 }
 
 /** Stammwechsel, geprüft an der él-Form: e → ie vor e → i, damit pienso nicht als e → i gilt. */

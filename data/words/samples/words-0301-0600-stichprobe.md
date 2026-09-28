@@ -32,24 +32,24 @@
 
 ## Einträge mit Formenblock
 
-17 von 116 Einträgen mit Formen. Präsens: unregelmäßige Formen fett. Beispielsatz: hervorgehobene Form fett.
+17 von 105 Einträgen mit Formen. Präsens: unregelmäßige Formen fett. Beispielsatz: hervorgehobene Form fett.
 
 | Rang | Lemma | Formenblock | Beispielsatz | Hinweis | Anmerkung Nutzer |
 |---:|---|---|---|---|---|
 | 304 | largo | Formen: largo · larga · largos · largas<br>häufig gehört: largo, larga, largos | Es un viaje muy **largo**. | Achtung: largo ≠ groß (grande) |  |
-| 313 | enviar | Präsens: **envío**, **envías**, **envía**, enviamos, enviáis, **envían** (Akzent)<br>häufig gehört: envió, enviado, enviar | Te **envío** la foto ahora. |  |  |
 | 324 | supuesto | Formen: supuesto · supuesta · supuestos · supuestas<br>häufig gehört: supuesto, supuesta, supuestos | ¡Por **supuesto** que sí! |  |  |
+| 340 | mover | Präsens: **muevo**, **mueves**, **mueve**, movemos, movéis, **mueven** (unregelmäßig, o → ue)<br>häufig gehört: mueve, mover, muevas | No te **muevas**. |  |  |
+| 368 | orden | Plural: órdenes | Todo está en **orden**. | el orden = Ordnung, la orden = Befehl |  |
 | 374 | justo | Formen: justo · justa · justos · justas<br>häufig gehört: justo, justa, justos | No es **justo**. |  |  |
 | 386 | humano | Formen: humano · humana · humanos · humanas<br>häufig gehört: humanos, humano, humana | Es un error **humano**. |  |  |
-| 402 | echar | Präsens: echo, echas, echa, echamos, echáis, echan (regelmäßig -ar)<br>häufig gehört: echar, echo, echa | Te **echo** de menos. |  |  |
-| 434 | incluir | Präsens: **incluyo**, **incluyes**, **incluye**, incluimos, incluís, **incluyen** (unregelmäßig)<br>häufig gehört: incluye, incluyendo, incluyen | ¿El precio **incluye** el desayuno? |  |  |
-| 439 | utilizar | Präsens: utilizo, utilizas, utiliza, utilizamos, utilizáis, utilizan (regelmäßig -ar)<br>häufig gehört: utilizar, utiliza, utilizando | **Utiliza** el ascensor. |  |  |
-| 493 | levantar | Präsens: levanto, levantas, levanta, levantamos, levantáis, levantan (regelmäßig -ar)<br>häufig gehört: levántate, levanta, levantar | Me **levanto** a las siete. |  |  |
-| 502 | coger | Präsens: **cojo**, coges, coge, cogemos, cogéis, cogen (Schreibänderung)<br>häufig gehört: coger, coge, cogió | Mi padre **coge** el autobús a las ocho. | typisch für Spanien; in Lateinamerika vulgär |  |
+| 389 | luz | Plural: luces | Apaga la **luz**, por favor. |  |  |
+| 402 | echar | Präsens: echo, echas, echa, echamos, echáis, echan (regelmäßig · -ar)<br>häufig gehört: echar, echo, echa | Te **echo** de menos. |  |  |
+| 439 | utilizar | Präsens: utilizo, utilizas, utiliza, utilizamos, utilizáis, utilizan (regelmäßig · -ar)<br>häufig gehört: utilizar, utiliza, utilizando | **Utiliza** el ascensor. |  |  |
+| 447 | ofrecer | Präsens: **ofrezco**, ofreces, ofrece, ofrecemos, ofrecéis, ofrecen (unregelmäßig)<br>häufig gehört: ofrece, ofrecer, ofreció | El hotel **ofrece** desayuno gratis. |  |  |
+| 493 | levantar | Präsens: levanto, levantas, levanta, levantamos, levantáis, levantan (regelmäßig · -ar)<br>häufig gehört: levántate, levanta, levantar | Me **levanto** a las siete. |  |  |
+| 502 | coger | Präsens: **cojo**, coges, coge, cogemos, cogéis, cogen (Schreibweise g → j)<br>häufig gehört: coger, coge, cogió | Mi padre **coge** el autobús a las ocho. | typisch für Spanien; in Lateinamerika vulgär |  |
 | 522 | referir | Präsens: **refiero**, **refieres**, **refiere**, referimos, referís, **refieren** (unregelmäßig, e → ie)<br>häufig gehört: refiero, refieres, refiere | ¿A qué te **refieres**? |  |  |
+| 529 | sonar | Präsens: **sueno**, **suenas**, **suena**, sonamos, sonáis, **suenan** (unregelmäßig, o → ue)<br>häufig gehört: suena, sonar, sonaba | **Suena** el teléfono. |  |  |
 | 552 | hermoso | Formen: hermoso · hermosa · hermosos · hermosas<br>häufig gehört: hermosa, hermoso, hermosas | ¡Qué ciudad tan **hermosa**! |  |  |
-| 561 | confiar | Präsens: **confío**, **confías**, **confía**, confiamos, confiáis, **confían** (Akzent)<br>häufig gehört: confiar, confía, confío | **Confío** en ti. | confiar en = vertrauen auf |  |
-| 568 | dirección | Plural: direcciones | ¿Cuál es tu **dirección**? |  |  |
-| 579 | población | Plural: poblaciones | La **población** de Madrid es grande. |  |  |
 | 581 | voz | Plural: voces | Tienes una **voz** muy bonita. | en voz alta = laut |  |
 | 592 | producir | Präsens: **produzco**, produces, produce, producimos, producís, producen (unregelmäßig)<br>häufig gehört: produce, produjo, producir | Esta región **produce** mucho vino. |  |  |

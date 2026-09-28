@@ -3,13 +3,14 @@ import {
   adjGender4,
   highlightForm,
   irregularIndices,
-  irregularKind,
+  irregularInfo,
   regularPlural,
   regularPresent,
   regularPresentParts,
   spellingPlural,
   stemChange,
   verbClass,
+  verbTags,
 } from '../src/domain/forms.ts';
 import type { Word } from '../src/domain/types.ts';
 
@@ -38,15 +39,30 @@ describe('Präsensmuster', () => {
     expect(irregularIndices('hablar', regularPresent('hablar')!)).toEqual([]);
   });
 
+  it('zählt reine Akzentunterschiede nicht als unregelmäßig', () => {
+    expect(irregularIndices('oír', ['oigo', 'oyes', 'oye', 'oímos', 'oís', 'oyen'])).toEqual([0, 1, 2, 5]);
+    expect(irregularIndices('reír', ['río', 'ríes', 'ríe', 'reímos', 'reís', 'ríen'])).toEqual([0, 1, 2, 5]);
+    expect(irregularIndices('huir', ['huyo', 'huyes', 'huye', 'huimos', 'huis', 'huyen'])).toEqual([0, 1, 2, 5]);
+    expect(irregularIndices('actuar', ['actúo', 'actúas', 'actúa', 'actuamos', 'actuáis', 'actúan'])).toEqual([]);
+  });
+
   it('unterscheidet Akzent- und Schreibänderung von echter Unregelmäßigkeit', () => {
-    expect(irregularKind('enviar', ['envío', 'envías', 'envía', 'enviamos', 'enviáis', 'envían'])).toBe('accent');
-    expect(irregularKind('reunir', ['reúno', 'reúnes', 'reúne', 'reunimos', 'reunís', 'reúnen'])).toBe('accent');
-    expect(irregularKind('proteger', ['protejo', 'proteges', 'protege', 'protegemos', 'protegéis', 'protegen'])).toBe('spelling');
-    expect(irregularKind('vencer', ['venzo', 'vences', 'vence', 'vencemos', 'vencéis', 'vencen'])).toBe('spelling');
-    expect(irregularKind('distinguir', ['distingo', 'distingues', 'distingue', 'distinguimos', 'distinguís', 'distinguen'])).toBe('spelling');
-    expect(irregularKind('conocer', ['conozco', 'conoces', 'conoce', 'conocemos', 'conocéis', 'conocen'])).toBeNull();
-    expect(irregularKind('oír', ['oigo', 'oyes', 'oye', 'oímos', 'oís', 'oyen'])).toBeNull();
-    expect(irregularKind('hablar', regularPresent('hablar')!)).toBeNull();
+    expect(irregularInfo('actuar', ['actúo', 'actúas', 'actúa', 'actuamos', 'actuáis', 'actúan'])).toEqual({ kind: 'accent', accentForm: 'actúo' });
+    expect(irregularInfo('reunir', ['reúno', 'reúnes', 'reúne', 'reunimos', 'reunís', 'reúnen'])).toEqual({ kind: 'accent', accentForm: 'reúno' });
+    expect(irregularInfo('proteger', ['protejo', 'proteges', 'protege', 'protegemos', 'protegéis', 'protegen'])).toEqual({ kind: 'spelling', spellingChange: 'g → j' });
+    expect(irregularInfo('vencer', ['venzo', 'vences', 'vence', 'vencemos', 'vencéis', 'vencen'])).toEqual({ kind: 'spelling', spellingChange: 'c → z' });
+    expect(irregularInfo('distinguir', ['distingo', 'distingues', 'distingue', 'distinguimos', 'distinguís', 'distinguen'])).toEqual({ kind: 'spelling', spellingChange: 'gu → g' });
+    expect(irregularInfo('conocer', ['conozco', 'conoces', 'conoce', 'conocemos', 'conocéis', 'conocen'])).toBeNull();
+    expect(irregularInfo('oír', ['oigo', 'oyes', 'oye', 'oímos', 'oís', 'oyen'])).toBeNull();
+    expect(irregularInfo('hablar', regularPresent('hablar')!)).toBeNull();
+  });
+
+  it('Etiketten der Verben', () => {
+    const tags = (es: string, forms: object) => verbTags({ es, pos: 'verb', forms: { present: ['a', 'b', 'c', 'd', 'e', 'f'], ...forms } }).map((t) => t.text);
+    expect(tags('poder', { irregular: [0, 1, 2, 5], stemChange: 'o → ue' })).toEqual(['unregelmäßig', 'o → ue']);
+    expect(tags('proteger', { irregular: [0], irregularKind: 'spelling', spellingChange: 'g → j' })).toEqual(['Schreibweise g → j']);
+    expect(tags('actuar', { irregularKind: 'accent', accentForm: 'actúo' })).toEqual(['Akzent · actúo']);
+    expect(tags('hablar', {})).toEqual(['regelmäßig · -ar']);
   });
 
   it('erkennt den Stammwechsel an der él-Form', () => {

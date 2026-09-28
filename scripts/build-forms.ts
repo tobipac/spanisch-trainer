@@ -4,13 +4,16 @@
 //  - present: regelmäßig nach Muster, unregelmäßige Verben aus IRREGULAR_PRESENT (von Hand gepflegt)
 //  - gender4: veränderliche Adjektive (adjGender4) und Begleiter/Pronomen aus GENDER4_WORDS
 //  - stemChange: Stammwechsel aus dem Präsens abgeleitet (o → ue, e → ie, e → i, u → ue)
-//  - irregularKind: nur Akzent- oder Schreibänderung statt echter Unregelmäßigkeit
+//  - irregular: nur echte Abweichungen (reine Akzentunterschiede wie oímos zählen nicht)
+//  - irregularKind: nur Akzent (accentForm als Beispiel) oder nur Schreibweise der yo-Form
+//    (spellingChange g → j, c → z, gu → g) statt „unregelmäßig“
+//  - Aufruf mit --alle: auch bestehende forms neu erzeugen (forms sind vollständig generiert)
 //  - plural:  nur wenn abweichend von +s/+es (spellingPlural, STRESS_SHIFT_PLURAL)
 import { readFileSync, writeFileSync } from 'node:fs';
 import {
   adjGender4,
   irregularIndices,
-  irregularKind,
+  irregularInfo,
   regularPlural,
   regularPresent,
   spellingPlural,
@@ -171,8 +174,8 @@ const STRESS_SHIFT_PLURAL: Record<string, string> = {
   margen: 'márgenes',
   volumen: 'volúmenes',
 };
-/** Nomen ohne Plural-Block: nur in festen Wendungen oder Plural im Alltag praktisch ungebräuchlich. */
-const NO_PLURAL = new Set(['través', 'veras', 'paz', 'educación', 'perdón']);
+/** Nomen ohne Plural-Block: nur in festen Wendungen gebräuchlich. */
+const NO_PLURAL = new Set(['través', 'veras']);
 
 export function formsFor(w: Word, topForms: string[]): WordForms | undefined {
   const forms: WordForms = {};
@@ -188,15 +191,21 @@ export function formsFor(w: Word, topForms: string[]): WordForms | undefined {
     forms.present = present;
     const irregular = irregularIndices(w.es, present);
     if (irregular.length > 0) forms.irregular = irregular;
-    const kind = irregularKind(w.es, present);
-    if (kind) forms.irregularKind = kind;
+    const info = irregularInfo(w.es, present);
+    if (info) {
+      forms.irregularKind = info.kind;
+      if (info.spellingChange) forms.spellingChange = info.spellingChange;
+      if (info.accentForm) forms.accentForm = info.accentForm;
+    }
     const change = stemChange(w.es, present);
     if (change) forms.stemChange = change;
   }
   if (gender4) forms.gender4 = gender4;
   if (w.pos === 'noun' && !NO_PLURAL.has(w.es)) {
     const plural = STRESS_SHIFT_PLURAL[w.es] ?? spellingPlural(w.es);
-    if (plural !== regularPlural(w.es)) forms.plural = plural;
+    // -ón/-ción/-sión: nur Akzentwegfall (canción → canciones) – kein Block
+    const onlyAccentDropped = w.es.endsWith('ón') && plural === `${w.es.slice(0, -2)}ones`;
+    if (plural !== regularPlural(w.es) && !onlyAccentDropped) forms.plural = plural;
   }
   return Object.keys(forms).length > 0 ? forms : undefined;
 }
@@ -215,7 +224,8 @@ export function formatValue(v: unknown): string {
 }
 
 if (import.meta.main) {
-  const files = process.argv.slice(2);
+  const all = process.argv.includes('--alle');
+  const files = process.argv.slice(2).filter((a) => a !== '--alle');
   if (files.length === 0) {
     console.error('Aufruf: npm run build:forms -- words-0001-0300.json [weitere Pakete]');
     process.exit(1);
@@ -228,13 +238,14 @@ if (import.meta.main) {
     const words = JSON.parse(readFileSync(url, 'utf-8')) as Word[];
     let added = 0;
     const out = words.map((w) => {
-      if (w.forms) return w;
+      if (w.forms && !all) return w;
+      const { forms: _old, ...rest } = w;
       const forms = formsFor(w, ranking.get(w.rank)?.topForms ?? []);
-      if (!forms) return w;
+      if (!forms) return rest;
       added++;
-      return { ...w, forms };
+      return { ...rest, forms };
     });
     writeFileSync(url, `[\n${out.map((w) => `  ${formatValue(w)}`).join(',\n')}\n]\n`, 'utf-8');
-    console.log(`${file}: forms bei ${added} Einträgen ergänzt.`);
+    console.log(`${file}: forms bei ${added} Einträgen ${all ? 'neu erzeugt' : 'ergänzt'}.`);
   }
 }

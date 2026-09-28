@@ -30,24 +30,24 @@
 
 ## Einträge mit Formenblock
 
-17 von 121 Einträgen mit Formen. Präsens: unregelmäßige Formen fett. Beispielsatz: hervorgehobene Form fett.
+17 von 107 Einträgen mit Formen. Präsens: unregelmäßige Formen fett. Beispielsatz: hervorgehobene Form fett.
 
 | Rang | Lemma | Formenblock | Beispielsatz | Hinweis | Anmerkung Nutzer |
 |---:|---|---|---|---|---|
 | 912 | costar | Präsens: **cuesto**, **cuestas**, **cuesta**, costamos, costáis, **cuestan** (unregelmäßig, o → ue)<br>häufig gehört: cuesta, costó, costará | ¿Cuánto **cuesta**? | me cuesta = es fällt mir schwer |  |
-| 926 | apoyar | Präsens: apoyo, apoyas, apoya, apoyamos, apoyáis, apoyan (regelmäßig -ar)<br>häufig gehört: apoyar, apoya, apoyado | Mis padres me **apoyan**. |  |  |
+| 926 | apoyar | Präsens: apoyo, apoyas, apoya, apoyamos, apoyáis, apoyan (regelmäßig · -ar)<br>häufig gehört: apoyar, apoya, apoyado | Mis padres me **apoyan**. |  |  |
 | 943 | directo | Formen: directo · directa · directos · directas<br>häufig gehört: directo, directa, directos | Es un vuelo **directo**. | en directo = live |  |
 | 947 | negar | Präsens: **niego**, **niegas**, **niega**, negamos, negáis, **niegan** (unregelmäßig, e → ie)<br>häufig gehört: negó, niega, negar | **Niega** todo. |  |  |
 | 971 | acordar | Präsens: **acuerdo**, **acuerdas**, **acuerda**, acordamos, acordáis, **acuerdan** (unregelmäßig, o → ue)<br>häufig gehört: acuerdas, acuerda, acordó | ¿Te **acuerdas** de mí? |  |  |
 | 977 | lunes | Plural: lunes | El **lunes** empiezo a trabajar. | los lunes = montags |  |
 | 1027 | pertenecer | Präsens: **pertenezco**, perteneces, pertenece, pertenecemos, pertenecéis, pertenecen (unregelmäßig)<br>häufig gehört: pertenece, pertenecen, pertenecía | Este libro **pertenece** a la biblioteca. |  |  |
-| 1034 | investigar | Präsens: investigo, investigas, investiga, investigamos, investigáis, investigan (regelmäßig -ar)<br>häufig gehört: investigar, investigando, investigado | La policía **investiga** el caso. |  |  |
-| 1044 | cubrir | Präsens: cubro, cubres, cubre, cubrimos, cubrís, cubren (regelmäßig -ir)<br>häufig gehört: cubrir, cubre, cubriendo | La nieve **cubre** las montañas. | Partizip: cubierto |  |
+| 1034 | investigar | Präsens: investigo, investigas, investiga, investigamos, investigáis, investigan (regelmäßig · -ar)<br>häufig gehört: investigar, investigando, investigado | La policía **investiga** el caso. |  |  |
+| 1044 | cubrir | Präsens: cubro, cubres, cubre, cubrimos, cubrís, cubren (regelmäßig · -ir)<br>häufig gehört: cubrir, cubre, cubriendo | La nieve **cubre** las montañas. | Partizip: cubierto |  |
 | 1063 | famoso | Formen: famoso · famosa · famosos · famosas<br>häufig gehört: famoso, famosa, famosos | Es un cantante muy **famoso**. |  |  |
 | 1073 | entendido | Formen: entendido · entendida · entendidos · entendidas<br>häufig gehört: entendido, entendidos, entendida | ¡**Entendido**! |  |  |
 | 1083 | gracioso | Formen: gracioso · graciosa · graciosos · graciosas<br>häufig gehört: gracioso, graciosa, graciosos | Es muy **gracioso**. |  |  |
 | 1101 | contener | Präsens: **contengo**, **contienes**, **contiene**, contenemos, contenéis, **contienen** (unregelmäßig, e → ie)<br>häufig gehört: contiene, contener, contienen | La botella **contiene** agua. | wird wie tener konjugiert |  |
-| 1102 | declaración | Plural: declaraciones | La **declaración** de la renta. |  |  |
 | 1119 | origen | Plural: orígenes | ¿Cuál es el **origen** de la palabra? |  |  |
+| 1145 | jueves | Plural: jueves | El **jueves** tengo clase. |  |  |
 | 1161 | activo | Formen: activo · activa · activos · activas<br>häufig gehört: activos, activo, activa | Es una persona muy **activa**. |  |  |
 | 1199 | reducir | Präsens: **reduzco**, reduces, reduce, reducimos, reducís, reducen (unregelmäßig)<br>häufig gehört: reducir, reduce, redujo | Hay que **reducir** el consumo. |  |  |
