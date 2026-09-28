@@ -71,6 +71,62 @@ const IRREGULAR_PRESENT: Record<string, string> = {
   confiar: 'confío confías confía confiamos confiáis confían',
   reconocer: 'reconozco reconoces reconoce reconocemos reconocéis reconocen',
   producir: 'produzco produces produce producimos producís producen',
+  // Paket 3
+  actuar: 'actúo actúas actúa actuamos actuáis actúan',
+  despertar: 'despierto despiertas despierta despertamos despertáis despiertan',
+  elegir: 'elijo eliges elige elegimos elegís eligen',
+  proteger: 'protejo proteges protege protegemos protegéis protegen',
+  dirigir: 'dirijo diriges dirige dirigimos dirigís dirigen',
+  soler: 'suelo sueles suele solemos soléis suelen',
+  construir: 'construyo construyes construye construimos construís construyen',
+  probar: 'pruebo pruebas prueba probamos probáis prueban',
+  reunir: 'reúno reúnes reúne reunimos reunís reúnen',
+  crecer: 'crezco creces crece crecemos crecéis crecen',
+  conducir: 'conduzco conduces conduce conducimos conducís conducen',
+  volar: 'vuelo vuelas vuela volamos voláis vuelan',
+  mentir: 'miento mientes miente mentimos mentís mienten',
+  desaparecer: 'desaparezco desapareces desaparece desaparecemos desaparecéis desaparecen',
+  preferir: 'prefiero prefieres prefiere preferimos preferís prefieren',
+  recoger: 'recojo recoges recoge recogemos recogéis recogen',
+  permanecer: 'permanezco permaneces permanece permanecemos permanecéis permanecen',
+  resolver: 'resuelvo resuelves resuelve resolvemos resolvéis resuelven',
+  huir: 'huyo huyes huye huimos huis huyen',
+  demostrar: 'demuestro demuestras demuestra demostramos demostráis demuestran',
+  agradecer: 'agradezco agradeces agradece agradecemos agradecéis agradecen',
+  destruir: 'destruyo destruyes destruye destruimos destruís destruyen',
+  merecer: 'merezco mereces merece merecemos merecéis merecen',
+  devolver: 'devuelvo devuelves devuelve devolvemos devolvéis devuelven',
+  // Paket 4
+  nacer: 'nazco naces nace nacemos nacéis nacen',
+  establecer: 'establezco estableces establece establecemos establecéis establecen',
+  costar: 'cuesto cuestas cuesta costamos costáis cuestan',
+  defender: 'defiendo defiendes defiende defendemos defendéis defienden',
+  negar: 'niego niegas niega negamos negáis niegan',
+  acordar: 'acuerdo acuerdas acuerda acordamos acordáis acuerdan',
+  pertenecer: 'pertenezco perteneces pertenece pertenecemos pertenecéis pertenecen',
+  contener: 'contengo contienes contiene contenemos contenéis contienen',
+  requerir: 'requiero requieres requiere requerimos requerís requieren',
+  sostener: 'sostengo sostienes sostiene sostenemos sostenéis sostienen',
+  doler: 'duelo dueles duele dolemos doléis duelen',
+  soltar: 'suelto sueltas suelta soltamos soltáis sueltan',
+  sugerir: 'sugiero sugieres sugiere sugerimos sugerís sugieren',
+  repetir: 'repito repites repite repetimos repetís repiten',
+  reducir: 'reduzco reduces reduce reducimos reducís reducen',
+  // Paket 5
+  reír: 'río ríes ríe reímos reís ríen',
+  divertir: 'divierto diviertes divierte divertimos divertís divierten',
+  apostar: 'apuesto apuestas apuesta apostamos apostáis apuestan',
+  proponer: 'propongo propones propone proponemos proponéis proponen',
+  comprobar: 'compruebo compruebas comprueba comprobamos comprobáis comprueban',
+  despedir: 'despido despides despide despedimos despedís despiden',
+  advertir: 'advierto adviertes advierte advertimos advertís advierten',
+  aprobar: 'apruebo apruebas aprueba aprobamos aprobáis aprueban',
+  oler: 'huelo hueles huele olemos oléis huelen',
+  rendir: 'rindo rindes rinde rendimos rendís rinden',
+  atender: 'atiendo atiendes atiende atendemos atendéis atienden',
+  convencer: 'convenzo convences convence convencemos convencéis convencen',
+  vencer: 'venzo vences vence vencemos vencéis vencen',
+  acostar: 'acuesto acuestas acuesta acostamos acostáis acuestan',
 };
 
 /** Begleiter und Pronomen mit 4 Formen: m. Sg., f. Sg., m. Pl., f. Pl. */
@@ -107,7 +163,7 @@ const STRESS_SHIFT_PLURAL: Record<string, string> = {
   volumen: 'volúmenes',
 };
 /** Nomen, die praktisch nur in festen Wendungen ohne Plural vorkommen. */
-const NO_PLURAL = new Set(['través']);
+const NO_PLURAL = new Set(['través', 'veras']);
 
 export function formsFor(w: Word, topForms: string[]): WordForms | undefined {
   const forms: WordForms = {};

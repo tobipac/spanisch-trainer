@@ -64,6 +64,11 @@ describe('Präsensmuster', () => {
     expect(spellingPlural('país')).toBe('países');
     expect(spellingPlural('mes')).toBe('meses');
     expect(spellingPlural('casa')).toBe('casas');
+    expect(spellingPlural('lunes')).toBe('lunes');
+    expect(spellingPlural('análisis')).toBe('análisis');
+    expect(spellingPlural('cumpleaños')).toBe('cumpleaños');
+    expect(spellingPlural('gas')).toBe('gases');
+    expect(spellingPlural('dios')).toBe('dioses');
   });
 });
 

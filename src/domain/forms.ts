@@ -102,9 +102,15 @@ export function regularPlural(noun: string): string {
 /**
  * Plural mit Schreibregeln: -z → -ces (vez → veces), betonte Endsilbe auf -n/-s verliert den Akzent
  * (canción → canciones, autobús → autobuses), außer bei í/ú im Hiat (país → países).
+ * Mehrsilbige Wörter auf unbetontes Vokal + s bleiben gleich (lunes, crisis).
  * Akzentverschiebungen (joven → jóvenes) lassen sich so nicht ableiten.
  */
 export function spellingPlural(noun: string): string {
+  // unbetonte Endsilbe auf Vokal + s, mehrsilbig: unveränderlich (el lunes → los lunes, la crisis)
+  const syllables = noun.match(/[aeiouáéíóú]+/g)?.length ?? 0;
+  if (syllables >= 2 && /[aeiou]s$/.test(noun) && !/[áéíóú][^aeiouáéíóú]*s$/.test(noun) && !/[áéíóú]s$/.test(noun)) {
+    return noun;
+  }
   if (noun.endsWith('z')) return `${noun.slice(0, -1)}ces`;
   if (/[áéó][ns]$/.test(noun) || /(^|[^aeiouáéó])[íú][ns]$/.test(noun)) return `${unaccentLast(noun)}es`;
   return regularPlural(noun);

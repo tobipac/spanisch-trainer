@@ -26,3 +26,27 @@
 | 1438 | el deseo ⚑ | der Wunsch _(deseo auch von desear: deseo = ich wünsche)_ | Pide un deseo. | Wünsch dir was. |  |
 | 1465 | el aeropuerto | der Flughafen | ¿Cómo llego al aeropuerto? | Wie komme ich zum Flughafen? |  |
 | 1469 | la calma | die Ruhe _(con calma = in Ruhe)_ | ¡Calma, por favor! | Ruhe bitte! |  |
+
+## Einträge mit Formenblock
+
+17 von 133 Einträgen mit Formen. Präsens: unregelmäßige Formen fett. Beispielsatz: hervorgehobene Form fett.
+
+| Rang | Lemma | Formenblock | Beispielsatz | Hinweis | Anmerkung Nutzer |
+|---:|---|---|---|---|---|
+| 1249 | interno | Formen: interno · interna · internos · internas<br>häufig gehört: interna, interno, internos | Es un problema **interno**. |  |  |
+| 1253 | precioso | Formen: precioso · preciosa · preciosos · preciosas<br>häufig gehört: preciosa, precioso, preciosas | ¡Qué vestido tan **precioso**! | in Spanien sehr häufig für „schön“ |  |
+| 1255 | proponer | Präsens: **propongo**, propones, propone, proponemos, proponéis, proponen (unregelmäßig)<br>häufig gehört: propone, propuso, propuesto | **Propongo** ir al cine. | wird wie poner konjugiert; Partizip: propuesto |  |
+| 1259 | crisis | Plural: crisis | Es una **crisis** económica. | Einzahl und Mehrzahl gleich |  |
+| 1286 | formación | Plural: formaciones | Tiene **formación** en economía. | formación profesional = Berufsausbildung |  |
+| 1287 | trasladar | Präsens: traslado, trasladas, traslada, trasladamos, trasladáis, trasladan (regelmäßig -ar)<br>häufig gehört: trasladado, trasladó, trasladar | Lo **trasladaron** a Barcelona. |  |  |
+| 1292 | comprobar | Präsens: **compruebo**, **compruebas**, **comprueba**, comprobamos, comprobáis, **comprueban** (unregelmäßig, o → ue)<br>häufig gehört: comprobar, comprobado, comprueba | **Comprueba** la dirección. |  |  |
+| 1301 | colocar | Präsens: coloco, colocas, coloca, colocamos, colocáis, colocan (regelmäßig -ar)<br>häufig gehört: colocar, coloca, colocó | **Coloca** los platos en la mesa. |  |  |
+| 1304 | aprobar | Präsens: **apruebo**, **apruebas**, **aprueba**, aprobamos, aprobáis, **aprueban** (unregelmäßig, o → ue)<br>häufig gehört: aprobado, aprobó, aprobar | He **aprobado** el examen. |  |  |
+| 1321 | cubierto | Formen: cubierto · cubierta · cubiertos · cubiertas<br>häufig gehört: cubierta, cubierto, cubiertas | El cielo está **cubierto**. | Partizip von cubrir |  |
+| 1338 | oler | Präsens: **huelo**, **hueles**, **huele**, olemos, oléis, **huelen** (unregelmäßig)<br>häufig gehört: huele, oler, hueles | **Huele** muy bien. |  |  |
+| 1355 | rendir | Präsens: **rindo**, **rindes**, **rinde**, rendimos, rendís, **rinden** (unregelmäßig, e → i)<br>häufig gehört: rendir, rendirse, rindo | No quiero **rendirme**. | ¡no te rindas! = gib nicht auf! |  |
+| 1357 | denunciar | Präsens: denuncio, denuncias, denuncia, denunciamos, denunciáis, denuncian (regelmäßig -ar)<br>häufig gehört: denuncia, denunció, denunciar | Voy a **denunciar** el robo. | la denuncia = die Anzeige |  |
+| 1380 | ubicado | Formen: ubicado · ubicada · ubicados · ubicadas<br>häufig gehört: ubicado, ubicada, ubicados | El hotel está **ubicado** en el centro. |  |  |
+| 1399 | atender | Präsens: **atiendo**, **atiendes**, **atiende**, atendemos, atendéis, **atienden** (unregelmäßig, e → ie)<br>häufig gehört: atender, atiende, atendiendo | ¿Ya le **atiende** alguien? |  |  |
+| 1461 | numeroso | Formen: numeroso · numerosa · numerosos · numerosas<br>häufig gehört: numerosos, numerosas, numerosa | Hay **numerosos** ejemplos. |  |  |
+| 1489 | gestión | Plural: gestiones | Tengo que hacer unas **gestiones**. |  |  |
