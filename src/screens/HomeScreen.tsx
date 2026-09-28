@@ -207,8 +207,9 @@ export function HomeScreen({ onStart }: Props) {
         {day.goalReached && (
           <button
             type="button"
-            // window.open, damit iOS die Dreaming-App per Universal Link öffnen kann (sonst Safari)
-            onClick={() => window.open(dreamingUrl(state.stableWords), '_blank')}
+            // Normale Navigation statt window.open: iOS übergibt den Universal Link an die Dreaming-App;
+            // window.open ließ in der Home-Bildschirm-App ein leeres Browserfenster zurück (Test 28.09.2026)
+            onClick={() => window.location.assign(dreamingUrl(state.stableWords))}
             className="flex min-h-14 w-full flex-col items-center justify-center rounded-2xl border-2 border-accent-ink px-4 py-2 font-semibold text-accent-ink active:scale-95"
           >
             <span className="text-lg">Comprehensible Input</span>
