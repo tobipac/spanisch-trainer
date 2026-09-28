@@ -192,7 +192,8 @@ export function checkForms(w: Word): Finding[] {
     if (typeof f.plural !== 'string' || f.plural.trim() === '') err('forms.plural muss eine Form sein');
     else if (f.plural === regularPlural(w.es)) warn(`forms.plural „${f.plural}“ ist regelmäßig und kann entfallen`);
   }
-  if (w.note && /(unregelmäßig|Formen)\s*:/i.test(w.note) && (f.present || f.gender4)) {
+  const formList = (re: RegExp) => w.note !== undefined && re.test(w.note);
+  if ((formList(/(unregelmäßig|Formen)\s*:/i) && (f.present || f.gender4)) || (formList(/Mehrzahl\s*:/i) && f.plural)) {
     warn('note enthält eine Formenliste – die Formen stehen bereits im Formenblock');
   }
   return out;

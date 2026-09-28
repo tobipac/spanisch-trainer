@@ -99,6 +99,17 @@ export function regularPlural(noun: string): string {
   return /[aeiouáéó]$/i.test(noun) ? `${noun}s` : `${noun}es`;
 }
 
+/**
+ * Plural mit Schreibregeln: -z → -ces (vez → veces), betonte Endsilbe auf -n/-s verliert den Akzent
+ * (canción → canciones, autobús → autobuses), außer bei í/ú im Hiat (país → países).
+ * Akzentverschiebungen (joven → jóvenes) lassen sich so nicht ableiten.
+ */
+export function spellingPlural(noun: string): string {
+  if (noun.endsWith('z')) return `${noun.slice(0, -1)}ces`;
+  if (/[áéó][ns]$/.test(noun) || /(^|[^aeiouáéó])[íú][ns]$/.test(noun)) return `${unaccentLast(noun)}es`;
+  return regularPlural(noun);
+}
+
 /** Alle Formen des Wortes, die im Beispielsatz vorkommen können. */
 export function knownForms(word: Pick<Word, 'es' | 'pos' | 'forms'>): string[] {
   const f = word.forms;

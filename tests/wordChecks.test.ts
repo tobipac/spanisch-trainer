@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import {
   articleHint,
   checkAll,
+  checkForms,
   checkPackage,
   parseRanking,
   rangeFromFileName,
@@ -186,5 +187,15 @@ describe('Formenblock', () => {
     expect(warnings).toContain('forms.stemChange „–“ passt nicht zum Präsens, erwartet „e → ie“');
     expect(warnings).toContain('forms.plural „casas“ ist regelmäßig und kann entfallen');
     expect(warnings).toContain('note enthält eine Formenliste – die Formen stehen bereits im Formenblock');
+  });
+
+  it('Warnung: Mehrzahl im Hinweis nur bei Nomen mit Plural-Block', () => {
+    const noun = withForms(0, { plural: 'luces' });
+    noun[0] = { ...noun[0]!, es: 'luz', note: 'Mehrzahl: luces' };
+    const warn = (ws: Word[]) => checkForms(ws[0]!).map((f) => f.message);
+    expect(warn(noun)).toContain('note enthält eine Formenliste – die Formen stehen bereits im Formenblock');
+    const verb = withForms(1, tenerForms);
+    verb[1] = { ...verb[1]!, note: 'Mehrzahl: me gustan los libros' };
+    expect(checkForms(verb[1]!)).toEqual([]);
   });
 });

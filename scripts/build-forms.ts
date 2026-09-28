@@ -4,9 +4,9 @@
 //  - present: regelmäßig nach Muster, unregelmäßige Verben aus IRREGULAR_PRESENT (von Hand gepflegt)
 //  - gender4: veränderliche Adjektive (adjGender4) und Begleiter/Pronomen aus GENDER4_WORDS
 //  - stemChange: Stammwechsel aus dem Präsens abgeleitet (o → ue, e → ie, e → i, u → ue)
-//  - plural:  nur Nomen aus IRREGULAR_PLURAL
+//  - plural:  nur wenn abweichend von +s/+es (spellingPlural, STRESS_SHIFT_PLURAL)
 import { readFileSync, writeFileSync } from 'node:fs';
-import { adjGender4, irregularIndices, regularPresent, stemChange } from '../src/domain/forms.ts';
+import { adjGender4, irregularIndices, regularPlural, regularPresent, spellingPlural, stemChange } from '../src/domain/forms.ts';
 import type { Word, WordForms } from '../src/domain/types.ts';
 import { MAX_HEARD, parseRanking } from './lib/word-checks.ts';
 
@@ -50,6 +50,27 @@ const IRREGULAR_PRESENT: Record<string, string> = {
   mostrar: 'muestro muestras muestra mostramos mostráis muestran',
   jugar: 'juego juegas juega jugamos jugáis juegan',
   convertir: 'convierto conviertes convierte convertimos convertís convierten',
+  // Paket 2
+  caer: 'caigo caes cae caemos caéis caen',
+  enviar: 'envío envías envía enviamos enviáis envían',
+  mover: 'muevo mueves mueve movemos movéis mueven',
+  dormir: 'duermo duermes duerme dormimos dormís duermen',
+  aparecer: 'aparezco apareces aparece aparecemos aparecéis aparecen',
+  continuar: 'continúo continúas continúa continuamos continuáis continúan',
+  obtener: 'obtengo obtienes obtiene obtenemos obtenéis obtienen',
+  detener: 'detengo detienes detiene detenemos detenéis detienen',
+  incluir: 'incluyo incluyes incluye incluimos incluís incluyen',
+  ofrecer: 'ofrezco ofreces ofrece ofrecemos ofrecéis ofrecen',
+  servir: 'sirvo sirves sirve servimos servís sirven',
+  sentar: 'siento sientas sienta sentamos sentáis sientan',
+  valer: 'valgo vales vale valemos valéis valen',
+  cerrar: 'cierro cierras cierra cerramos cerráis cierran',
+  coger: 'cojo coges coge cogemos cogéis cogen',
+  referir: 'refiero refieres refiere referimos referís refieren',
+  sonar: 'sueno suenas suena sonamos sonáis suenan',
+  confiar: 'confío confías confía confiamos confiáis confían',
+  reconocer: 'reconozco reconoces reconoce reconocemos reconocéis reconocen',
+  producir: 'produzco produces produce producimos producís producen',
 };
 
 /** Begleiter und Pronomen mit 4 Formen: m. Sg., f. Sg., m. Pl., f. Pl. */
@@ -74,13 +95,19 @@ const GENDER4_WORDS: Record<string, string> = {
   cuyo: 'cuyo cuya cuyos cuyas',
 };
 
-/** Unregelmäßiger Plural (Akzent- oder Schreibänderung, unveränderlich). */
-const IRREGULAR_PLURAL: Record<string, string> = {
-  vez: 'veces',
-  razón: 'razones',
-  millón: 'millones',
+/** Plural mit Akzentverschiebung (nicht per Regel ableitbar). */
+const STRESS_SHIFT_PLURAL: Record<string, string> = {
   joven: 'jóvenes',
+  orden: 'órdenes',
+  imagen: 'imágenes',
+  examen: 'exámenes',
+  crimen: 'crímenes',
+  origen: 'orígenes',
+  margen: 'márgenes',
+  volumen: 'volúmenes',
 };
+/** Nomen, die praktisch nur in festen Wendungen ohne Plural vorkommen. */
+const NO_PLURAL = new Set(['través']);
 
 export function formsFor(w: Word, topForms: string[]): WordForms | undefined {
   const forms: WordForms = {};
@@ -100,7 +127,10 @@ export function formsFor(w: Word, topForms: string[]): WordForms | undefined {
     if (change) forms.stemChange = change;
   }
   if (gender4) forms.gender4 = gender4;
-  if (w.pos === 'noun' && IRREGULAR_PLURAL[w.es]) forms.plural = IRREGULAR_PLURAL[w.es];
+  if (w.pos === 'noun' && !NO_PLURAL.has(w.es)) {
+    const plural = STRESS_SHIFT_PLURAL[w.es] ?? spellingPlural(w.es);
+    if (plural !== regularPlural(w.es)) forms.plural = plural;
+  }
   return Object.keys(forms).length > 0 ? forms : undefined;
 }
 

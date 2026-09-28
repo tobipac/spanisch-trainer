@@ -6,6 +6,7 @@ import {
   regularPlural,
   regularPresent,
   regularPresentParts,
+  spellingPlural,
   stemChange,
   verbClass,
 } from '../src/domain/forms.ts';
@@ -53,6 +54,16 @@ describe('Präsensmuster', () => {
     expect(regularPlural('papá')).toBe('papás');
     expect(regularPlural('mujer')).toBe('mujeres');
     expect(regularPlural('vez')).toBe('vezes'); // deshalb steht veces in forms.plural
+  });
+
+  it('Plural mit Schreibregeln', () => {
+    expect(spellingPlural('vez')).toBe('veces');
+    expect(spellingPlural('luz')).toBe('luces');
+    expect(spellingPlural('canción')).toBe('canciones');
+    expect(spellingPlural('autobús')).toBe('autobuses');
+    expect(spellingPlural('país')).toBe('países');
+    expect(spellingPlural('mes')).toBe('meses');
+    expect(spellingPlural('casa')).toBe('casas');
   });
 });
 
