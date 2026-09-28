@@ -1,5 +1,5 @@
 // Wortformen für den Formenblock der Kartenrückseite: Präsensmuster, Plural, Hervorhebung im Beispielsatz.
-import type { StemChange, Word } from './types.ts';
+import type { IrregularKind, StemChange, Word } from './types.ts';
 
 export type VerbClass = 'ar' | 'er' | 'ir';
 
@@ -38,6 +38,29 @@ export function regularPresent(infinitive: string): string[] | null {
 export function irregularIndices(infinitive: string, present: readonly string[]): number[] {
   const regular = regularPresent(infinitive);
   return present.flatMap((f, i) => (regular && regular[i] === f ? [] : [i]));
+}
+
+/** Beschriftung der Arten von Abweichung (für Etikett und Stichprobe). */
+export const IRREGULAR_KIND_LABELS: Record<IrregularKind, string> = { accent: 'Akzent', spelling: 'Schreibänderung' };
+
+/**
+ * Art der Abweichung vom regelmäßigen Präsens: „accent“, wenn sich die abweichenden Formen nur im
+ * Akzent unterscheiden (envío, actúo, reúno), „spelling“, wenn nur die yo-Form orthografisch angepasst
+ * wird (g → j: protejo, c → z nach Konsonant: venzo, gu → g: distingo). Sonst null (echt unregelmäßig).
+ */
+export function irregularKind(infinitive: string, present: readonly string[]): IrregularKind | null {
+  const regular = regularPresent(infinitive);
+  const idx = irregularIndices(infinitive, present);
+  if (!regular || idx.length === 0) return null;
+  if (idx.every((i) => stripAccents(present[i]!) === stripAccents(regular[i]!))) return 'accent';
+  if (idx.length === 1 && idx[0] === 0) {
+    const stem = regular[0]!.slice(0, -1);
+    const yo = present[0];
+    if (stem.endsWith('g') && yo === `${stem.slice(0, -1)}jo`) return 'spelling';
+    if (/[^aeiouáéíóú]c$/.test(stem) && yo === `${stem.slice(0, -1)}zo`) return 'spelling';
+    if (stem.endsWith('gu') && yo === `${stem.slice(0, -1)}o`) return 'spelling';
+  }
+  return null;
 }
 
 /** Stammwechsel, geprüft an der él-Form: e → ie vor e → i, damit pienso nicht als e → i gilt. */

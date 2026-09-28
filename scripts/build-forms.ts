@@ -4,9 +4,18 @@
 //  - present: regelmäßig nach Muster, unregelmäßige Verben aus IRREGULAR_PRESENT (von Hand gepflegt)
 //  - gender4: veränderliche Adjektive (adjGender4) und Begleiter/Pronomen aus GENDER4_WORDS
 //  - stemChange: Stammwechsel aus dem Präsens abgeleitet (o → ue, e → ie, e → i, u → ue)
+//  - irregularKind: nur Akzent- oder Schreibänderung statt echter Unregelmäßigkeit
 //  - plural:  nur wenn abweichend von +s/+es (spellingPlural, STRESS_SHIFT_PLURAL)
 import { readFileSync, writeFileSync } from 'node:fs';
-import { adjGender4, irregularIndices, regularPlural, regularPresent, spellingPlural, stemChange } from '../src/domain/forms.ts';
+import {
+  adjGender4,
+  irregularIndices,
+  irregularKind,
+  regularPlural,
+  regularPresent,
+  spellingPlural,
+  stemChange,
+} from '../src/domain/forms.ts';
 import type { Word, WordForms } from '../src/domain/types.ts';
 import { MAX_HEARD, parseRanking } from './lib/word-checks.ts';
 
@@ -162,8 +171,8 @@ const STRESS_SHIFT_PLURAL: Record<string, string> = {
   margen: 'márgenes',
   volumen: 'volúmenes',
 };
-/** Nomen, die praktisch nur in festen Wendungen ohne Plural vorkommen. */
-const NO_PLURAL = new Set(['través', 'veras']);
+/** Nomen ohne Plural-Block: nur in festen Wendungen oder Plural im Alltag praktisch ungebräuchlich. */
+const NO_PLURAL = new Set(['través', 'veras', 'paz', 'educación', 'perdón']);
 
 export function formsFor(w: Word, topForms: string[]): WordForms | undefined {
   const forms: WordForms = {};
@@ -179,6 +188,8 @@ export function formsFor(w: Word, topForms: string[]): WordForms | undefined {
     forms.present = present;
     const irregular = irregularIndices(w.es, present);
     if (irregular.length > 0) forms.irregular = irregular;
+    const kind = irregularKind(w.es, present);
+    if (kind) forms.irregularKind = kind;
     const change = stemChange(w.es, present);
     if (change) forms.stemChange = change;
   }
@@ -195,6 +206,10 @@ export function formatValue(v: unknown): string {
   if (Array.isArray(v)) return `[${v.map(formatValue).join(', ')}]`;
   if (v !== null && typeof v === 'object') {
     return `{${Object.entries(v).map(([k, x]) => `${JSON.stringify(k)}: ${formatValue(x)}`).join(', ')}}`;
+  }
+  // Zahlen wie in den ursprünglich mit Python erzeugten Paketen: unter 1e-4 wissenschaftlich (7.121e-05)
+  if (typeof v === 'number' && v !== 0 && Math.abs(v) < 1e-4) {
+    return v.toExponential().replace(/e([+-])(\d)$/, 'e$10$2');
   }
   return JSON.stringify(v);
 }

@@ -3,6 +3,7 @@ import {
   adjGender4,
   highlightForm,
   irregularIndices,
+  irregularKind,
   regularPlural,
   regularPresent,
   regularPresentParts,
@@ -35,6 +36,17 @@ describe('Präsensmuster', () => {
     expect(irregularIndices('tener', ['tengo', 'tienes', 'tiene', 'tenemos', 'tenéis', 'tienen'])).toEqual([0, 1, 2, 5]);
     expect(irregularIndices('conocer', ['conozco', 'conoces', 'conoce', 'conocemos', 'conocéis', 'conocen'])).toEqual([0]);
     expect(irregularIndices('hablar', regularPresent('hablar')!)).toEqual([]);
+  });
+
+  it('unterscheidet Akzent- und Schreibänderung von echter Unregelmäßigkeit', () => {
+    expect(irregularKind('enviar', ['envío', 'envías', 'envía', 'enviamos', 'enviáis', 'envían'])).toBe('accent');
+    expect(irregularKind('reunir', ['reúno', 'reúnes', 'reúne', 'reunimos', 'reunís', 'reúnen'])).toBe('accent');
+    expect(irregularKind('proteger', ['protejo', 'proteges', 'protege', 'protegemos', 'protegéis', 'protegen'])).toBe('spelling');
+    expect(irregularKind('vencer', ['venzo', 'vences', 'vence', 'vencemos', 'vencéis', 'vencen'])).toBe('spelling');
+    expect(irregularKind('distinguir', ['distingo', 'distingues', 'distingue', 'distinguimos', 'distinguís', 'distinguen'])).toBe('spelling');
+    expect(irregularKind('conocer', ['conozco', 'conoces', 'conoce', 'conocemos', 'conocéis', 'conocen'])).toBeNull();
+    expect(irregularKind('oír', ['oigo', 'oyes', 'oye', 'oímos', 'oís', 'oyen'])).toBeNull();
+    expect(irregularKind('hablar', regularPresent('hablar')!)).toBeNull();
   });
 
   it('erkennt den Stammwechsel an der él-Form', () => {

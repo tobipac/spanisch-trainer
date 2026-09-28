@@ -1,5 +1,5 @@
 // Prüfregeln für die Wortpakete (SPEC.md Abschnitt 8.3). Reine Funktionen, getestet in tests/wordChecks.test.ts.
-import { irregularIndices, regularPlural, stemChange, verbClass } from '../../src/domain/forms.ts';
+import { irregularIndices, irregularKind, regularPlural, stemChange, verbClass } from '../../src/domain/forms.ts';
 import type { Word } from '../../src/domain/types.ts';
 
 export const MAX_SENTENCE_WORDS = 10;
@@ -183,6 +183,10 @@ export function checkForms(w: Word): Finding[] {
     warn(`forms.stemChange „${f.stemChange ?? '–'}“ passt nicht zum Präsens, erwartet „${stemChange(w.es, f.present) ?? '–'}“`);
   }
   if (f.stemChange !== undefined && f.present === undefined) err('forms.stemChange ohne forms.present');
+  if (f.present?.length === 6 && (irregularKind(w.es, f.present) ?? undefined) !== f.irregularKind) {
+    warn(`forms.irregularKind „${f.irregularKind ?? '–'}“ passt nicht zum Präsens, erwartet „${irregularKind(w.es, f.present) ?? '–'}“`);
+  }
+  if (f.irregularKind !== undefined && f.present === undefined) err('forms.irregularKind ohne forms.present');
   if (f.gender4 !== undefined) {
     if (!GENDER4_POS.includes(w.pos)) err('forms.gender4 nur bei Adjektiven, Begleitern und Pronomen');
     if (!isStringList(f.gender4) || f.gender4.length !== 4) err('forms.gender4 muss genau 4 Formen haben');

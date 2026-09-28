@@ -30,13 +30,13 @@
 
 ## Einträge mit Formenblock
 
-17 von 135 Einträgen mit Formen. Präsens: unregelmäßige Formen fett. Beispielsatz: hervorgehobene Form fett.
+17 von 133 Einträgen mit Formen. Präsens: unregelmäßige Formen fett. Beispielsatz: hervorgehobene Form fett.
 
 | Rang | Lemma | Formenblock | Beispielsatz | Hinweis | Anmerkung Nutzer |
 |---:|---|---|---|---|---|
 | 611 | tranquilo | Formen: tranquilo · tranquila · tranquilos · tranquilas<br>häufig gehört: tranquilo, tranquila, tranquilos | ¡**Tranquilo**, no pasa nada! | ¡tranquilo! = beruhige dich |  |
 | 626 | posición | Plural: posiciones | Cambia de **posición**. |  |  |
-| 629 | proteger | Präsens: **protejo**, proteges, protege, protegemos, protegéis, protegen (unregelmäßig)<br>häufig gehört: proteger, protege, protegerte | Esta crema **protege** del sol. |  |  |
+| 629 | proteger | Präsens: **protejo**, proteges, protege, protegemos, protegéis, protegen (Schreibänderung)<br>häufig gehört: proteger, protege, protegerte | Esta crema **protege** del sol. |  |  |
 | 641 | distinto | Formen: distinto · distinta · distintos · distintas<br>häufig gehört: distintos, distintas, distinto | Tenemos opiniones **distintas**. |  |  |
 | 655 | soler | Präsens: **suelo**, **sueles**, **suele**, solemos, soléis, **suelen** (unregelmäßig, o → ue)<br>häufig gehört: solía, suele, suelen | Mi padre **suele** levantarse temprano. | nur mit Infinitiv |  |
 | 695 | conducir | Präsens: **conduzco**, conduces, conduce, conducimos, conducís, conducen (unregelmäßig)<br>häufig gehört: conducir, conduce, conduciendo | No sé **conducir**. | in Spanien: conducir |  |
@@ -50,4 +50,4 @@
 | 834 | misión | Plural: misiones | Es una **misión** difícil. |  |  |
 | 835 | maravilloso | Formen: maravilloso · maravillosa · maravillosos · maravillosas<br>häufig gehört: maravilloso, maravillosa, maravillosas | Hace un día **maravilloso**. |  |  |
 | 846 | demostrar | Präsens: **demuestro**, **demuestras**, **demuestra**, demostramos, demostráis, **demuestran** (unregelmäßig, o → ue)<br>häufig gehört: demostrar, demuestra, demostró | Te lo voy a **demostrar**. |  |  |
-| 874 | construcción | Plural: construcciones | Trabaja en la **construcción**. |  |  |
+| 854 | viernes | Plural: viernes | El **viernes** salimos. |  |  |
