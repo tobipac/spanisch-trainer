@@ -26,6 +26,14 @@ body,
   }
 }
 
+/* Scrollbalken überall ausblenden, Scrollen bleibt möglich (Nutzerwunsch). */
+* {
+  scrollbar-width: none;
+}
+*::-webkit-scrollbar {
+  display: none;
+}
+
 button,
 a,
 input,
