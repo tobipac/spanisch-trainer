@@ -14,9 +14,12 @@ import {
   dayLimits,
   estimateMinutes,
   goalProgress,
+  laterLearning,
+  newSession,
   reverseQueueHint,
   todayCounts,
   type DayLimits,
+  type LaterLearning,
   type TodayCounts,
 } from '../domain/session.ts';
 import type { DayRecord } from '../domain/types.ts';
@@ -28,6 +31,8 @@ interface Props {
 interface HomeState {
   day: DayRecord;
   counts: TodayCounts;
+  /** Lernschritt-Karten, die heute erst später gezeigt werden dürfen */
+  later: LaterLearning | null;
   progress: { done: number; total: number };
   limits: DayLimits;
   streak: StreakInfo;
@@ -49,6 +54,7 @@ async function loadHome(): Promise<HomeState> {
   return {
     day,
     counts,
+    later: laterLearning({ now: t, day, cards, session: newSession() }),
     progress: goalProgress(day, cards, WORD_REFS, settings),
     limits: dayLimits(day, cards, WORD_REFS, settings),
     streak: computeStreak(days, day.day),
@@ -88,10 +94,11 @@ export function HomeScreen({ onStart }: Props) {
       });
   }, []);
 
-  // Bleibt die App über 04:00 geöffnet, zum neuen Lerntag automatisch neu laden.
+  // Bleibt die App geöffnet: neu laden, sobald Lernschritt-Karten zurückkommen oder der Lerntag wechselt (04:00).
   useEffect(() => {
     if (!state) return;
-    const ms = dayEnd(state.day.day).getTime() - now().getTime() + 1000;
+    const next = Math.min(dayEnd(state.day.day).getTime(), state.later?.firstAt ?? Infinity);
+    const ms = next - now().getTime() + 1000;
     const timer = setTimeout(refresh, Math.max(1000, Math.min(ms, 2 ** 31 - 1)));
     return () => clearTimeout(timer);
   }, [state, refresh]);
@@ -116,8 +123,10 @@ export function HomeScreen({ onStart }: Props) {
   }
   if (!state) return <div className="h-full" />;
 
-  const { day, counts, progress, limits, streak, level } = state;
+  const { day, counts, later, progress, limits, streak, level } = state;
   const remaining = counts.due + counts.newLeft + counts.reverseLeft;
+  const laterCount = later?.count ?? 0;
+  const readyNow = remaining - laterCount;
   const minutes = estimateMinutes(counts);
   const levelRatio = (level.totalXp - level.currentLevelXp) / (level.nextLevelXp - level.currentLevelXp);
 
@@ -138,7 +147,7 @@ export function HomeScreen({ onStart }: Props) {
       <section className="flex flex-col items-center gap-4 py-2">
         <DayRing done={progress.done} total={progress.total} reached={day.goalReached} />
         <div className="grid w-full grid-cols-3 gap-2">
-          <Stat value={counts.due} label="fällig heute" />
+          <Stat value={counts.due - laterCount} label="fällig heute" />
           <Stat value={counts.newLeft} label="neu heute" />
           <Stat value={remaining === 0 ? '–' : `ca. ${minutes}`} label="Minuten" />
         </div>
@@ -162,6 +171,11 @@ export function HomeScreen({ onStart }: Props) {
         )}
         {!streak.jokerThisWeek && streak.jokerAvailable && streak.streak > 0 && (
           <p className="px-1 text-sm text-neutral-500 dark:text-neutral-400">🃏 Joker diese Woche verfügbar: rettet einen verpassten Tag.</p>
+        )}
+        {later && (
+          <p className="px-1 text-sm text-neutral-600 dark:text-neutral-400">
+            Später fällig: <strong>{later.count}</strong> {later.count === 1 ? 'Karte' : 'Karten'} in {later.minutes} Min
+          </p>
         )}
         <p className="px-1 text-sm text-neutral-600 dark:text-neutral-400">
           Umkehrkarten offen: <strong>{counts.reverseQueued}</strong>
@@ -191,10 +205,10 @@ export function HomeScreen({ onStart }: Props) {
             unlockAudio(); // iOS: Audio nur nach einer Nutzerberührung
             onStart();
           }}
-          disabled={remaining === 0}
+          disabled={readyNow === 0}
           className="min-h-14 w-full rounded-2xl bg-accent text-lg font-semibold text-white active:scale-95 disabled:bg-neutral-200 disabled:text-neutral-500 dark:disabled:bg-neutral-800"
         >
-          {remaining === 0 ? 'Für heute alles erledigt' : 'Lernen starten'}
+          {readyNow > 0 ? 'Lernen starten' : later ? `Nächste Karten in ${later.minutes} Min` : 'Für heute alles erledigt'}
         </button>
       </div>
     </div>

@@ -12,7 +12,16 @@ import { db } from '../db/database.ts';
 import { getOrCreateDay, loadSettings, rate, undo, type UndoToken } from '../db/repository.ts';
 import { computeStreak } from '../domain/gamification.ts';
 import { formatInterval, previewDue } from '../domain/scheduler.ts';
-import { newSession, nextCard, remainingToday, type NextCard, type SessionState } from '../domain/session.ts';
+import {
+  isRatingAllowed,
+  laterLearning,
+  newSession,
+  nextCard,
+  remainingToday,
+  type LaterLearning,
+  type NextCard,
+  type SessionState,
+} from '../domain/session.ts';
 import type { DayRecord, Rating, Settings } from '../domain/types.ts';
 
 interface Props {
@@ -37,6 +46,7 @@ export function LearnScreen({ onExit }: Props) {
   const [xp, setXp] = useState(0);
   const [last, setLast] = useState<LastRating | null>(null);
   const [streak, setStreak] = useState(0);
+  const [later, setLater] = useState<LaterLearning | null>(null);
   const session = useRef<SessionState>(newSession());
   const cardKey = useRef(0);
 
@@ -53,7 +63,10 @@ export function LearnScreen({ onExit }: Props) {
     setRevealed(false);
     setCurrent(next);
     setFinished(next === null);
-    if (next === null) setStreak(computeStreak(await db.days.toArray(), d.day).streak);
+    if (next === null) {
+      setLater(laterLearning(input));
+      setStreak(computeStreak(await db.days.toArray(), d.day).streak);
+    }
   }, []);
 
   useEffect(() => {
@@ -89,6 +102,7 @@ export function LearnScreen({ onExit }: Props) {
   const handleRate = useCallback(
     async (rating: Rating) => {
       if (!current || busy || !revealed) return;
+      if (!isRatingAllowed(session.current, current.card.id, rating)) return; // Button zeigt den Hinweis
       setBusy(true);
       try {
         const { result, undo: token } = await rate(db, {
@@ -146,7 +160,7 @@ export function LearnScreen({ onExit }: Props) {
   if (finished) {
     return (
       <div className="flex h-full flex-col">
-        <SessionSummary cards={done} xp={xp} streak={streak} goalReached={day?.goalReached ?? false} onClose={onExit} />
+        <SessionSummary cards={done} xp={xp} streak={streak} goalReached={day?.goalReached ?? false} later={later} onClose={onExit} />
         {last && (
           <button type="button" onClick={() => void handleUndo()} className="mt-4 min-h-11 text-sm text-neutral-500 underline">
             Letzte Bewertung rückgängig
@@ -205,7 +219,12 @@ export function LearnScreen({ onExit }: Props) {
 
       <footer className="mb-8 min-h-16">
         {revealed ? (
-          <RatingButtons intervals={intervals} disabled={busy} onRate={(r) => void handleRate(r)} />
+          <RatingButtons
+            intervals={intervals}
+            disabled={busy}
+            locked={current && !isRatingAllowed(session.current, current.card.id, 4) ? [4] : []}
+            onRate={(r) => void handleRate(r)}
+          />
         ) : (
           <button
             type="button"

@@ -4,6 +4,7 @@ import { learningDayOf } from '../src/domain/learningDay.ts';
 import {
   applyRating,
   createDayRecord,
+  laterLearning,
   newSession,
   nextCard,
   type NextCard,
@@ -123,13 +124,21 @@ export class Sim {
     return r;
   }
 
-  /** Lernt, bis nichts mehr kommt. Bewertung fest, Zeit läuft je Karte 10 s weiter. */
+  /**
+   * Lernt, bis für heute nichts mehr kommt. Bewertung fest, Zeit läuft je Karte 10 s weiter; ist
+   * gerade nichts zeigbar, wird wie beim Nutzer bis zur nächsten Lernschritt-Karte gewartet.
+   */
   studyAll(start: Date, rating: Rating = 3, max = 2000): NextCard[] {
     let now = start;
     const seen: NextCard[] = [];
     for (let i = 0; i < max; i++) {
       const n = this.next(now);
-      if (!n) break;
+      if (!n) {
+        const later = laterLearning({ now, day: this.day(now), cards: this.cards, session: this.session });
+        if (!later || learningDayOf(new Date(later.firstAt)) !== learningDayOf(now)) break;
+        now = new Date(later.firstAt);
+        continue;
+      }
       seen.push(n);
       this.rate(now, n, rating);
       now = new Date(now.getTime() + 10_000);

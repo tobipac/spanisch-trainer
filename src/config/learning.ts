@@ -34,10 +34,16 @@ export const REVERSE_MIN_INTERVAL_DAYS = 3;
 export const REVERSE_QUEUE_HINT_FACTOR = 2;
 
 /**
- * Annahme: Lernschritt-Karten, die in höchstens so vielen Minuten fällig werden, dürfen vorgezogen
- * werden, wenn sonst nichts mehr zu tun ist (sonst müsste man auf den 10-min-Schritt warten).
+ * Eine Lernschritt-Karte erscheint erst, wenn sie fällig ist und seit ihrer letzten Ansicht mindestens
+ * so viele andere Karten gezeigt wurden (kein Bewerten aus dem Kurzzeitgedächtnis). Nie im Voraus.
  */
-export const LEARN_AHEAD_MINUTES = 20;
+export const LEARNING_MIN_CARDS_BETWEEN = 4;
+
+/**
+ * Annahme: Liegt die letzte Ansicht mindestens so viele Minuten zurück, entfällt der Kartenabstand –
+ * sonst bliebe eine einzelne Lernkarte ohne andere Karten dauerhaft gesperrt.
+ */
+export const LEARNING_GAP_FALLBACK_MINUTES = 10;
 
 /** „Gefestigt“ = FSRS-stability der Spanisch → Deutsch-Karte ab so vielen Tagen. */
 export const STABLE_MIN_STABILITY_DAYS = 21;

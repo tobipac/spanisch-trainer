@@ -25,6 +25,9 @@ export const RATING_LABELS: Record<Rating, string> = {
   4: 'Leicht',
 };
 
+/** Hinweis beim Antippen von „Leicht“, wenn die Karte in dieser Session schon „Nochmal“ bekam. */
+export const EASY_LOCKED_HINT = '„Leicht“ geht nach „Nochmal“ nicht – nimm „Gut“.';
+
 /** Wischweg in Pixeln, ab dem eine Wischgeste als Bewertung zählt. */
 export const SWIPE_THRESHOLD_PX = 100;
 

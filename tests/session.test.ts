@@ -11,6 +11,9 @@ import {
   nextCard,
   reverseQueue,
   goalProgress,
+  isRatingAllowed,
+  laterLearning,
+  learningReadyAt,
   estimateMinutes,
   remainingToday,
   reverseQueueHint,
@@ -146,14 +149,91 @@ describe('Reihenfolge in der Session', () => {
     expect(sim.next(new Date(NOW.getTime() + 3_600_000))).toBeNull();
   });
 
-  it('Lernschritt-Karten der nächsten 20 min werden vorgezogen, spätere nicht', () => {
-    const run = (min: number) => {
-      const cards = [learningCard('l', new Date(NOW.getTime() + min * 60_000))];
-      const day = createDayRecord(TODAY, cards, [], settings());
-      return nextCard({ now: NOW, day, cards, words: [], settings: settings(), session: newSession() });
-    };
-    expect(run(15)?.kind).toBe('learning');
-    expect(run(30)).toBeNull();
+  it('Lernschritt-Karten werden nie im Voraus gezeigt', () => {
+    const cards = [learningCard('l', new Date(NOW.getTime() + 15 * 60_000))];
+    const day = createDayRecord(TODAY, cards, [], settings());
+    const input = { now: NOW, day, cards, words: [], settings: settings(), session: newSession() };
+    expect(nextCard(input)).toBeNull();
+    expect(laterLearning(input)).toMatchObject({ count: 1, minutes: 15 });
+  });
+});
+
+describe('Abstand bei Lernschritt-Karten', () => {
+  const later = (s: number) => new Date(NOW.getTime() + s * 1000);
+
+  it('Session mit 1 verbleibender Lernkarte: kein sofortiges Wiederzeigen', () => {
+    const sim = new Sim(words(1), settings({ newPerDay: 1 }));
+    const first = sim.next(NOW)!;
+    sim.rate(NOW, first, 1); // Nochmal → Lernschritt 1 min
+    expect(sim.next(later(5))).toBeNull();
+    expect(sim.next(later(90))).toBeNull(); // fällig, aber keine 4 anderen Karten dazwischen
+    const info = laterLearning({ now: later(5), day: sim.day(NOW), cards: sim.cards, session: sim.session });
+    expect(info).toMatchObject({ count: 1, minutes: 10 }); // Ersatzregel: frühestens 10 min nach der Ansicht
+    expect(sim.next(later(600))?.card.id).toBe(first.card.id);
+  });
+
+  it('zwischen zwei Ansichten einer Lernkarte liegen mindestens 4 andere Karten', () => {
+    const sim = new Sim(words(8), settings({ newPerDay: 8 }));
+    const seenIds: string[] = [];
+    let now = NOW;
+    for (let i = 0; i < 200; i++) {
+      const n = sim.next(now);
+      if (!n) {
+        const info = laterLearning({ now, day: sim.day(now), cards: sim.cards, session: sim.session });
+        if (!info) break;
+        now = new Date(info.firstAt);
+        continue;
+      }
+      // erste Ansicht „Nochmal“, danach „Gut“: erzeugt viele kurze Lernschritte
+      sim.rate(now, n, seenIds.includes(n.card.id) ? 3 : 1);
+      seenIds.push(n.card.id);
+      now = new Date(now.getTime() + 20_000);
+    }
+    const again = seenIds.filter((id, i) => seenIds.indexOf(id) !== i);
+    expect(again.length).toBeGreaterThan(0);
+    seenIds.forEach((id, i) => {
+      const prev = seenIds.lastIndexOf(id, i - 1);
+      if (i > 0 && prev >= 0) expect(i - prev - 1).toBeGreaterThanOrEqual(4);
+    });
+  });
+
+  it('Karte aus einer früheren Session: Abstand über die seither bewerteten Karten', () => {
+    // um 9:55 mit „Nochmal“ bewertet, Lernschritt fällig 9:58
+    const l = reviewCard('l', at(2026, 10, 1, 9, 58), { state: State.Learning, last_review: at(2026, 10, 1, 9, 55) });
+    const ratedAt = (id: string, min: number) => reviewCard(id, at(2026, 10, 5), { last_review: at(2026, 10, 1, 9, min) });
+    const two = [ratedAt('a', 56), ratedAt('b', 57)];
+    const four = [...two, ratedAt('c', 58), ratedAt('d', 59)];
+    // erst 2 andere Karten: frühestens 10 min nach der Ansicht (10:05)
+    expect(learningReadyAt(l, [l, ...two], newSession())).toBe(at(2026, 10, 1, 10, 5).getTime());
+    // 4 andere Karten: ab due (9:58)
+    expect(learningReadyAt(l, [l, ...four], newSession())).toBe(at(2026, 10, 1, 9, 58).getTime());
+  });
+});
+
+describe('„Leicht“ nach „Nochmal“', () => {
+  it('ist für diese Karte in der Session gesperrt, andere Bewertungen bleiben möglich', () => {
+    const sim = new Sim(words(6), settings({ newPerDay: 6 }));
+    const first = sim.next(NOW)!;
+    expect(isRatingAllowed(sim.session, first.card.id, 4)).toBe(true);
+    sim.rate(NOW, first, 1);
+    expect(isRatingAllowed(sim.session, first.card.id, 4)).toBe(false);
+    expect(isRatingAllowed(sim.session, first.card.id, 3)).toBe(true);
+    // andere Karte nicht betroffen
+    expect(isRatingAllowed(sim.session, 'w0002:es-de', 4)).toBe(true);
+    // Karte kommt nach 4 anderen wieder: „Leicht“ wird abgelehnt
+    let now = NOW;
+    let again = null;
+    for (let i = 0; i < 10 && !again; i++) {
+      now = new Date(now.getTime() + 20_000);
+      const n = sim.next(now)!;
+      if (n.card.id === first.card.id) again = n;
+      else sim.rate(now, n, 3);
+    }
+    expect(again).not.toBeNull();
+    expect(() => sim.rate(now, again!, 4)).toThrow();
+    expect(() => sim.rate(now, again!, 3)).not.toThrow();
+    // neue Session: wieder erlaubt
+    expect(isRatingAllowed(newSession(), first.card.id, 4)).toBe(true);
   });
 });
 

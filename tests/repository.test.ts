@@ -103,7 +103,7 @@ describe('Rückgängig', () => {
     await db.cards.bulkAdd([reviewCard('w0001', at(2026, 10, 1, 8)), queuedReverse('w0002', at(2026, 9, 30, 10))]);
     const card = await next();
     const before = await snapshot();
-    const session = { reviewsSinceNew: 2 };
+    const session = { ...newSession(), reviewsSinceNew: 2 };
     const { result, undo: token } = await rate(db, { now: NOW, next: card, rating: 3, words: W, session });
     expect(result.createdReverse).not.toBeNull();
     expect(await undo(db, token)).toEqual(session);

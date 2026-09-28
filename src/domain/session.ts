@@ -2,7 +2,8 @@
 // Sie bekommen den aktuellen Stand und liefern die geänderten Datensätze zurück.
 import { State } from 'ts-fsrs';
 import {
-  LEARN_AHEAD_MINUTES,
+  LEARNING_GAP_FALLBACK_MINUTES,
+  LEARNING_MIN_CARDS_BETWEEN,
   REVERSE_MIN_INTERVAL_DAYS,
   REVERSE_QUEUE_HINT_FACTOR,
   REVIEWS_PER_NEW_CARD,
@@ -30,9 +31,15 @@ export interface NextCard {
 /** Zustand einer laufenden Session (nur im Speicher). */
 export interface SessionState {
   reviewsSinceNew: number;
+  /** Anzahl bisher bewerteter Karten in dieser Session */
+  shown: number;
+  /** je Karte: Wert von `shown` bei ihrer letzten Bewertung in dieser Session */
+  lastShown: Record<string, number>;
+  /** Karten, die in dieser Session mit „Nochmal“ bewertet wurden (dafür ist „Leicht“ gesperrt) */
+  againIds: string[];
 }
 
-export const newSession = (): SessionState => ({ reviewsSinceNew: 0 });
+export const newSession = (): SessionState => ({ reviewsSinceNew: 0, shown: 0, lastShown: {}, againIds: [] });
 
 export const cardId = (wordId: string, direction: CardRecord['direction']) => `${wordId}:${direction}`;
 
@@ -121,6 +128,60 @@ export function reverseQueueHint(queueLength: number, settings: Settings): boole
   return queueLength > REVERSE_QUEUE_HINT_FACTOR * settings.newPerDay;
 }
 
+// ---------- Abstand bei Lernschritt-Karten ----------
+
+const lastReviewMs = (c: CardRecord) => (c.fsrs.last_review ? new Date(c.fsrs.last_review).getTime() : null);
+
+/**
+ * Wie viele andere Karten seit der letzten Ansicht gezeigt wurden: in dieser Session exakt gezählt,
+ * sonst (Karte aus einer früheren Session) die anderen Karten, die seitdem bewertet wurden.
+ */
+export function cardsSinceLastView(card: CardRecord, cards: CardRecord[], session: SessionState): number {
+  const pos = session.lastShown[card.id];
+  if (pos !== undefined) return session.shown - pos - 1;
+  const last = lastReviewMs(card);
+  if (last === null) return Infinity;
+  return cards.filter((c) => c.id !== card.id && (lastReviewMs(c) ?? -Infinity) > last).length;
+}
+
+/**
+ * Frühester Zeitpunkt, zu dem eine Lernschritt-Karte gezeigt werden darf: ihr `due`, und – solange
+ * noch keine 4 anderen Karten dazwischen lagen – frühestens 10 min nach der letzten Ansicht.
+ */
+export function learningReadyAt(card: CardRecord, cards: CardRecord[], session: SessionState): number {
+  const due = dueMs(card);
+  if (cardsSinceLastView(card, cards, session) >= LEARNING_MIN_CARDS_BETWEEN) return due;
+  const last = lastReviewMs(card);
+  return last === null ? due : Math.max(due, last + LEARNING_GAP_FALLBACK_MINUTES * 60_000);
+}
+
+export interface LaterLearning {
+  /** Lernschritt-Karten, die heute noch kommen, aber jetzt noch nicht gezeigt werden dürfen */
+  count: number;
+  /** Minuten bis zur ersten davon (aufgerundet, mindestens 1) */
+  minutes: number;
+  /** Zeitpunkt der ersten davon (ms) */
+  firstAt: number;
+}
+
+/** Lernschritt-Karten, die heute später zurückkommen (für Session-Ende und Heute-Screen), sonst null. */
+export function laterLearning(input: Pick<NextCardInput, 'now' | 'day' | 'cards' | 'session'>): LaterLearning | null {
+  const nowMs = input.now.getTime();
+  const end = dayEnd(input.day.day).getTime();
+  const times = input.cards
+    .filter((c) => isIntroduced(c) && isLearningState(c) && dueMs(c) < end)
+    .map((c) => learningReadyAt(c, input.cards, input.session))
+    .filter((t) => t > nowMs);
+  if (times.length === 0) return null;
+  const firstAt = Math.min(...times);
+  return { count: times.length, minutes: Math.max(1, Math.ceil((firstAt - nowMs) / 60_000)), firstAt };
+}
+
+/** „Leicht“ ist gesperrt, wenn die Karte in dieser Session schon „Nochmal“ bekam. */
+export function isRatingAllowed(session: SessionState, cardId: string, rating: Rating): boolean {
+  return !(rating === 4 && session.againIds.includes(cardId));
+}
+
 // ---------- Nächste Karte ----------
 
 export interface NextCardInput {
@@ -133,16 +194,19 @@ export interface NextCardInput {
 }
 
 /**
- * Reihenfolge: 1. fällige Lernschritt-Karten, 2. fällige Wiederholungen (am längsten überfällig zuerst),
- * 3. neue Karten eingestreut (nach je 4 Wiederholungen 1 neue; erst neue Wörter, dann Umkehrkarten).
- * Liefert null, wenn für heute nichts mehr zu tun ist.
+ * Reihenfolge: 1. zeigbare Lernschritt-Karten (fällig und genug Abstand, siehe learningReadyAt),
+ * 2. fällige Wiederholungen (am längsten überfällig zuerst), 3. neue Karten eingestreut (nach je
+ * 4 Wiederholungen 1 neue; erst neue Wörter, dann Umkehrkarten).
+ * Liefert null, wenn jetzt nichts zeigbar ist – Lernschritt-Karten werden nie im Voraus gezeigt.
  */
 export function nextCard({ now, day, cards, words, settings, session }: NextCardInput): NextCard | null {
   const nowMs = now.getTime();
   const end = dayEnd(day.day).getTime();
   const introduced = cards.filter(isIntroduced);
 
-  const learning = introduced.filter((c) => isLearningState(c) && dueMs(c) <= nowMs).sort((a, b) => dueMs(a) - dueMs(b));
+  const learning = introduced
+    .filter((c) => isLearningState(c) && learningReadyAt(c, cards, session) <= nowMs)
+    .sort((a, b) => dueMs(a) - dueMs(b));
   if (learning[0]) return { kind: 'learning', card: learning[0] };
 
   const review = introduced
@@ -172,13 +236,7 @@ export function nextCard({ now, day, cards, words, settings, session }: NextCard
   if (review && session.reviewsSinceNew < REVIEWS_PER_NEW_CARD) return { kind: 'review', card: review };
   const fresh = newCard();
   if (fresh) return fresh;
-  if (review) return { kind: 'review', card: review };
-
-  // Nichts mehr fällig: Lernschritt-Karten der nächsten Minuten vorziehen, statt warten zu lassen.
-  const ahead = introduced
-    .filter((c) => isLearningState(c) && dueMs(c) <= nowMs + LEARN_AHEAD_MINUTES * 60_000)
-    .sort((a, b) => dueMs(a) - dueMs(b))[0];
-  return ahead ? { kind: 'learning', card: ahead } : null;
+  return review ? { kind: 'review', card: review } : null;
 }
 
 export interface TodayCounts {
@@ -286,6 +344,7 @@ export interface RatingResult {
 export function applyRating(input: RatingInput): RatingResult {
   const { now, next, rating, day, cards, words, settings, session } = input;
   const before = next.card;
+  if (!isRatingAllowed(session, before.id, rating)) throw new Error('„Leicht“ ist nach „Nochmal“ in dieser Session gesperrt');
   const { card: fsrsCard, log } = rateCard(before.fsrs, rating, now);
   const card: CardRecord = { ...before, fsrs: fsrsCard, introducedAt: before.introducedAt ?? now.getTime() };
 
@@ -337,7 +396,12 @@ export function applyRating(input: RatingInput): RatingResult {
     log: { cardId: card.id, rating, reviewedAt: now.getTime(), log },
     day: updatedDay,
     createdReverse,
-    session: { reviewsSinceNew: isNewOrReverse ? 0 : session.reviewsSinceNew + 1 },
+    session: {
+      reviewsSinceNew: isNewOrReverse ? 0 : session.reviewsSinceNew + 1,
+      shown: session.shown + 1,
+      lastShown: { ...session.lastShown, [card.id]: session.shown },
+      againIds: rating === 1 && !session.againIds.includes(card.id) ? [...session.againIds, card.id] : session.againIds,
+    },
     xpGained: xp,
     undo: {
       cardId: card.id,

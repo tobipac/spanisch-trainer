@@ -1,15 +1,22 @@
 import { motion } from 'framer-motion';
+import type { LaterLearning } from '../domain/session.ts';
 
 interface Props {
   cards: number;
   xp: number;
   streak: number;
   goalReached: boolean;
+  /** Lernschritt-Karten, die heute später zurückkommen */
+  later: LaterLearning | null;
   onClose: () => void;
 }
 
+/** „3 Karten kommen in 8 Min zurück.“ */
+export const laterText = (l: LaterLearning) =>
+  `${l.count} ${l.count === 1 ? 'Karte kommt' : 'Karten kommen'} in ${l.minutes} Min zurück.`;
+
 /** Zusammenfassung am Session-Ende. */
-export function SessionSummary({ cards, xp, streak, goalReached, onClose }: Props) {
+export function SessionSummary({ cards, xp, streak, goalReached, later, onClose }: Props) {
   return (
     <div className="flex h-full flex-col items-center justify-center gap-8 text-center">
       <motion.div
@@ -33,7 +40,7 @@ export function SessionSummary({ cards, xp, streak, goalReached, onClose }: Prop
       <div>
         <h2 className="text-2xl font-bold">{goalReached ? 'Tagesziel erreicht!' : 'Für jetzt geschafft'}</h2>
         <p className="mt-2 text-neutral-600 dark:text-neutral-400">
-          {goalReached ? 'Alles für heute erledigt.' : 'Nichts mehr fällig. Später kommen noch Lernschritte.'}
+          {later ? laterText(later) : goalReached ? 'Alles für heute erledigt.' : 'Für jetzt ist nichts mehr fällig.'}
         </p>
       </div>
       <dl className="grid w-full max-w-xs grid-cols-3 gap-3">
