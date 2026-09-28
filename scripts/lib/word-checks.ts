@@ -1,9 +1,10 @@
 // Prüfregeln für die Wortpakete (SPEC.md Abschnitt 8.3). Reine Funktionen, getestet in tests/wordChecks.test.ts.
-import { irregularIndices, regularPlural, verbClass } from '../../src/domain/forms.ts';
+import { irregularIndices, regularPlural, stemChange, verbClass } from '../../src/domain/forms.ts';
 import type { Word } from '../../src/domain/types.ts';
 
 export const MAX_SENTENCE_WORDS = 10;
 export const MAX_HEARD = 3;
+export const GENDER4_POS: readonly string[] = ['adj', 'det', 'pron', 'adv'];
 export const MAX_DE_ALT = 2;
 export const POS_VALUES = ['noun', 'verb', 'adj', 'adv', 'pron', 'prep', 'conj', 'det', 'num', 'interj', 'other'] as const;
 export const ARTICLES = ['el', 'la', 'los', 'las'] as const;
@@ -178,16 +179,20 @@ export function checkForms(w: Word): Finding[] {
       warn(`forms.irregular [${(f.irregular ?? []).join(', ')}] weicht vom regelmäßigen Muster ab, erwartet [${expected.join(', ')}]`);
     }
   }
-  if (f.adj !== undefined) {
-    if (w.pos !== 'adj') err('forms.adj nur bei Adjektiven');
-    if (!isStringList(f.adj) || f.adj.length !== 4) err('forms.adj muss genau 4 Formen haben');
+  if (f.present?.length === 6 && (stemChange(w.es, f.present) ?? undefined) !== f.stemChange) {
+    warn(`forms.stemChange „${f.stemChange ?? '–'}“ passt nicht zum Präsens, erwartet „${stemChange(w.es, f.present) ?? '–'}“`);
+  }
+  if (f.stemChange !== undefined && f.present === undefined) err('forms.stemChange ohne forms.present');
+  if (f.gender4 !== undefined) {
+    if (!GENDER4_POS.includes(w.pos)) err('forms.gender4 nur bei Adjektiven, Begleitern, Pronomen und Adverbien');
+    if (!isStringList(f.gender4) || f.gender4.length !== 4) err('forms.gender4 muss genau 4 Formen haben');
   }
   if (f.plural !== undefined) {
     if (w.pos !== 'noun') err('forms.plural nur bei Nomen');
     if (typeof f.plural !== 'string' || f.plural.trim() === '') err('forms.plural muss eine Form sein');
     else if (f.plural === regularPlural(w.es)) warn(`forms.plural „${f.plural}“ ist regelmäßig und kann entfallen`);
   }
-  if (w.note && /(unregelmäßig|Formen)\s*:/i.test(w.note) && (f.present || f.adj)) {
+  if (w.note && /(unregelmäßig|Formen)\s*:/i.test(w.note) && (f.present || f.gender4)) {
     warn('note enthält eine Formenliste – die Formen stehen bereits im Formenblock');
   }
   return out;

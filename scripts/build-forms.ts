@@ -2,10 +2,11 @@
 // Ändert nur Einträge ohne `forms`; id, rank und alle anderen Felder bleiben unverändert.
 //  - heard:   bis zu 3 Formen aus topForms der Rangliste (Verben und veränderliche Adjektive, nicht nur das Lemma)
 //  - present: regelmäßig nach Muster, unregelmäßige Verben aus IRREGULAR_PRESENT (von Hand gepflegt)
-//  - adj:     Adjektive auf -o (bueno, buena, buenos, buenas)
+//  - gender4: veränderliche Adjektive (adjGender4) und Begleiter/Pronomen aus GENDER4_WORDS
+//  - stemChange: Stammwechsel aus dem Präsens abgeleitet (o → ue, e → ie, e → i, u → ue)
 //  - plural:  nur Nomen aus IRREGULAR_PLURAL
 import { readFileSync, writeFileSync } from 'node:fs';
-import { irregularIndices, regularPresent } from '../src/domain/forms.ts';
+import { adjGender4, irregularIndices, regularPresent, stemChange } from '../src/domain/forms.ts';
 import type { Word, WordForms } from '../src/domain/types.ts';
 import { MAX_HEARD, parseRanking } from './lib/word-checks.ts';
 
@@ -51,6 +52,28 @@ const IRREGULAR_PRESENT: Record<string, string> = {
   convertir: 'convierto conviertes convierte convertimos convertís convierten',
 };
 
+/** Begleiter, Pronomen (und mucho) mit 4 Formen: m. Sg., f. Sg., m. Pl., f. Pl. */
+const GENDER4_WORDS: Record<string, string> = {
+  el: 'el la los las',
+  uno: 'un una unos unas',
+  este: 'este esta estos estas',
+  ese: 'ese esa esos esas',
+  aquel: 'aquel aquella aquellos aquellas',
+  todo: 'todo toda todos todas',
+  otro: 'otro otra otros otras',
+  mucho: 'mucho mucha muchos muchas',
+  alguno: 'alguno alguna algunos algunas',
+  ninguno: 'ninguno ninguna ningunos ningunas',
+  mismo: 'mismo misma mismos mismas',
+  nuestro: 'nuestro nuestra nuestros nuestras',
+  vuestro: 'vuestro vuestra vuestros vuestras',
+  mío: 'mío mía míos mías',
+  tuyo: 'tuyo tuya tuyos tuyas',
+  suyo: 'suyo suya suyos suyas',
+  cuánto: 'cuánto cuánta cuántos cuántas',
+  cuyo: 'cuyo cuya cuyos cuyas',
+};
+
 /** Unregelmäßiger Plural (Akzent- oder Schreibänderung, unveränderlich). */
 const IRREGULAR_PLURAL: Record<string, string> = {
   vez: 'veces',
@@ -61,8 +84,9 @@ const IRREGULAR_PLURAL: Record<string, string> = {
 
 export function formsFor(w: Word, topForms: string[]): WordForms | undefined {
   const forms: WordForms = {};
-  const variableAdj = w.pos === 'adj' && w.es.endsWith('o');
-  if (w.pos === 'verb' || variableAdj) {
+  const gender4 =
+    w.pos === 'adj' ? adjGender4(w.es) : ['det', 'pron', 'adv'].includes(w.pos) ? GENDER4_WORDS[w.es]?.split(' ') : undefined;
+  if (w.pos === 'verb' || (w.pos === 'adj' && gender4)) {
     const heard = topForms.slice(0, MAX_HEARD);
     if (heard.some((f) => f !== w.es)) forms.heard = heard;
   }
@@ -72,11 +96,10 @@ export function formsFor(w: Word, topForms: string[]): WordForms | undefined {
     forms.present = present;
     const irregular = irregularIndices(w.es, present);
     if (irregular.length > 0) forms.irregular = irregular;
+    const change = stemChange(w.es, present);
+    if (change) forms.stemChange = change;
   }
-  if (variableAdj) {
-    const stem = w.es.slice(0, -1);
-    forms.adj = [w.es, `${stem}a`, `${w.es}s`, `${stem}as`];
-  }
+  if (gender4) forms.gender4 = gender4;
   if (w.pos === 'noun' && IRREGULAR_PLURAL[w.es]) forms.plural = IRREGULAR_PLURAL[w.es];
   return Object.keys(forms).length > 0 ? forms : undefined;
 }

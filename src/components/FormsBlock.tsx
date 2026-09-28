@@ -3,12 +3,12 @@ import type { Word } from '../domain/types.ts';
 
 interface Props {
   word: Word;
-  /** Form, die im Beispielsatz vorkommt (wird bei den Adjektivformen hervorgehoben) */
+  /** Form, die im Beispielsatz vorkommt (wird bei den 4 Formen hervorgehoben) */
   sentenceForm?: string;
   onSpeak: (text: string) => void;
 }
 
-const ADJ_LABELS = ['m', 'f', 'm Pl.', 'f Pl.'];
+const GENDER4_LABELS = ['m', 'f', 'm Pl.', 'f Pl.'];
 // Tabelle 2 × 3: links Singular, rechts Plural
 const PRESENT_ORDER = [0, 3, 1, 4, 2, 5];
 
@@ -31,7 +31,7 @@ function SmallSpeaker() {
   );
 }
 
-/** Formenblock der Kartenrückseite: Verben, veränderliche Adjektive, unregelmäßiger Plural; sonst nichts. */
+/** Formenblock der Kartenrückseite: Verben, 4 Genus-/Numerusformen, unregelmäßiger Plural; sonst nichts. */
 export function FormsBlock({ word, sentenceForm, onSpeak }: Props) {
   const f = word.forms;
   if (!f) return null;
@@ -103,22 +103,22 @@ export function FormsBlock({ word, sentenceForm, onSpeak }: Props) {
     );
   }
 
-  if (word.pos === 'adj' && f.adj?.length === 4) {
+  if (f.gender4?.length === 4) {
     return (
       <>
         <div className="flex flex-col gap-2.5">
           <SectionTitle>Formen</SectionTitle>
           <div className="grid grid-cols-4 gap-1.5">
-            {f.adj.map((form, i) => (
+            {f.gender4.map((form, i) => (
               <div key={i} className="flex flex-col items-center gap-0.5 rounded-xl bg-neutral-50 px-1.5 py-2.5 dark:bg-neutral-800">
                 <span className={`text-base ${form === lower ? 'font-bold text-accent-ink' : 'font-medium'}`}>{form}</span>
-                <span className="text-[11px] text-neutral-500 dark:text-neutral-400">{ADJ_LABELS[i]}</span>
+                <span className="text-[11px] text-neutral-500 dark:text-neutral-400">{GENDER4_LABELS[i]}</span>
               </div>
             ))}
           </div>
         </div>
         {/* Häufig gehört nur, wenn es mehr zeigt als die 4 Formen (z. B. buen, primer) */}
-        {f.heard?.some((h) => !f.adj!.includes(h)) && heard}
+        {f.heard?.some((h) => !f.gender4!.includes(h)) && heard}
       </>
     );
   }

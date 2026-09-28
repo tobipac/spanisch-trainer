@@ -1,10 +1,12 @@
 import { describe, expect, it } from 'vitest';
 import {
+  adjGender4,
   highlightForm,
   irregularIndices,
   regularPlural,
   regularPresent,
   regularPresentParts,
+  stemChange,
   verbClass,
 } from '../src/domain/forms.ts';
 import type { Word } from '../src/domain/types.ts';
@@ -34,11 +36,42 @@ describe('Präsensmuster', () => {
     expect(irregularIndices('hablar', regularPresent('hablar')!)).toEqual([]);
   });
 
+  it('erkennt den Stammwechsel an der él-Form', () => {
+    expect(stemChange('poder', ['puedo', 'puedes', 'puede', 'podemos', 'podéis', 'pueden'])).toBe('o → ue');
+    expect(stemChange('pensar', ['pienso', 'piensas', 'piensa', 'pensamos', 'pensáis', 'piensan'])).toBe('e → ie');
+    expect(stemChange('pedir', ['pido', 'pides', 'pide', 'pedimos', 'pedís', 'piden'])).toBe('e → i');
+    expect(stemChange('seguir', ['sigo', 'sigues', 'sigue', 'seguimos', 'seguís', 'siguen'])).toBe('e → i');
+    expect(stemChange('jugar', ['juego', 'juegas', 'juega', 'jugamos', 'jugáis', 'juegan'])).toBe('u → ue');
+    expect(stemChange('tener', ['tengo', 'tienes', 'tiene', 'tenemos', 'tenéis', 'tienen'])).toBe('e → ie');
+    expect(stemChange('ser', ['soy', 'eres', 'es', 'somos', 'sois', 'son'])).toBeNull();
+    expect(stemChange('estar', ['estoy', 'estás', 'está', 'estamos', 'estáis', 'están'])).toBeNull();
+    expect(stemChange('hablar', regularPresent('hablar')!)).toBeNull();
+  });
+
   it('Plural nach Grundregel', () => {
     expect(regularPlural('casa')).toBe('casas');
     expect(regularPlural('papá')).toBe('papás');
     expect(regularPlural('mujer')).toBe('mujeres');
     expect(regularPlural('vez')).toBe('vezes'); // deshalb steht veces in forms.plural
+  });
+});
+
+describe('4 Formen bei Adjektiven', () => {
+  it('-o, -or, -án/-ín/-ón, -és und Nationalitäten auf Konsonant', () => {
+    expect(adjGender4('bueno')).toEqual(['bueno', 'buena', 'buenos', 'buenas']);
+    expect(adjGender4('trabajador')).toEqual(['trabajador', 'trabajadora', 'trabajadores', 'trabajadoras']);
+    expect(adjGender4('alemán')).toEqual(['alemán', 'alemana', 'alemanes', 'alemanas']);
+    expect(adjGender4('pequeñín')).toEqual(['pequeñín', 'pequeñina', 'pequeñines', 'pequeñinas']);
+    expect(adjGender4('llorón')).toEqual(['llorón', 'llorona', 'llorones', 'lloronas']);
+    expect(adjGender4('francés')).toEqual(['francés', 'francesa', 'franceses', 'francesas']);
+    expect(adjGender4('español')).toEqual(['español', 'española', 'españoles', 'españolas']);
+    expect(adjGender4('andaluz')).toEqual(['andaluz', 'andaluza', 'andaluces', 'andaluzas']);
+  });
+
+  it('keine 4 Formen, wenn nur Einzahl/Mehrzahl variiert', () => {
+    for (const es of ['grande', 'mejor', 'mayor', 'superior', 'nacional', 'feliz', 'cortés', 'importante']) {
+      expect(adjGender4(es)).toBeNull();
+    }
   });
 });
 
@@ -54,9 +87,10 @@ describe('Hervorhebung im Beispielsatz', () => {
   });
 
   it('findet Adjektiv-, Genus- und Pluralformen', () => {
-    const bueno = word({ es: 'bueno', pos: 'adj', forms: { adj: ['bueno', 'buena', 'buenos', 'buenas'] } });
+    const bueno = word({ es: 'bueno', pos: 'adj', forms: { gender4: ['bueno', 'buena', 'buenos', 'buenas'] } });
     expect(highlightForm(bueno, 'Es una buena idea.')?.match).toBe('buena');
-    expect(highlightForm(word({ es: 'ese', pos: 'pron' }), '¿Qué es eso?')?.match).toBe('eso');
+    const el = word({ es: 'el', pos: 'det', forms: { gender4: ['el', 'la', 'los', 'las'] } });
+    expect(highlightForm(el, 'Cierra la puerta.')?.match).toBe('la');
     expect(highlightForm(word({ es: 'año', pos: 'noun' }), 'Tengo treinta años.')?.match).toBe('años');
     expect(highlightForm(word({ es: 'vez', pos: 'noun', forms: { plural: 'veces' } }), 'A veces llueve.')?.match).toBe('veces');
   });

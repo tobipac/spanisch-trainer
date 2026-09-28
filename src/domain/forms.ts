@@ -1,5 +1,5 @@
 // Wortformen für den Formenblock der Kartenrückseite: Präsensmuster, Plural, Hervorhebung im Beispielsatz.
-import type { Word } from './types.ts';
+import type { StemChange, Word } from './types.ts';
 
 export type VerbClass = 'ar' | 'er' | 'ir';
 
@@ -40,6 +40,60 @@ export function irregularIndices(infinitive: string, present: readonly string[])
   return present.flatMap((f, i) => (regular && regular[i] === f ? [] : [i]));
 }
 
+/** Stammwechsel, geprüft an der él-Form: e → ie vor e → i, damit pienso nicht als e → i gilt. */
+const STEM_CHANGES: Array<[from: string, to: string, label: StemChange]> = [
+  ['e', 'ie', 'e → ie'],
+  ['o', 'ue', 'o → ue'],
+  ['u', 'ue', 'u → ue'],
+  ['e', 'i', 'e → i'],
+];
+
+/**
+ * Stammwechsel im Präsens (tener → tiene: e → ie) oder null. Die nosotros-Form muss regelmäßig
+ * sein (typisches „Stiefel“-Muster), sonst liegt kein Stammwechsel vor.
+ */
+export function stemChange(infinitive: string, present: readonly string[]): StemChange | null {
+  const regular = regularPresent(infinitive);
+  const third = present[2];
+  if (!regular || !third || present[3] !== regular[3]) return null;
+  const stem = infinitive.slice(0, -2);
+  const changedStem = third.slice(0, -1);
+  for (const [from, to, label] of STEM_CHANGES) {
+    for (let i = stem.lastIndexOf(from); i >= 0; i = stem.lastIndexOf(from, i - 1)) {
+      if (stem.slice(0, i) + to + stem.slice(i + from.length) === changedStem) return label;
+      if (i === 0) break;
+    }
+  }
+  return null;
+}
+
+/** Adjektive auf -or ohne weibliche Form (Komparative u. Ä.). */
+const INVARIABLE_OR = new Set(['mejor', 'peor', 'mayor', 'menor', 'superior', 'inferior', 'anterior', 'posterior', 'interior', 'exterior', 'ulterior']);
+/** Nationalitäten auf Konsonant, die nicht auf -és/-án enden. */
+const CONSONANT_NATIONALITIES = new Set(['español', 'andaluz']);
+
+const unaccentLast = (s: string) => s.replace(/[áéíóú](?=[^áéíóú]*$)/, (c) => stripAccents(c));
+
+/**
+ * 4 Formen eines veränderlichen Adjektivs (m. Sg., f. Sg., m. Pl., f. Pl.) oder null, wenn es nur
+ * nach Einzahl/Mehrzahl variiert: -o, -or, -án/-ín/-ón, -és und Nationalitäten auf Konsonant.
+ */
+export function adjGender4(es: string): string[] | null {
+  if (es.endsWith('o')) {
+    const stem = es.slice(0, -1);
+    return [es, `${stem}a`, `${es}s`, `${stem}as`];
+  }
+  const consonantPlural = (base: string) => (base.endsWith('z') ? `${base.slice(0, -1)}ces` : `${base}es`);
+  if ((es.endsWith('or') && !INVARIABLE_OR.has(es)) || CONSONANT_NATIONALITIES.has(es)) {
+    return [es, `${es}a`, consonantPlural(es), `${es}as`];
+  }
+  if (/(án|ín|ón|és)$/.test(es) && es !== 'cortés') {
+    const base = unaccentLast(es);
+    return [es, `${base}a`, `${base}es`, `${base}as`];
+  }
+  return null;
+}
+
 /** Plural nach der Grundregel: Vokal + s, Konsonant + es (ohne Schreibänderungen). */
 export function regularPlural(noun: string): string {
   return /[aeiouáéó]$/i.test(noun) ? `${noun}s` : `${noun}es`;
@@ -48,13 +102,8 @@ export function regularPlural(noun: string): string {
 /** Alle Formen des Wortes, die im Beispielsatz vorkommen können. */
 export function knownForms(word: Pick<Word, 'es' | 'pos' | 'forms'>): string[] {
   const f = word.forms;
-  const out = [word.es, ...(f?.heard ?? []), ...(f?.present ?? []), ...(f?.adj ?? [])];
+  const out = [word.es, ...(f?.heard ?? []), ...(f?.present ?? []), ...(f?.gender4 ?? [])];
   if (word.pos === 'noun') out.push(f?.plural ?? regularPlural(word.es));
-  // Begleiter, Pronomen, Adjektive: Genus- und Pluralformen (uno → una, ese → esa, eso, mío → mía)
-  if (['det', 'pron', 'adj'].includes(word.pos) && /[oe]$/.test(word.es)) {
-    const stem = word.es.slice(0, -1);
-    out.push(`${stem}a`, `${stem}o`, `${stem}os`, `${stem}as`);
-  }
   return out.map((s) => s.toLowerCase());
 }
 

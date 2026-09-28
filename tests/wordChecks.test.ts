@@ -137,7 +137,7 @@ describe('Artikel-Plausibilität', () => {
 });
 
 describe('Formenblock', () => {
-  const tenerForms = { heard: ['tengo', 'tiene'], present: ['tengo', 'tienes', 'tiene', 'tenemos', 'tenéis', 'tienen'], irregular: [0, 1, 2, 5] };
+  const tenerForms = { heard: ['tengo', 'tiene'], present: ['tengo', 'tienes', 'tiene', 'tenemos', 'tenéis', 'tienen'], irregular: [0, 1, 2, 5], stemChange: 'e → ie' as const };
   const withForms = (i: number, forms: Word['forms']) => {
     const words = pkg();
     words[i] = { ...words[i]!, forms };
@@ -146,19 +146,19 @@ describe('Formenblock', () => {
 
   it('gültige Formen ergeben keine Meldung', () => {
     const words = withForms(1, tenerForms);
-    words[2] = { ...words[2]!, forms: { heard: ['rápido', 'rápida'], adj: ['rápido', 'rápida', 'rápidos', 'rápidas'] } };
+    words[2] = { ...words[2]!, forms: { heard: ['rápido', 'rápida'], gender4: ['rápido', 'rápida', 'rápidos', 'rápidas'] } };
     expect(checkPackage('words-0001-0003.json', words, ranking)).toEqual([]);
   });
 
   it('Fehler: heard nicht in topForms, Präsens nicht genau 6 Formen, falsche Wortart', () => {
     const words = withForms(1, { ...tenerForms, heard: ['tuvo'], present: ['tengo', 'tienes'] });
-    words[0] = { ...words[0]!, forms: { present: ['a', 'b', 'c', 'd', 'e', 'f'], adj: ['casa'] } };
+    words[0] = { ...words[0]!, forms: { present: ['a', 'b', 'c', 'd', 'e', 'f'], gender4: ['casa'] } };
     const msgs = errors(checkPackage('words-0001-0003.json', words, ranking));
     expect(msgs).toContain('forms.heard „tuvo“ steht nicht in topForms der Rangliste');
     expect(msgs).toContain('forms.present muss genau 6 Formen haben');
     expect(msgs).toContain('forms.present nur bei Verben');
-    expect(msgs).toContain('forms.adj nur bei Adjektiven');
-    expect(msgs).toContain('forms.adj muss genau 4 Formen haben');
+    expect(msgs).toContain('forms.gender4 nur bei Adjektiven, Begleitern, Pronomen und Adverbien');
+    expect(msgs).toContain('forms.gender4 muss genau 4 Formen haben');
   });
 
   it('Fehler: mehr als 3 heard-Formen, ungültige Indizes, irregular ohne present', () => {
@@ -172,11 +172,12 @@ describe('Formenblock', () => {
   });
 
   it('Warnungen: irregular passt nicht zum Muster, regelmäßiger Plural, Formenliste in note', () => {
-    const words = withForms(1, { ...tenerForms, irregular: [0] });
+    const words = withForms(1, { ...tenerForms, irregular: [0], stemChange: undefined });
     words[1] = { ...words[1]!, note: 'unregelmäßig: tengo, tienes' };
     words[0] = { ...words[0]!, forms: { plural: 'casas' } };
     const warnings = checkPackage('words-0001-0003.json', words, ranking).filter((f) => f.level === 'warning').map((f) => f.message);
     expect(warnings).toContain('forms.irregular [0] weicht vom regelmäßigen Muster ab, erwartet [0, 1, 2, 5]');
+    expect(warnings).toContain('forms.stemChange „–“ passt nicht zum Präsens, erwartet „e → ie“');
     expect(warnings).toContain('forms.plural „casas“ ist regelmäßig und kann entfallen');
     expect(warnings).toContain('note enthält eine Formenliste – die Formen stehen bereits im Formenblock');
   });

@@ -17,12 +17,16 @@ interface Props {
 const withArticle = (w: Word) => (w.article ? `${w.article} ${w.es}` : w.es);
 const posLabel = (w: Word) => (w.pos === 'det' && ARTICLE_LEMMAS.includes(w.es) ? 'Artikel' : POS_LABELS[w.pos]);
 
-/** Zusatz-Label bei Verben mit Präsensformen: „unregelmäßig“ oder „regelmäßig · -ar“. */
-function verbLabel(w: Word): { text: string; accent: boolean } | null {
-  if (w.pos !== 'verb' || w.forms?.present?.length !== 6) return null;
-  if (isIrregularVerb(w)) return { text: 'unregelmäßig', accent: true };
+/** Zusatz-Labels bei Verben mit Präsensformen: „unregelmäßig“ (+ Stammwechsel) oder „regelmäßig · -ar“. */
+function verbLabels(w: Word): Array<{ text: string; accent: boolean }> {
+  if (w.pos !== 'verb' || w.forms?.present?.length !== 6) return [];
+  if (isIrregularVerb(w)) {
+    const labels = [{ text: 'unregelmäßig', accent: true }];
+    if (w.forms.stemChange) labels.push({ text: w.forms.stemChange, accent: true });
+    return labels;
+  }
   const cls = verbClass(w.es);
-  return cls ? { text: `regelmäßig · -${cls}`, accent: false } : null;
+  return cls ? [{ text: `regelmäßig · -${cls}`, accent: false }] : [];
 }
 
 const chip = 'rounded-full px-2.5 py-1 text-xs font-semibold';
@@ -42,7 +46,7 @@ export function Flashcard({ word, direction, revealed, onReveal, onSwipe, onSpea
 
   const spanish = withArticle(word);
   const hl = highlightForm(word, word.exampleEs);
-  const verb = verbLabel(word);
+  const verb = verbLabels(word);
 
   const front =
     direction === 'es-de' ? (
@@ -98,13 +102,14 @@ export function Flashcard({ word, direction, revealed, onReveal, onSwipe, onSpea
               )}
               <div className="mt-1 flex flex-wrap gap-1.5">
                 <span className={`${chip} bg-neutral-100 text-neutral-600 dark:bg-neutral-800 dark:text-neutral-300`}>{posLabel(word)}</span>
-                {verb && (
+                {verb.map((l) => (
                   <span
-                    className={`${chip} ${verb.accent ? 'bg-accent/10 text-accent-ink dark:bg-accent-ink/15' : 'bg-neutral-100 text-neutral-600 dark:bg-neutral-800 dark:text-neutral-300'}`}
+                    key={l.text}
+                    className={`${chip} ${l.accent ? 'bg-accent/10 text-accent-ink dark:bg-accent-ink/15' : 'bg-neutral-100 text-neutral-600 dark:bg-neutral-800 dark:text-neutral-300'}`}
                   >
-                    {verb.text}
+                    {l.text}
                   </span>
-                )}
+                ))}
               </div>
             </div>
 
