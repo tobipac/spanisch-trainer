@@ -52,7 +52,7 @@ const IRREGULAR_PRESENT: Record<string, string> = {
   convertir: 'convierto conviertes convierte convertimos convertís convierten',
 };
 
-/** Begleiter, Pronomen (und mucho) mit 4 Formen: m. Sg., f. Sg., m. Pl., f. Pl. */
+/** Begleiter und Pronomen mit 4 Formen: m. Sg., f. Sg., m. Pl., f. Pl. */
 const GENDER4_WORDS: Record<string, string> = {
   el: 'el la los las',
   uno: 'un una unos unas',
@@ -85,7 +85,7 @@ const IRREGULAR_PLURAL: Record<string, string> = {
 export function formsFor(w: Word, topForms: string[]): WordForms | undefined {
   const forms: WordForms = {};
   const gender4 =
-    w.pos === 'adj' ? adjGender4(w.es) : ['det', 'pron', 'adv'].includes(w.pos) ? GENDER4_WORDS[w.es]?.split(' ') : undefined;
+    w.pos === 'adj' ? adjGender4(w.es) : ['det', 'pron'].includes(w.pos) ? GENDER4_WORDS[w.es]?.split(' ') : undefined;
   if (w.pos === 'verb' || (w.pos === 'adj' && gender4)) {
     const heard = topForms.slice(0, MAX_HEARD);
     if (heard.some((f) => f !== w.es)) forms.heard = heard;

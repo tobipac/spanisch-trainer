@@ -157,8 +157,14 @@ describe('Formenblock', () => {
     expect(msgs).toContain('forms.heard „tuvo“ steht nicht in topForms der Rangliste');
     expect(msgs).toContain('forms.present muss genau 6 Formen haben');
     expect(msgs).toContain('forms.present nur bei Verben');
-    expect(msgs).toContain('forms.gender4 nur bei Adjektiven, Begleitern, Pronomen und Adverbien');
+    expect(msgs).toContain('forms.gender4 nur bei Adjektiven, Begleitern und Pronomen');
     expect(msgs).toContain('forms.gender4 muss genau 4 Formen haben');
+  });
+
+  it('Fehler: gender4 bei Adverbien', () => {
+    const words = pkg();
+    words[0] = { ...words[0]!, article: undefined, pos: 'adv', forms: { gender4: ['casa', 'casa', 'casas', 'casas'] } };
+    expect(errors(checkPackage('words-0001-0003.json', words, ranking))).toContain('forms.gender4 nur bei Adjektiven, Begleitern und Pronomen');
   });
 
   it('Fehler: mehr als 3 heard-Formen, ungültige Indizes, irregular ohne present', () => {

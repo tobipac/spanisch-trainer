@@ -4,7 +4,7 @@ import type { Word } from '../../src/domain/types.ts';
 
 export const MAX_SENTENCE_WORDS = 10;
 export const MAX_HEARD = 3;
-export const GENDER4_POS: readonly string[] = ['adj', 'det', 'pron', 'adv'];
+export const GENDER4_POS: readonly string[] = ['adj', 'det', 'pron'];
 export const MAX_DE_ALT = 2;
 export const POS_VALUES = ['noun', 'verb', 'adj', 'adv', 'pron', 'prep', 'conj', 'det', 'num', 'interj', 'other'] as const;
 export const ARTICLES = ['el', 'la', 'los', 'las'] as const;
@@ -184,7 +184,7 @@ export function checkForms(w: Word): Finding[] {
   }
   if (f.stemChange !== undefined && f.present === undefined) err('forms.stemChange ohne forms.present');
   if (f.gender4 !== undefined) {
-    if (!GENDER4_POS.includes(w.pos)) err('forms.gender4 nur bei Adjektiven, Begleitern, Pronomen und Adverbien');
+    if (!GENDER4_POS.includes(w.pos)) err('forms.gender4 nur bei Adjektiven, Begleitern und Pronomen');
     if (!isStringList(f.gender4) || f.gender4.length !== 4) err('forms.gender4 muss genau 4 Formen haben');
   }
   if (f.plural !== undefined) {

@@ -34,7 +34,7 @@ export interface WordForms {
   irregular?: number[];
   /** Stammwechsel im Präsens, z. B. „o → ue“ (aus present abgeleitet) */
   stemChange?: StemChange;
-  /** 4 Formen (m. Sg., f. Sg., m. Pl., f. Pl.): veränderliche Adjektive, Begleiter und Pronomen */
+  /** 4 Formen (m. Sg., f. Sg., m. Pl., f. Pl.): veränderliche Adjektive, Begleiter und Pronomen (nicht Adverbien) */
   gender4?: string[];
   /** Plural, nur wenn unregelmäßig */
   plural?: string;
