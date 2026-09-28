@@ -9,7 +9,9 @@ import { WORD_REFS } from '../data/words.ts';
 import { db } from '../db/database.ts';
 import { getOrCreateDay, loadSettings } from '../db/repository.ts';
 import { backupDue, computeStreak, levelInfo, type LevelInfo, type StreakInfo } from '../domain/gamification.ts';
+import { dreamingLevels, dreamingUrl } from '../domain/input.ts';
 import { dayEnd, dayStart } from '../domain/learningDay.ts';
+import { stableWordCount } from '../domain/progress.ts';
 import {
   dayLimits,
   estimateMinutes,
@@ -39,6 +41,8 @@ interface HomeState {
   level: LevelInfo;
   reverseHint: boolean;
   backupHint: boolean;
+  /** gefestigte Wörter (für das Niveau bei Dreaming Spanish) */
+  stableWords: number;
 }
 
 const WEEKDAYS = ['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag'];
@@ -61,6 +65,7 @@ async function loadHome(): Promise<HomeState> {
     level: levelInfo(days),
     reverseHint: reverseQueueHint(counts.reverseQueued, settings),
     backupHint: backupDue(settings.lastBackupAt, firstDay, day.day, t, BACKUP_REMINDER_DAYS),
+    stableWords: stableWordCount(cards),
   };
 }
 
@@ -198,7 +203,20 @@ export function HomeScreen({ onStart }: Props) {
         </div>
       </section>
 
-      <div className="mt-auto pt-2 pb-6">
+      <div className="mt-auto flex flex-col gap-3 pt-2 pb-6">
+        {day.goalReached && (
+          <button
+            type="button"
+            // window.open, damit iOS die Dreaming-App per Universal Link öffnen kann (sonst Safari)
+            onClick={() => window.open(dreamingUrl(state.stableWords), '_blank')}
+            className="flex min-h-14 w-full flex-col items-center justify-center rounded-2xl border-2 border-accent-ink px-4 py-2 font-semibold text-accent-ink active:scale-95"
+          >
+            <span className="text-lg">Comprehensible Input</span>
+            <span className="text-xs font-normal text-neutral-600 dark:text-neutral-400">
+              Dreaming Spanish · {dreamingLevels(state.stableWords).map((l) => (l === 'superbeginner' ? 'Superbeginner' : 'Beginner')).join(' + ')}
+            </span>
+          </button>
+        )}
         <button
           type="button"
           onClick={() => {

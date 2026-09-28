@@ -2,7 +2,7 @@ import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import { BAND_COVERAGE, MAX_COVERAGE } from '../src/config/coverage.ts';
 import { BADGE_THRESHOLD, BANDS } from '../src/config/progress.ts';
-import { bandStats, coverage, dueForecast, reviewHistory, type WordShare } from '../src/domain/progress.ts';
+import { bandStats, coverage, dueForecast, reviewHistory, stableWordCount, type WordShare } from '../src/domain/progress.ts';
 import type { DayRecord } from '../src/domain/types.ts';
 import { parseRanking } from '../scripts/lib/word-checks.ts';
 import { at, learningCard, queuedReverse, reviewCard } from './helpers.ts';
@@ -41,6 +41,11 @@ describe('Abdeckung', () => {
   it('Summe freqShare der gefestigten Wörter', () => {
     const cards = [stable('w0001'), stable('w0002'), young('w0003')];
     expect(coverage(cards, W)).toBeCloseTo(0.002);
+  });
+
+  it('zählt gefestigte Wörter (nur Spanisch → Deutsch, eingeführt, stability ≥ 21 Tage)', () => {
+    const cards = [stable('w0001'), stable('w0002'), young('w0003'), queuedReverse('w0004', at(2026, 10, 1))];
+    expect(stableWordCount(cards)).toBe(2);
   });
 
   it('Abdeckungstabelle stimmt mit der Rangliste überein (sonst: npm run build:coverage)', () => {

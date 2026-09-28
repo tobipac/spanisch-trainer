@@ -39,6 +39,11 @@ export function bandStats(
   });
 }
 
+/** Anzahl gefestigter Wörter (Spanisch → Deutsch-Karte mit stability ≥ 21 Tage). */
+export function stableWordCount(cards: readonly CardRecord[]): number {
+  return [...esDeCards(cards).values()].filter((c) => isStable(c.fsrs)).length;
+}
+
 /** Abdeckung = Summe freqShare aller gefestigten Wörter (SPEC.md Abschnitt 7). */
 export function coverage(cards: readonly CardRecord[], words: readonly WordShare[]): number {
   const byWord = esDeCards(cards);
