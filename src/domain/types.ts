@@ -19,6 +19,21 @@ export interface Word {
   exampleEs: string;
   exampleDe: string;
   note?: string;
+  forms?: WordForms;
+}
+
+/** Formenblock auf der Kartenrückseite (alle Felder optional, je nach Wortart). */
+export interface WordForms {
+  /** höchstens 3 häufig gehörte Formen, nur aus topForms der Rangliste */
+  heard?: string[];
+  /** Präsens, genau 6 Formen (yo, tú, él, nosotros, vosotros, ellos), nur bei Verben */
+  present?: string[];
+  /** Indizes (0–5) der unregelmäßigen Präsensformen */
+  irregular?: number[];
+  /** 4 Formen (m. Sg., f. Sg., m. Pl., f. Pl.), nur bei veränderlichen Adjektiven */
+  adj?: string[];
+  /** Plural, nur wenn unregelmäßig */
+  plural?: string;
 }
 
 /** Für die Lernlogik reicht id + rank. */

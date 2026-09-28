@@ -1,6 +1,8 @@
 import { motion, useMotionValue, useTransform, type PanInfo } from 'framer-motion';
 import { ARTICLE_LEMMAS, CARD_ANIMATION_S, POS_LABELS, SWIPE_THRESHOLD_PX } from '../config/labels.ts';
+import { highlightForm, verbClass } from '../domain/forms.ts';
 import type { Direction, Rating, Word } from '../domain/types.ts';
+import { FormsBlock, isIrregularVerb } from './FormsBlock.tsx';
 import { SpeakerButton } from './SpeakerButton.tsx';
 
 interface Props {
@@ -14,6 +16,16 @@ interface Props {
 
 const withArticle = (w: Word) => (w.article ? `${w.article} ${w.es}` : w.es);
 const posLabel = (w: Word) => (w.pos === 'det' && ARTICLE_LEMMAS.includes(w.es) ? 'Artikel' : POS_LABELS[w.pos]);
+
+/** Zusatz-Label bei Verben mit Präsensformen: „unregelmäßig“ oder „regelmäßig · -ar“. */
+function verbLabel(w: Word): { text: string; accent: boolean } | null {
+  if (w.pos !== 'verb' || w.forms?.present?.length !== 6) return null;
+  if (isIrregularVerb(w)) return { text: 'unregelmäßig', accent: true };
+  const cls = verbClass(w.es);
+  return cls ? { text: `regelmäßig · -${cls}`, accent: false } : null;
+}
+
+const chip = 'rounded-full px-2.5 py-1 text-xs font-semibold';
 
 /** Lernkarte: Tippen dreht um, nach dem Aufdecken Wischen links = Nochmal, rechts = Gut. */
 export function Flashcard({ word, direction, revealed, onReveal, onSwipe, onSpeak }: Props) {
@@ -29,6 +41,8 @@ export function Flashcard({ word, direction, revealed, onReveal, onSwipe, onSpea
   };
 
   const spanish = withArticle(word);
+  const hl = highlightForm(word, word.exampleEs);
+  const verb = verbLabel(word);
 
   const front =
     direction === 'es-de' ? (
@@ -70,21 +84,28 @@ export function Flashcard({ word, direction, revealed, onReveal, onSwipe, onSpea
           <p className="absolute bottom-5 text-sm text-neutral-400">Tippen zum Aufdecken</p>
         </div>
 
-        {/* Rückseite: Spanisch groß oben, Deutsch direkt darunter; Inhalt vertikal zentriert (my-auto), scrollt bei Überlänge */}
-        <div className="absolute inset-0 flex flex-col overflow-y-auto rounded-3xl border border-neutral-200 bg-white p-6 [backface-visibility:hidden] [transform:rotateY(180deg)] dark:border-neutral-800 dark:bg-neutral-900">
-          <div className="my-auto flex flex-col gap-6">
-            <div className="flex items-start justify-between gap-3">
-              <div>
-                <p className="text-4xl font-bold leading-tight">{spanish}</p>
-                <p className="mt-2 text-2xl font-medium text-neutral-700 dark:text-neutral-200">{word.de}</p>
-                {word.deAlt && word.deAlt.length > 0 && (
-                  <p className="mt-1 text-base text-neutral-600 dark:text-neutral-300">auch: {word.deAlt.join('; ')}</p>
-                )}
-                <p className="mt-3 inline-block rounded-full bg-neutral-100 px-2.5 py-0.5 text-xs text-neutral-600 dark:bg-neutral-800 dark:text-neutral-300">
-                  {posLabel(word)}
-                </p>
+        {/* Rückseite: Spanisch groß oben, Deutsch darunter, Beispielsatz, Formenblock, Hinweis; vertikal zentriert (my-auto), scrollt bei Überlänge */}
+        <div className="absolute inset-0 flex flex-col overflow-y-auto rounded-3xl border border-neutral-200 bg-white px-[22px] py-6 [backface-visibility:hidden] [transform:rotateY(180deg)] dark:border-neutral-800 dark:bg-neutral-900">
+          <div className="my-auto flex flex-col gap-5">
+            <div className="flex flex-col gap-2">
+              <div className="flex items-center justify-between gap-3">
+                <p className="text-4xl font-bold leading-tight tracking-tight">{spanish}</p>
+                <SpeakerButton onPress={() => onSpeak(word.es)} />
               </div>
-              <SpeakerButton onPress={() => onSpeak(word.es)} />
+              <p className="text-xl leading-snug text-neutral-700 dark:text-neutral-300">{word.de}</p>
+              {word.deAlt && word.deAlt.length > 0 && (
+                <p className="text-base text-neutral-600 dark:text-neutral-400">auch: {word.deAlt.join('; ')}</p>
+              )}
+              <div className="mt-1 flex flex-wrap gap-1.5">
+                <span className={`${chip} bg-neutral-100 text-neutral-600 dark:bg-neutral-800 dark:text-neutral-300`}>{posLabel(word)}</span>
+                {verb && (
+                  <span
+                    className={`${chip} ${verb.accent ? 'bg-accent/10 text-accent-ink dark:bg-accent-ink/15' : 'bg-neutral-100 text-neutral-600 dark:bg-neutral-800 dark:text-neutral-300'}`}
+                  >
+                    {verb.text}
+                  </span>
+                )}
+              </div>
             </div>
 
             <button
@@ -96,11 +117,32 @@ export function Flashcard({ word, direction, revealed, onReveal, onSwipe, onSpea
               }}
               aria-label="Beispielsatz anhören"
             >
-              <p className="text-lg font-medium">{word.exampleEs}</p>
-              <p className="mt-1 text-neutral-600 dark:text-neutral-400">{word.exampleDe}</p>
+              <p className="text-[17px] font-semibold leading-snug">
+                {hl ? (
+                  <>
+                    {hl.before}
+                    <strong className="font-bold text-accent-ink">{hl.match}</strong>
+                    {hl.after}
+                  </>
+                ) : (
+                  word.exampleEs
+                )}
+              </p>
+              <p className="mt-1.5 text-[15px] text-neutral-600 dark:text-neutral-400">{word.exampleDe}</p>
             </button>
 
-            {word.note && <p className="text-lg leading-snug text-neutral-700 dark:text-neutral-300">💡 {word.note}</p>}
+            <FormsBlock word={word} sentenceForm={hl?.match} onSpeak={onSpeak} />
+
+            {word.note && (
+              <div className="flex gap-2.5 text-sm leading-relaxed text-neutral-700 dark:text-neutral-300">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="mt-0.5 shrink-0 text-neutral-400">
+                  <path d="M9 18h6" />
+                  <path d="M10 21h4" />
+                  <path d="M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2V17h5v-1.1c0-.8.4-1.5 1-2A6 6 0 0 0 12 3z" />
+                </svg>
+                <p>{word.note}</p>
+              </div>
+            )}
           </div>
         </div>
       </motion.div>

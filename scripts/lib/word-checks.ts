@@ -1,7 +1,9 @@
 // Prüfregeln für die Wortpakete (SPEC.md Abschnitt 8.3). Reine Funktionen, getestet in tests/wordChecks.test.ts.
+import { irregularIndices, regularPlural, verbClass } from '../../src/domain/forms.ts';
 import type { Word } from '../../src/domain/types.ts';
 
 export const MAX_SENTENCE_WORDS = 10;
+export const MAX_HEARD = 3;
 export const MAX_DE_ALT = 2;
 export const POS_VALUES = ['noun', 'verb', 'adj', 'adv', 'pron', 'prep', 'conj', 'det', 'num', 'interj', 'other'] as const;
 export const ARTICLES = ['el', 'la', 'los', 'las'] as const;
@@ -135,10 +137,58 @@ export function checkPackage(fileName: string, words: Word[], ranking: Map<numbe
       if (typeof w.exampleEs === 'string' && !sentenceContainsLemma(w, w.exampleEs, row.topForms)) {
         warn(id, `„${w.es}“ kommt im Beispielsatz nicht erkennbar vor`);
       }
+      for (const f of w.forms?.heard ?? []) {
+        if (!row.topForms.includes(f)) err(id, `forms.heard „${f}“ steht nicht in topForms der Rangliste`);
+      }
     }
+    if (w.forms !== undefined) out.push(...checkForms(w));
   }
   if (range && words.length !== range[1] - range[0] + 1) {
     err(fileName, `enthält ${words.length} Einträge, erwartet ${range[1] - range[0] + 1}`);
+  }
+  return out;
+}
+
+/** Prüft den Formenblock eines Eintrags (ohne Rangliste; heard ⊆ topForms prüft checkPackage). */
+export function checkForms(w: Word): Finding[] {
+  const out: Finding[] = [];
+  const err = (message: string) => out.push({ level: 'error', id: w.id, message });
+  const warn = (message: string) => out.push({ level: 'warning', id: w.id, message });
+  const f = w.forms!;
+  const isStringList = (v: unknown) => Array.isArray(v) && v.every((s) => typeof s === 'string' && s.trim() !== '');
+
+  if (f.heard !== undefined) {
+    if (!isStringList(f.heard) || f.heard.length === 0) err('forms.heard muss eine Liste von Formen sein');
+    else if (f.heard.length > MAX_HEARD) err(`forms.heard hat mehr als ${MAX_HEARD} Formen`);
+  }
+  if (f.present !== undefined) {
+    if (w.pos !== 'verb') err('forms.present nur bei Verben');
+    if (!isStringList(f.present) || f.present.length !== 6) err('forms.present muss genau 6 Formen haben');
+  }
+  if (f.irregular !== undefined) {
+    if (f.present === undefined) err('forms.irregular ohne forms.present');
+    const valid =
+      Array.isArray(f.irregular) &&
+      f.irregular.every((i, k) => Number.isInteger(i) && i >= 0 && i <= 5 && (k === 0 || i > f.irregular![k - 1]!));
+    if (!valid) err('forms.irregular muss aufsteigende Indizes 0–5 enthalten');
+  }
+  if (f.present?.length === 6 && verbClass(w.es)) {
+    const expected = irregularIndices(w.es, f.present);
+    if (expected.join() !== (f.irregular ?? []).join()) {
+      warn(`forms.irregular [${(f.irregular ?? []).join(', ')}] weicht vom regelmäßigen Muster ab, erwartet [${expected.join(', ')}]`);
+    }
+  }
+  if (f.adj !== undefined) {
+    if (w.pos !== 'adj') err('forms.adj nur bei Adjektiven');
+    if (!isStringList(f.adj) || f.adj.length !== 4) err('forms.adj muss genau 4 Formen haben');
+  }
+  if (f.plural !== undefined) {
+    if (w.pos !== 'noun') err('forms.plural nur bei Nomen');
+    if (typeof f.plural !== 'string' || f.plural.trim() === '') err('forms.plural muss eine Form sein');
+    else if (f.plural === regularPlural(w.es)) warn(`forms.plural „${f.plural}“ ist regelmäßig und kann entfallen`);
+  }
+  if (w.note && /(unregelmäßig|Formen)\s*:/i.test(w.note) && (f.present || f.adj)) {
+    warn('note enthält eine Formenliste – die Formen stehen bereits im Formenblock');
   }
   return out;
 }
