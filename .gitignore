@@ -26,5 +26,8 @@ __pycache__/
 *.azw3
 /reference/
 
+# Exporte (z. B. Wortliste als Excel/CSV) – nur lokal
+/exports/
+
 # Lokale Claude-Code-Einstellungen
 .claude/
