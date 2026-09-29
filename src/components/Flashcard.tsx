@@ -3,6 +3,7 @@ import { ARTICLE_LEMMAS, CARD_ANIMATION_S, POS_LABELS, SWIPE_THRESHOLD_PX } from
 import { highlightForm, verbTags } from '../domain/forms.ts';
 import type { Direction, Rating, Word } from '../domain/types.ts';
 import { FormsBlock } from './FormsBlock.tsx';
+import { ProblemIcon } from './ProblemIcon.tsx';
 import { SpeakerButton } from './SpeakerButton.tsx';
 
 interface Props {
@@ -12,6 +13,8 @@ interface Props {
   onReveal: () => void;
   onSwipe: (rating: Rating) => void;
   onSpeak: (text: string) => void;
+  /** Problemkarte (≥ 8 × „Nochmal“): kleines Symbol auf der Rückseite */
+  problem?: boolean;
 }
 
 const withArticle = (w: Word) => (w.article ? `${w.article} ${w.es}` : w.es);
@@ -20,7 +23,7 @@ const posLabel = (w: Word) => (w.pos === 'det' && ARTICLE_LEMMAS.includes(w.es) 
 const chip = 'rounded-full px-2.5 py-1 text-xs font-semibold';
 
 /** Lernkarte: Tippen dreht um, nach dem Aufdecken Wischen links = Nochmal, rechts = Gut. */
-export function Flashcard({ word, direction, revealed, onReveal, onSwipe, onSpeak }: Props) {
+export function Flashcard({ word, direction, revealed, onReveal, onSwipe, onSpeak, problem = false }: Props) {
   const x = useMotionValue(0);
   const rotate = useTransform(x, [-200, 200], [-8, 8]);
   const againOpacity = useTransform(x, [-SWIPE_THRESHOLD_PX, -20], [1, 0]);
@@ -88,8 +91,9 @@ export function Flashcard({ word, direction, revealed, onReveal, onSwipe, onSpea
               {word.deAlt && word.deAlt.length > 0 && (
                 <p className="text-base text-neutral-600 dark:text-neutral-400">auch: {word.deAlt.join('; ')}</p>
               )}
-              <div className="mt-1 flex flex-wrap gap-1.5">
+              <div className="mt-1 flex flex-wrap items-center gap-1.5">
                 <span className={`${chip} bg-neutral-100 text-neutral-600 dark:bg-neutral-800 dark:text-neutral-300`}>{posLabel(word)}</span>
+                {problem && <ProblemIcon />}
                 {verb.map((l) => (
                   <span
                     key={l.text}

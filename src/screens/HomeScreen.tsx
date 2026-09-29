@@ -4,11 +4,12 @@ import { logError } from '../app/errorLog.ts';
 import { unlockAudio } from '../audio/speech.ts';
 import { DayRing } from '../components/DayRing.tsx';
 import { APP_NAME } from '../config/app.ts';
-import { BACKUP_REMINDER_DAYS, THROTTLE_HALF_ABOVE, THROTTLE_ZERO_ABOVE } from '../config/learning.ts';
+import { BACKUP_REMINDER_DAYS, PRACTICE_MAX_WORDS, THROTTLE_HALF_ABOVE, THROTTLE_ZERO_ABOVE } from '../config/learning.ts';
 import { WORD_REFS } from '../data/words.ts';
 import { db } from '../db/database.ts';
-import { getOrCreateDay, loadSettings } from '../db/repository.ts';
+import { getOrCreateDay, loadSettings, practiceXp } from '../db/repository.ts';
 import { backupDue, computeStreak, levelInfo, type LevelInfo, type StreakInfo } from '../domain/gamification.ts';
+import { weakWordIds } from '../domain/difficulty.ts';
 import { dreamingLevels, dreamingUrl } from '../domain/input.ts';
 import { dayEnd, dayStart } from '../domain/learningDay.ts';
 import { stableWordCount } from '../domain/progress.ts';
@@ -28,6 +29,7 @@ import type { DayRecord } from '../domain/types.ts';
 
 interface Props {
   onStart: () => void;
+  onPractice: () => void;
 }
 
 interface HomeState {
@@ -43,6 +45,8 @@ interface HomeState {
   backupHint: boolean;
   /** gefestigte Wörter (für das Niveau bei Dreaming Spanish) */
   stableWords: number;
+  /** schwache Wörter für die Extra-Übung */
+  weakWords: number;
 }
 
 const WEEKDAYS = ['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag'];
@@ -51,7 +55,13 @@ const weekday = (day: string) => WEEKDAYS[dayStart(day).getDay()] ?? day;
 async function loadHome(): Promise<HomeState> {
   const t = now();
   const day = await getOrCreateDay(db, t, WORD_REFS);
-  const [cards, settings, days] = await Promise.all([db.cards.toArray(), loadSettings(db), db.days.toArray()]);
+  const [cards, settings, days, logs, extraXp] = await Promise.all([
+    db.cards.toArray(),
+    loadSettings(db),
+    db.days.toArray(),
+    db.reviewLogs.toArray(),
+    practiceXp(db),
+  ]);
   const input = { day, cards, words: WORD_REFS, settings };
   const counts = todayCounts(input);
   const firstDay = days.map((d) => d.day).sort()[0];
@@ -62,10 +72,11 @@ async function loadHome(): Promise<HomeState> {
     progress: goalProgress(day, cards, WORD_REFS, settings),
     limits: dayLimits(day, cards, WORD_REFS, settings),
     streak: computeStreak(days, day.day),
-    level: levelInfo(days),
+    level: levelInfo(days, extraXp),
     reverseHint: reverseQueueHint(counts.reverseQueued, settings),
     backupHint: backupDue(settings.lastBackupAt, firstDay, day.day, t, BACKUP_REMINDER_DAYS),
     stableWords: stableWordCount(cards),
+    weakWords: weakWordIds(logs, t).filter((id) => WORD_REFS.some((w) => w.id === id)).length,
   };
 }
 
@@ -83,7 +94,7 @@ function Notice({ children }: { children: React.ReactNode }) {
 }
 
 /** Heute-Screen (SPEC.md Abschnitt 5). */
-export function HomeScreen({ onStart }: Props) {
+export function HomeScreen({ onStart, onPractice }: Props) {
   const [state, setState] = useState<HomeState | null>(null);
   const [failed, setFailed] = useState(false);
 
@@ -204,6 +215,21 @@ export function HomeScreen({ onStart }: Props) {
       </section>
 
       <div className="mt-auto flex flex-col gap-3 pt-2 pb-6">
+        {day.goalReached && state.weakWords > 0 && (
+          <button
+            type="button"
+            onClick={() => {
+              unlockAudio(); // iOS: Audio nur nach einer Nutzerberührung
+              onPractice();
+            }}
+            className="flex min-h-14 w-full flex-col items-start justify-center rounded-2xl bg-neutral-100 px-4 py-2 text-left active:scale-95 dark:bg-neutral-900"
+          >
+            <span className="font-semibold">Extra-Übung: Schwache Wörter</span>
+            <span className="text-xs text-neutral-600 dark:text-neutral-400">
+              {Math.min(state.weakWords, PRACTICE_MAX_WORDS)} Wörter · zählt nicht fürs Tagesziel
+            </span>
+          </button>
+        )}
         {day.goalReached && (
           <button
             type="button"

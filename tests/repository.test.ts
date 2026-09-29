@@ -1,4 +1,5 @@
 import 'fake-indexeddb/auto';
+import Dexie from 'dexie';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import { TrainerDB } from '../src/db/schema.ts';
 import { DEFAULT_SETTINGS, getOrCreateDay, loadSettings, rate, saveSettings, undo } from '../src/db/repository.ts';
@@ -132,9 +133,31 @@ describe('Rückgängig', () => {
 });
 
 describe('Schema', () => {
-  it('Version 1 mit den erwarteten Tabellen', () => {
-    expect(db.verno).toBe(1);
-    expect(db.tables.map((t) => t.name).sort()).toEqual(['cards', 'days', 'reviewLogs', 'settings']);
+  it('Version 2 mit den erwarteten Tabellen', () => {
+    expect(db.verno).toBe(2);
+    expect(db.tables.map((t) => t.name).sort()).toEqual(['cards', 'days', 'practiceResults', 'reviewLogs', 'settings']);
+  });
+
+  it('Migration von Version 1: bestehende Lerndaten bleiben erhalten', async () => {
+    const name = `migration-${n++}`;
+    const v1 = new Dexie(name);
+    v1.version(1).stores({
+      cards: 'id, wordId, direction, introducedAt, queuedAt',
+      reviewLogs: '++id, cardId, reviewedAt',
+      days: 'day',
+      settings: 'id',
+    });
+    await v1.open();
+    await v1.table('cards').add(reviewCard('a', NOW));
+    await v1.table('days').add({ day: '2026-10-01', xp: 5 });
+    v1.close();
+    const v2 = new TrainerDB(name);
+    await v2.open();
+    expect(v2.verno).toBe(2);
+    expect(await v2.cards.count()).toBe(1);
+    expect(await v2.days.get('2026-10-01')).toMatchObject({ xp: 5 });
+    expect(await v2.practiceResults.count()).toBe(0);
+    await v2.delete();
   });
 
   it('Daten überleben Schließen und erneutes Öffnen', async () => {

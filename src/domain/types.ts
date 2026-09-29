@@ -49,6 +49,19 @@ export interface WordForms {
   plural?: string;
 }
 
+/** Ergebnis einer Runde „Schwache Wörter“ (eigene Tabelle, unabhängig von FSRS und Tagesziel). */
+export interface PracticeResult {
+  id?: number;
+  finishedAt: number;
+  day: string;
+  /** Wörter in der Runde */
+  total: number;
+  /** davon beim ersten Versuch gewusst */
+  known: number;
+  xp: number;
+  items: Array<{ wordId: string; direction: Direction; firstKnown: boolean; attempts: number; knownEventually: boolean }>;
+}
+
 /** Für die Lernlogik reicht id + rank. */
 export type WordRef = Pick<Word, 'id' | 'rank'>;
 
@@ -59,6 +72,8 @@ export interface CardRecord {
   fsrs: Card;
   introducedAt: number | null; // null = noch nie gezeigt
   queuedAt?: number; // nur de-es: seit wann in der Warteschlange
+  /** bei der Einführung mit „Kenne ich schon“ bewertet: nie eine Umkehrkarte */
+  knownAtIntro?: true;
 }
 
 export interface ReviewLogRecord {

@@ -267,3 +267,6 @@ Nach jeder Etappe: Build und Tests grün, Commit, Bericht, dann auf Abnahme wart
 - **Nachrichtensprache in der Quelle** (zeitgebundene Themen, Sport, Lateinamerika-Schwerpunkt) → Markierung in 8.1, Entscheidung durch den Nutzer.
 - **Lizenz CC-BY-SA:** Die Rangliste gilt als abgeleitete Datenbank → Quellenangabe in der App und in `data/source/`. Die abgeleiteten Ranglistendaten stehen ebenfalls unter CC-BY-SA.
 - **Abdeckung bleibt ein Näherungswert** → Anzeige immer mit „ca.“.
+
+## 13. Vorgemerkt (nicht umgesetzt)
+- **FSRS-Optimierung:** Ab ca. 1.000 Bewertungen die FSRS-Parameter aus den eigenen Review-Logs optimieren (statt Standardparameter). Vorgemerkt am 29.09.2026.

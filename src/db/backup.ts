@@ -1,10 +1,13 @@
 // Backup: Export und Import aller Lerndaten als eine JSON-Datei (SPEC.md Abschnitt 9).
-import type { CardRecord, DayRecord, ReviewLogRecord, Settings } from '../domain/types.ts';
+import type { CardRecord, DayRecord, PracticeResult, ReviewLogRecord, Settings } from '../domain/types.ts';
 import type { SettingsRow, TrainerDB } from './schema.ts';
 
 export const BACKUP_FORMAT = 'spanisch-trainer-backup';
-/** Version des Backup-Formats. Bei Änderungen erhöhen und in parseBackup migrieren. */
-export const BACKUP_SCHEMA_VERSION = 1;
+/**
+ * Version des Backup-Formats. Bei Änderungen erhöhen und in parseBackup migrieren.
+ * 2: Ergebnisse der Extra-Übung (practiceResults); Backups der Version 1 werden ohne sie eingelesen.
+ */
+export const BACKUP_SCHEMA_VERSION = 2;
 
 export interface BackupFile {
   format: typeof BACKUP_FORMAT;
@@ -16,6 +19,7 @@ export interface BackupFile {
     reviewLogs: ReviewLogRecord[];
     days: DayRecord[];
     settings: Settings | null;
+    practiceResults: PracticeResult[];
   };
 }
 
@@ -28,7 +32,7 @@ export interface BackupSummary {
 }
 
 export async function exportBackup(db: TrainerDB, now: Date): Promise<BackupFile> {
-  return db.transaction('r', [db.cards, db.reviewLogs, db.days, db.settings], async () => {
+  return db.transaction('r', [db.cards, db.reviewLogs, db.days, db.settings, db.practiceResults], async () => {
     const settingsRow = await db.settings.get('settings');
     let settings: Settings | null = null;
     if (settingsRow) {
@@ -45,6 +49,7 @@ export async function exportBackup(db: TrainerDB, now: Date): Promise<BackupFile
         reviewLogs: await db.reviewLogs.toArray(),
         days: await db.days.toArray(),
         settings,
+        practiceResults: await db.practiceResults.toArray(),
       },
     };
   });
@@ -121,6 +126,7 @@ export function parseBackup(text: string): { backup: BackupFile; summary: Backup
         reviewLogs: d.reviewLogs.map(reviveLog),
         days: d.days,
         settings: d.settings ?? null,
+        practiceResults: Array.isArray(d.practiceResults) ? d.practiceResults : [],
       },
     };
   } catch {
@@ -141,11 +147,18 @@ export function parseBackup(text: string): { backup: BackupFile; summary: Backup
 
 /** Ersetzt den gesamten Lernstand durch das Backup (eine Transaktion: alles oder nichts). */
 export async function importBackup(db: TrainerDB, backup: BackupFile): Promise<void> {
-  await db.transaction('rw', [db.cards, db.reviewLogs, db.days, db.settings], async () => {
-    await Promise.all([db.cards.clear(), db.reviewLogs.clear(), db.days.clear(), db.settings.clear()]);
+  await db.transaction('rw', [db.cards, db.reviewLogs, db.days, db.settings, db.practiceResults], async () => {
+    await Promise.all([
+      db.cards.clear(),
+      db.reviewLogs.clear(),
+      db.days.clear(),
+      db.settings.clear(),
+      db.practiceResults.clear(),
+    ]);
     await db.cards.bulkAdd(backup.data.cards);
     await db.reviewLogs.bulkAdd(backup.data.reviewLogs);
     await db.days.bulkAdd(backup.data.days);
+    await db.practiceResults.bulkAdd(backup.data.practiceResults);
     if (backup.data.settings) {
       const row: SettingsRow = { ...backup.data.settings, id: 'settings' };
       await db.settings.put(row);

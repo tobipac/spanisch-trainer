@@ -38,7 +38,17 @@ const snapshot = async (db: TrainerDB) => ({
   logs: await db.reviewLogs.toArray(),
   days: await db.days.toArray(),
   settings: await db.settings.toArray(),
+  practice: await db.practiceResults.toArray(),
 });
+
+const PRACTICE = {
+  finishedAt: at(2026, 10, 5, 13).getTime(),
+  day: '2026-10-05',
+  total: 1,
+  known: 1,
+  xp: 1,
+  items: [{ wordId: 'w0001', direction: 'es-de' as const, firstKnown: true, attempts: 1, knownEventually: true }],
+};
 
 describe('Backup', () => {
   it('Dateiname YYMMDD Spanisch-Trainer_Backup.json', () => {
@@ -47,6 +57,7 @@ describe('Backup', () => {
 
   it('Export → JSON → Import stellt den Stand exakt wieder her (inkl. Datumswerte)', async () => {
     await learnSomething(source);
+    await source.practiceResults.add(PRACTICE);
     const before = await snapshot(source);
     expect(before.cards.length).toBeGreaterThan(0);
     expect(before.logs.length).toBeGreaterThan(0);
@@ -70,6 +81,17 @@ describe('Backup', () => {
     expect(await target.cards.count()).toBe(0);
     expect(await target.reviewLogs.count()).toBe(0);
     expect(await target.settings.count()).toBe(0);
+  });
+
+  it('Backups im alten Format (Version 1, ohne Übungsergebnisse) lassen sich einspielen', async () => {
+    await learnSomething(source);
+    const v1 = await exportBackup(source, at(2026, 10, 6));
+    const { practiceResults: _p, ...data } = v1.data;
+    const { backup } = parseBackup(JSON.stringify({ ...v1, schemaVersion: 1, data }));
+    await target.practiceResults.add(PRACTICE);
+    await importBackup(target, backup);
+    expect(await target.cards.count()).toBe(await source.cards.count());
+    expect(await target.practiceResults.count()).toBe(0);
   });
 
   it('lehnt ungültige Dateien mit verständlicher Meldung ab', () => {

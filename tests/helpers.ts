@@ -7,6 +7,7 @@ import {
   laterLearning,
   newSession,
   nextCard,
+  siblingsToPostpone,
   type NextCard,
   type SessionState,
 } from '../src/domain/session.ts';
@@ -89,6 +90,8 @@ export class Sim {
     const key = learningDayOf(now);
     let d = this.days.get(key);
     if (!d) {
+      const postponed = siblingsToPostpone(this.cards, key);
+      this.cards = this.cards.map((c) => postponed.find((p) => p.id === c.id) ?? c);
       d = createDayRecord(key, this.cards, this.words, this.settings);
       this.days.set(key, d);
     }

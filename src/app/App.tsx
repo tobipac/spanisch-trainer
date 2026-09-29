@@ -7,12 +7,13 @@ import { loadSettings, saveSettings } from '../db/repository.ts';
 import { HomeScreen } from '../screens/HomeScreen.tsx';
 import { LearnScreen } from '../screens/LearnScreen.tsx';
 import { OnboardingScreen } from '../screens/OnboardingScreen.tsx';
+import { PracticeScreen } from '../screens/PracticeScreen.tsx';
 import { ProgressScreen } from '../screens/ProgressScreen.tsx';
 import { SettingsScreen } from '../screens/SettingsScreen.tsx';
 import { isStandalone } from './platform.ts';
 import { useUpdateAvailable } from './update.ts';
 
-type Mode = 'loading' | 'onboarding' | 'tabs' | 'learning';
+type Mode = 'loading' | 'onboarding' | 'tabs' | 'learning' | 'practice';
 
 /** App-Shell: Onboarding beim ersten Start, Tabs, Lernen als Vollbild; Safe-Area-Ränder. */
 export function App() {
@@ -50,13 +51,18 @@ export function App() {
           <LearnScreen onExit={() => setMode('tabs')} />
         </main>
       )}
+      {mode === 'practice' && (
+        <main className="min-h-0 flex-1">
+          <PracticeScreen onExit={() => setMode('tabs')} />
+        </main>
+      )}
       {mode === 'tabs' && (
         <>
           {!standalone && <InstallHint />}
           {/* Kein Update-Hinweis während einer Session – erst zurück in den Tabs. */}
           {updateAvailable && <UpdateToast />}
           <main className="min-h-0 flex-1">
-            {tab === 'home' && <HomeScreen onStart={() => setMode('learning')} />}
+            {tab === 'home' && <HomeScreen onStart={() => setMode('learning')} onPractice={() => setMode('practice')} />}
             {tab === 'progress' && <ProgressScreen />}
             {tab === 'settings' && <SettingsScreen onShowOnboarding={() => setMode('onboarding')} />}
           </main>

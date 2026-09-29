@@ -62,8 +62,9 @@ export interface LevelInfo {
   nextLevelXp: number;
 }
 
-export function levelInfo(days: readonly DayRecord[]): LevelInfo {
-  const totalXp = days.reduce((sum, d) => sum + d.xp, 0);
+/** Level aus den XP der Lerntage plus Trainings-XP der Extra-Übung (die nicht in den Tagen stehen). */
+export function levelInfo(days: readonly DayRecord[], practiceXp = 0): LevelInfo {
+  const totalXp = days.reduce((sum, d) => sum + d.xp, 0) + practiceXp;
   const level = levelForXp(totalXp);
   return {
     totalXp,

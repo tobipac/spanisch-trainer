@@ -2,10 +2,12 @@ import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { now } from '../app/clock.ts';
 import { BarChart } from '../components/BarChart.tsx';
+import { ProblemIcon } from '../components/ProblemIcon.tsx';
 import { MAX_COVERAGE } from '../config/coverage.ts';
 import { BADGE_THRESHOLD, BANDS, FORECAST_DAYS, HISTORY_DAYS } from '../config/progress.ts';
-import { WORDS } from '../data/words.ts';
+import { WORD_BY_ID, WORDS } from '../data/words.ts';
 import { db } from '../db/database.ts';
+import { problemCards, wordIdOfCard } from '../domain/difficulty.ts';
 import { dayStart, learningDayOf } from '../domain/learningDay.ts';
 import {
   bandStats,
@@ -21,6 +23,7 @@ interface ProgressState {
   coverage: number;
   history: DayValue[];
   forecast: DayValue[];
+  problems: Array<{ cardId: string; again: number }>;
 }
 
 const WD = ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'];
@@ -31,12 +34,13 @@ const fmt = (n: number) => n.toLocaleString('de-DE');
 
 async function loadProgress(): Promise<ProgressState> {
   const today = learningDayOf(now());
-  const [cards, days] = await Promise.all([db.cards.toArray(), db.days.toArray()]);
+  const [cards, days, logs] = await Promise.all([db.cards.toArray(), db.days.toArray(), db.reviewLogs.toArray()]);
   return {
     bands: bandStats(cards, WORDS, BANDS, BADGE_THRESHOLD),
     coverage: coverage(cards, WORDS),
     history: reviewHistory(days, today, HISTORY_DAYS),
     forecast: dueForecast(cards, today, FORECAST_DAYS),
+    problems: problemCards(logs).filter((p) => WORD_BY_ID.has(wordIdOfCard(p.cardId))),
   };
 }
 
@@ -147,6 +151,32 @@ export function ProgressScreen() {
         showAxisLabel={() => true}
         initialIndex={0}
       />
+
+      {state.problems.length > 0 && (
+        <section aria-labelledby="problems">
+          <h2 id="problems" className="mb-2 flex items-center gap-1.5 font-semibold">
+            <ProblemIcon /> Problemkarten
+          </h2>
+          <ul className="flex flex-col divide-y divide-neutral-200 rounded-2xl bg-neutral-100 dark:divide-neutral-800 dark:bg-neutral-900">
+            {state.problems.map((p) => {
+              const w = WORD_BY_ID.get(wordIdOfCard(p.cardId))!;
+              const reverse = p.cardId.endsWith(':de-es');
+              return (
+                <li key={p.cardId} className="flex items-center justify-between gap-3 px-4 py-2.5">
+                  <span className="min-w-0">
+                    <strong>{w.article ? `${w.article} ${w.es}` : w.es}</strong>
+                    <span className="text-neutral-600 dark:text-neutral-400"> – {w.de}</span>
+                    <span className="block text-xs text-neutral-500">{reverse ? 'Deutsch → Spanisch' : 'Spanisch → Deutsch'}</span>
+                  </span>
+                  <span className="shrink-0 text-sm text-neutral-600 dark:text-neutral-400" aria-label={`${p.again}-mal Nochmal`}>
+                    {p.again}×
+                  </span>
+                </li>
+              );
+            })}
+          </ul>
+        </section>
+      )}
     </div>
   );
 }

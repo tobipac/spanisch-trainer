@@ -16,7 +16,7 @@ import {
   XP_PER_NEW_WORD,
   XP_PER_REVIEW,
 } from '../config/learning.ts';
-import { dayEnd, dayStart, learningDayOf } from './learningDay.ts';
+import { addDays, dayEnd, dayStart, learningDayOf } from './learningDay.ts';
 import { newFsrsCard, rateCard } from './scheduler.ts';
 import type { CardRecord, DayRecord, Rating, ReviewLogRecord, Settings, WordRef } from './types.ts';
 
@@ -46,6 +46,43 @@ export const cardId = (wordId: string, direction: CardRecord['direction']) => `$
 const isIntroduced = (c: CardRecord) => c.introducedAt !== null;
 const isLearningState = (c: CardRecord) => c.fsrs.state === State.Learning || c.fsrs.state === State.Relearning;
 const dueMs = (c: CardRecord) => new Date(c.fsrs.due).getTime();
+
+// ---------- Geschwister (beide Richtungen eines Wortes) ----------
+
+const siblingId = (c: CardRecord) => cardId(c.wordId, c.direction === 'es-de' ? 'de-es' : 'es-de');
+const reviewedMs = (c: CardRecord) => (c.fsrs.last_review ? new Date(c.fsrs.last_review).getTime() : null);
+const ratedOnDay = (c: CardRecord, day: string) => (reviewedMs(c) ?? -Infinity) >= dayStart(day).getTime();
+
+/**
+ * Geschwister-Sperre: Wurde die andere Richtung heute bewertet (und diese Karte noch nicht),
+ * erscheint die Karte heute nicht mehr.
+ */
+export function isSiblingBlocked(card: CardRecord, byId: ReadonlyMap<string, CardRecord>, day: string): boolean {
+  const sibling = byId.get(siblingId(card));
+  return sibling !== undefined && sibling.introducedAt !== null && ratedOnDay(sibling, day) && !ratedOnDay(card, day);
+}
+
+/**
+ * Zu Beginn eines Lerntags: Sind beide Richtungen eines Wortes heute fällig, bleibt eine (Lernschritt
+ * vor Wiederholung, sonst Spanisch → Deutsch); die andere wird ohne Bewertung auf den Beginn des
+ * nächsten Lerntags verschoben. Liefert die geänderten Karten.
+ */
+export function siblingsToPostpone(cards: CardRecord[], day: string): CardRecord[] {
+  const end = dayEnd(day).getTime();
+  const next = dayStart(addDays(day, 1));
+  const byId = new Map(cards.map((c) => [c.id, c]));
+  const dueToday = (c: CardRecord | undefined): c is CardRecord => !!c && isIntroduced(c) && dueMs(c) < end;
+  const out: CardRecord[] = [];
+  for (const c of cards) {
+    if (c.direction !== 'es-de' || !dueToday(c)) continue;
+    const reverse = byId.get(siblingId(c));
+    if (!dueToday(reverse)) continue;
+    const keepReverse = isLearningState(reverse) && !isLearningState(c);
+    const postponed = keepReverse ? c : reverse;
+    out.push({ ...postponed, fsrs: { ...postponed.fsrs, due: next } });
+  }
+  return out;
+}
 
 // ---------- Drosselung und Limits ----------
 
@@ -118,9 +155,18 @@ export function reverseQueue(cards: CardRecord[], words: WordRef[]): CardRecord[
     .sort((a, b) => a.queuedAt! - b.queuedAt! || (rank.get(a.wordId) ?? Infinity) - (rank.get(b.wordId) ?? Infinity));
 }
 
-/** Umkehrkarten, die heute eingeführt werden dürfen (frühestens am Lerntag nach dem Einreihen). */
+/**
+ * Umkehrkarten, die heute eingeführt werden dürfen: frühestens am Lerntag nach dem Einreihen und nicht,
+ * wenn die Spanisch → Deutsch-Karte heute fällig ist oder bewertet wurde (Geschwister-Sperre).
+ */
 export function availableReverseCards(cards: CardRecord[], words: WordRef[], day: string): CardRecord[] {
-  return reverseQueue(cards, words).filter((c) => learningDayOf(c.queuedAt!) < day);
+  const byId = new Map(cards.map((c) => [c.id, c]));
+  const end = dayEnd(day).getTime();
+  return reverseQueue(cards, words).filter((c) => {
+    const es = byId.get(siblingId(c));
+    const esBusy = es !== undefined && isIntroduced(es) && (dueMs(es) < end || ratedOnDay(es, day));
+    return learningDayOf(c.queuedAt!) < day && !esBusy;
+  });
 }
 
 /** Dezenter Hinweis auf dem Heute-Screen, wenn die Warteschlange zu groß wird. */
@@ -168,8 +214,9 @@ export interface LaterLearning {
 export function laterLearning(input: Pick<NextCardInput, 'now' | 'day' | 'cards' | 'session'>): LaterLearning | null {
   const nowMs = input.now.getTime();
   const end = dayEnd(input.day.day).getTime();
+  const byId = new Map(input.cards.map((c) => [c.id, c]));
   const times = input.cards
-    .filter((c) => isIntroduced(c) && isLearningState(c) && dueMs(c) < end)
+    .filter((c) => isIntroduced(c) && isLearningState(c) && dueMs(c) < end && !isSiblingBlocked(c, byId, input.day.day))
     .map((c) => learningReadyAt(c, input.cards, input.session))
     .filter((t) => t > nowMs);
   if (times.length === 0) return null;
@@ -202,7 +249,8 @@ export interface NextCardInput {
 export function nextCard({ now, day, cards, words, settings, session }: NextCardInput): NextCard | null {
   const nowMs = now.getTime();
   const end = dayEnd(day.day).getTime();
-  const introduced = cards.filter(isIntroduced);
+  const byId = new Map(cards.map((c) => [c.id, c]));
+  const introduced = cards.filter((c) => isIntroduced(c) && !isSiblingBlocked(c, byId, day.day));
 
   const learning = introduced
     .filter((c) => isLearningState(c) && learningReadyAt(c, cards, session) <= nowMs)
@@ -253,8 +301,9 @@ export interface TodayCounts {
 export function todayCounts({ day, cards, words, settings }: Omit<NextCardInput, 'now' | 'session'>): TodayCounts {
   const end = dayEnd(day.day).getTime();
   const limits = dayLimits(day, cards, words, settings);
+  const byId = new Map(cards.map((c) => [c.id, c]));
   return {
-    due: cards.filter((c) => isIntroduced(c) && dueMs(c) < end).length,
+    due: cards.filter((c) => isIntroduced(c) && dueMs(c) < end && !isSiblingBlocked(c, byId, day.day)).length,
     newLeft: Math.max(0, Math.min(limits.newLimit - day.newDone, unintroducedWords(cards, words).length)),
     reverseLeft: Math.max(
       0,
@@ -282,13 +331,15 @@ export function estimateMinutes(counts: Pick<TodayCounts, 'due' | 'newLeft' | 'r
 // ---------- Tagesziel ----------
 
 /** Tagesziel: alle zu Tagesbeginn fälligen Karten heute bewertet und Limit für neue Wörter erfüllt. */
+/** Zu Tagesbeginn fällige Karte heute erledigt: bewertet oder durch die Geschwister-Sperre ausgesetzt. */
+function doneToday(id: string, byId: ReadonlyMap<string, CardRecord>, day: string): boolean {
+  const c = byId.get(id);
+  return c !== undefined && (ratedOnDay(c, day) || isSiblingBlocked(c, byId, day));
+}
+
 export function isGoalReached(day: DayRecord, cards: CardRecord[], words: WordRef[], settings: Settings): boolean {
-  const start = dayStart(day.day).getTime();
   const byId = new Map(cards.map((c) => [c.id, c]));
-  const allRated = day.dueAtStartIds.every((id) => {
-    const lr = byId.get(id)?.fsrs.last_review;
-    return lr !== undefined && new Date(lr).getTime() >= start;
-  });
+  const allRated = day.dueAtStartIds.every((id) => doneToday(id, byId, day.day));
   return allRated && day.newDone >= dayLimits(day, cards, words, settings).newLimit;
 }
 
@@ -299,12 +350,8 @@ export function goalProgress(
   words: WordRef[],
   settings: Settings,
 ): { done: number; total: number } {
-  const start = dayStart(day.day).getTime();
   const byId = new Map(cards.map((c) => [c.id, c]));
-  const rated = day.dueAtStartIds.filter((id) => {
-    const lr = byId.get(id)?.fsrs.last_review;
-    return lr !== undefined && new Date(lr).getTime() >= start;
-  }).length;
+  const rated = day.dueAtStartIds.filter((id) => doneToday(id, byId, day.day)).length;
   const { newLimit } = dayLimits(day, cards, words, settings);
   return { done: rated + Math.min(day.newDone, newLimit), total: day.dueAtStartIds.length + newLimit };
 }
@@ -324,6 +371,11 @@ export interface RatingInput {
   now: Date;
   next: NextCard;
   rating: Rating;
+  /**
+   * „Kenne ich schon“ bei der ersten Ansicht eines neuen Wortes: FSRS-Bewertung „Leicht“, keine
+   * Umkehrkarte (auch später nicht), zählt nicht zum Limit neuer Wörter.
+   */
+  knownAtIntro?: boolean;
   day: DayRecord;
   cards: CardRecord[];
   words: WordRef[];
@@ -342,16 +394,26 @@ export interface RatingResult {
 }
 
 export function applyRating(input: RatingInput): RatingResult {
-  const { now, next, rating, day, cards, words, settings, session } = input;
+  const { now, next, day, cards, words, settings, session } = input;
+  const known = input.knownAtIntro === true;
+  if (known && next.kind !== 'new') throw new Error('„Kenne ich schon“ gibt es nur bei einem neuen Wort');
+  const rating: Rating = known ? 4 : input.rating;
   const before = next.card;
   if (!isRatingAllowed(session, before.id, rating)) throw new Error('„Leicht“ ist nach „Nochmal“ in dieser Session gesperrt');
   const { card: fsrsCard, log } = rateCard(before.fsrs, rating, now);
-  const card: CardRecord = { ...before, fsrs: fsrsCard, introducedAt: before.introducedAt ?? now.getTime() };
+  const card: CardRecord = {
+    ...before,
+    fsrs: fsrsCard,
+    introducedAt: before.introducedAt ?? now.getTime(),
+    ...(known ? { knownAtIntro: true as const } : {}),
+  };
 
   const limits = dayLimits(day, cards, words, settings);
   const updatedDay: DayRecord = { ...day, dueAtStartIds: [...day.dueAtStartIds] };
   let xp = 0;
-  if (next.kind === 'new') {
+  if (known) {
+    // zählt nicht zum Limit neuer Wörter, keine XP
+  } else if (next.kind === 'new') {
     // Keine XP für zusätzliche neue Wörter über das Limit hinaus.
     if (day.newDone < limits.newLimit) xp += XP_PER_NEW_WORD;
     updatedDay.newDone += 1;
@@ -368,6 +430,7 @@ export function applyRating(input: RatingInput): RatingResult {
   const reverseId = cardId(card.wordId, 'de-es');
   if (
     card.direction === 'es-de' &&
+    !card.knownAtIntro &&
     fsrsCard.state === State.Review &&
     fsrsCard.scheduled_days >= REVERSE_MIN_INTERVAL_DAYS &&
     !cards.some((c) => c.id === reverseId)
@@ -397,7 +460,8 @@ export function applyRating(input: RatingInput): RatingResult {
     day: updatedDay,
     createdReverse,
     session: {
-      reviewsSinceNew: isNewOrReverse ? 0 : session.reviewsSinceNew + 1,
+      // „Kenne ich schon“: Zähler unverändert, damit gleich das nächste neue Wort kommen kann
+      reviewsSinceNew: known ? session.reviewsSinceNew : isNewOrReverse ? 0 : session.reviewsSinceNew + 1,
       shown: session.shown + 1,
       lastShown: { ...session.lastShown, [card.id]: session.shown },
       againIds: rating === 1 && !session.againIds.includes(card.id) ? [...session.againIds, card.id] : session.againIds,

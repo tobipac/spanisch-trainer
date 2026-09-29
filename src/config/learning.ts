@@ -77,3 +77,23 @@ export const SPEECH_RATE_MAX = 1.1;
 
 /** Backup-Hinweis auf dem Heute-Screen, wenn das letzte Backup älter ist als so viele Tage. */
 export const BACKUP_REMINDER_DAYS = 7;
+
+/** Problemkarte: so viele „Nochmal“ insgesamt (alle Bewertungen dieser Karte). */
+export const PROBLEM_CARD_AGAIN_MIN = 8;
+
+/** Schwaches Wort: mindestens so viele „Nochmal“ (beide Richtungen zusammen) … */
+export const WEAK_WORD_AGAIN_MIN = 3;
+/** … innerhalb so vieler Tage. */
+export const WEAK_WORD_WINDOW_DAYS = 30;
+
+/** Extra-Übung „Schwache Wörter“: höchstens so viele Wörter je Runde. */
+export const PRACTICE_MAX_WORDS = 10;
+/** Nicht gewusste Wörter kommen frühestens nach so vielen anderen Karten wieder. */
+export const PRACTICE_MIN_CARDS_BETWEEN = 4;
+/**
+ * Annahme: Ein Wort wird in einer Runde höchstens so oft gezeigt – sonst liefe die Runde bei
+ * dauerhaft „nicht gewusst“ endlos weiter.
+ */
+export const PRACTICE_MAX_ATTEMPTS = 3;
+/** Trainings-XP je „gewusst“ (zählen fürs Level, nicht für Streak oder Tagesziel). */
+export const PRACTICE_XP_PER_KNOWN = 1;

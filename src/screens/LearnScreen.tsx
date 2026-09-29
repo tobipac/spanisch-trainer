@@ -10,6 +10,7 @@ import { SessionSummary } from '../components/SessionSummary.tsx';
 import { WORD_BY_ID, WORD_REFS } from '../data/words.ts';
 import { db } from '../db/database.ts';
 import { getOrCreateDay, loadSettings, rate, undo, type UndoToken } from '../db/repository.ts';
+import { againCounts, isProblemCard } from '../domain/difficulty.ts';
 import { computeStreak } from '../domain/gamification.ts';
 import { formatInterval, previewDue } from '../domain/scheduler.ts';
 import {
@@ -47,6 +48,7 @@ export function LearnScreen({ onExit }: Props) {
   const [last, setLast] = useState<LastRating | null>(null);
   const [streak, setStreak] = useState(0);
   const [later, setLater] = useState<LaterLearning | null>(null);
+  const [problem, setProblem] = useState(false);
   const session = useRef<SessionState>(newSession());
   const cardKey = useRef(0);
 
@@ -59,6 +61,8 @@ export function LearnScreen({ onExit }: Props) {
     setSettings(s);
     setDay(d);
     setRemaining(remainingToday(input));
+    const logs = next ? await db.reviewLogs.where('cardId').equals(next.card.id).toArray() : [];
+    setProblem(next !== null && isProblemCard(againCounts(logs).get(next.card.id) ?? 0));
     cardKey.current += 1;
     setRevealed(false);
     setCurrent(next);
@@ -100,8 +104,8 @@ export function LearnScreen({ onExit }: Props) {
   }, [current]);
 
   const handleRate = useCallback(
-    async (rating: Rating) => {
-      if (!current || busy || !revealed) return;
+    async (rating: Rating, knownAtIntro = false) => {
+      if (!current || busy || (!revealed && !knownAtIntro)) return;
       if (!isRatingAllowed(session.current, current.card.id, rating)) return; // Button zeigt den Hinweis
       setBusy(true);
       try {
@@ -111,6 +115,7 @@ export function LearnScreen({ onExit }: Props) {
           rating,
           words: WORD_REFS,
           session: session.current,
+          knownAtIntro,
         });
         session.current = result.session;
         setLast({ token, card: current, xp: result.xpGained });
@@ -209,6 +214,7 @@ export function LearnScreen({ onExit }: Props) {
               onReveal={() => setRevealed(true)}
               onSwipe={(r) => void handleRate(r)}
               onSpeak={say}
+              problem={problem}
             />
           )}
         </AnimatePresence>
@@ -217,7 +223,17 @@ export function LearnScreen({ onExit }: Props) {
         )}
       </div>
 
-      <footer className="mb-8 min-h-16">
+      <footer className="mb-8 flex min-h-16 flex-col gap-2">
+        {current?.kind === 'new' && (
+          <button
+            type="button"
+            onClick={() => void handleRate(4, true)}
+            disabled={busy}
+            className="min-h-11 self-center rounded-xl px-4 text-sm font-semibold text-neutral-600 active:bg-neutral-100 dark:text-neutral-300 dark:active:bg-neutral-800"
+          >
+            Kenne ich schon
+          </button>
+        )}
         {revealed ? (
           <RatingButtons
             intervals={intervals}

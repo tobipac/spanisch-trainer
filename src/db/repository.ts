@@ -4,12 +4,13 @@ import { learningDayOf } from '../domain/learningDay.ts';
 import {
   applyRating,
   createDayRecord,
+  siblingsToPostpone,
   type NextCard,
   type RatingResult,
   type SessionState,
   type UndoEntry,
 } from '../domain/session.ts';
-import type { DayRecord, Rating, Settings, WordRef } from '../domain/types.ts';
+import type { DayRecord, PracticeResult, Rating, Settings, WordRef } from '../domain/types.ts';
 import type { SettingsRow, TrainerDB } from './schema.ts';
 
 export const DEFAULT_SETTINGS: Settings = {
@@ -31,13 +32,19 @@ export async function saveSettings(db: TrainerDB, settings: Settings): Promise<v
   await db.settings.put(row);
 }
 
-/** Tagesdatensatz des aktuellen Lerntags holen oder beim ersten Öffnen anlegen (Snapshot der fälligen Karten). */
+/**
+ * Tagesdatensatz des aktuellen Lerntags holen oder beim ersten Öffnen anlegen (Snapshot der fälligen Karten).
+ * Beim Anlegen greift zuerst die Geschwister-Sperre: von zwei heute fälligen Richtungen wird eine ohne
+ * Bewertung auf den nächsten Lerntag verschoben.
+ */
 export async function getOrCreateDay(db: TrainerDB, now: Date, words: WordRef[]): Promise<DayRecord> {
   const day = learningDayOf(now);
   try {
     return await db.transaction('rw', db.days, db.cards, db.settings, async () => {
       const existing = await db.days.get(day);
       if (existing) return existing;
+      const postponed = siblingsToPostpone(await db.cards.toArray(), day);
+      if (postponed.length > 0) await db.cards.bulkPut(postponed);
       const record = createDayRecord(day, await db.cards.toArray(), words, await loadSettings(db));
       await db.days.add(record);
       return record;
@@ -51,6 +58,16 @@ export async function getOrCreateDay(db: TrainerDB, now: Date, words: WordRef[])
   }
 }
 
+/** Ergebnis einer Runde „Schwache Wörter“ speichern – nur in der eigenen Tabelle. */
+export async function savePracticeResult(db: TrainerDB, result: PracticeResult): Promise<number> {
+  return db.practiceResults.add(result);
+}
+
+/** Summe der Trainings-XP (zählen fürs Level). */
+export async function practiceXp(db: TrainerDB): Promise<number> {
+  return (await db.practiceResults.toArray()).reduce((sum, r) => sum + r.xp, 0);
+}
+
 /** Rückgängig-Information inklusive der von IndexedDB vergebenen Log-ID. */
 export interface UndoToken {
   entry: UndoEntry;
@@ -59,7 +76,7 @@ export interface UndoToken {
 
 export async function rate(
   db: TrainerDB,
-  args: { now: Date; next: NextCard; rating: Rating; words: WordRef[]; session: SessionState },
+  args: { now: Date; next: NextCard; rating: Rating; words: WordRef[]; session: SessionState; knownAtIntro?: boolean },
 ): Promise<{ result: RatingResult; undo: UndoToken }> {
   return db.transaction('rw', [db.cards, db.reviewLogs, db.days, db.settings], async () => {
     const day = await db.days.get(learningDayOf(args.now));
